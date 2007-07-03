@@ -1,0 +1,72 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<project name = "owlviz" default = "compile" basedir = "..">
+
+	<property name = "distribution.jarfile" value = "${dist.dir}/plugins/org.coode.owlviz.jar"/>
+	<property name = "src.dir" value = "${owlviz.dir}/src"/>
+
+	<!-- =================================================================== -->
+	<!-- Classpath declaration - used in the "compile" target -->
+	<!-- =================================================================== -->
+	<path id = "owlviz.classpath">    
+		<filelist refid = "common.libs"/>
+		<path refid = "core.libs"/>
+        <fileset refid = "owl.libs"/>
+		<pathelement location = "${classes.core}"/>
+        <pathelement location = "${classes.owl}"/>
+	</path>
+
+	<!-- =================================================================== -->
+	<!-- INIT -->
+	<!-- =================================================================== -->
+	<target name = "init">
+		<tstamp/>
+		<mkdir dir = "${classes.owlviz}"/>
+	</target>  
+
+	<!-- =================================================================== -->
+	<!-- COMPILE -->
+	<!-- =================================================================== -->
+	<target name = "compile" depends = "init">    
+		<javac srcdir = "${src.dir}" destdir = "${classes.owlviz}" debug="${debug}" source = "${source}" includeAntRuntime = "${includeAntRuntime}">
+			<classpath refid = "owlviz.classpath"/>
+		</javac>
+	</target>
+	
+	<!-- ===================================================================================== -->
+	<!-- CLASSES-DIST - copy the class files to dist directory - this is a temporary hack because jar file doesn't work -->
+	<!-- ===================================================================================== -->
+	<target name = "classes-dist" depends = "compile">
+
+		<copy todir = "${dist.dir}/plugins/org.coode.owlviz/classes">
+			<fileset dir = "${owlviz.dir}/classes"/>
+		</copy>
+
+		<copy todir = "${dist.dir}/plugins/org.coode.owlviz/resources">
+			<fileset dir = "${owlviz.dir}/resources"/>
+		</copy>
+		
+		<copy file = "${owlviz.dir}/plugin.xml" todir = "${dist.dir}/plugins/org.coode.owlviz"/>
+
+	</target>
+	
+	<!-- ===================================================================================== -->
+	<!-- JAR - create the distribution JAR file that goes in the JPF "plugins" directory -->
+	<!-- ===================================================================================== -->
+	<target name = "jar" depends = "compile">
+		<jar destfile = "${distribution.jarfile}">
+			<fileset dir = "${owlviz.dir}">
+				<patternset excludes = "src/**">
+					<exclude name = "build.xml"/>
+				</patternset>
+			</fileset>
+		</jar>
+	</target>
+
+	<!-- =================================================================== -->
+	<!-- CLEAN -->
+	<!-- =================================================================== -->
+	<target name = "clean">
+		<delete dir = "${owlviz.dlquery}"/>
+		<delete dir = "${distribution.dir}"/>
+	</target>
+</project>
