@@ -1,0 +1,44 @@
+<?xml version="1.0" ?>
+<!DOCTYPE plugin PUBLIC "-//JPF//Java Plug-in Manifest 0.4" "http://jpf.sourceforge.net/plugin_0_4.dtd">
+
+<plugin id="uk.ac.man.cs.mig.coode.owlviz" version="2.0.18.OWLViz">
+
+    <!-- We require the protege owl plugin -->
+    <requires>
+        <import plugin-id="org.protege.editor.core.application"/>
+        <import plugin-id="org.protege.editor.owl"/>
+    </requires>
+
+    <runtime>
+        <library id="owlvizcore" path="classes/" type="code">
+            <export prefix="*"/>
+        </library>
+        <library id="resources" path="resources/" type="resources"/>
+    </runtime>
+
+    <!-- Classes view -->
+    <extension plugin-id="org.protege.editor.core.application" point-id="WorkspaceTab" id="org.co-ode.OWLVizTab">
+        <parameter id="label" value="OWLViz"/>
+        <parameter id="class" value="org.protege.editor.core.ui.workspace.WorkspaceViewsTab"/>
+        <parameter id="editorKitId" value="OWLEditorKit"/>
+        <parameter id="index" value="JJJ"/>
+        <parameter id="defaultViewConfigFileName" value="viewconfig-owlviz.xml"/>
+    </extension>
+
+    
+    <extension plugin-id="org.protege.editor.core.application" point-id="ViewComponent" id="org.co-ode.owlviz.OWLVizView">
+        <parameter id="label" value="OWLViz"/>
+        <parameter id="class" value="uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizView"/>
+        <parameter id="headerColor" value="@org.protege.classcolor"/>
+        <parameter id="category" value="@org.protege.classcategory"/>
+    </extension>
+
+    <extension plugin-id="org.protege.editor.core.application" point-id="ViewComponent" id="org.co-ode.owlviz.OWLVizViewImports">
+        <parameter id="label" value="OWLViz Imports Graph"/>
+        <parameter id="class" value="uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizImportsViewComponent"/>
+        <parameter id="headerColor" value="@org.protege.ontologycolor"/>
+        <parameter id="category" value="@org.protege.ontologycategory"/>
+    </extension>
+
+
+</plugin>

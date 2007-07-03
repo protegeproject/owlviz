@@ -1,0 +1,260 @@
+/**
+ * User: matthewhorridge<br>
+ * The Univeristy Of Manchester<br>
+ * Medical Informatics Group<br>
+ * Date: May 7, 2004<br><br>
+ * <p/>
+ * matthew.horridge@cs.man.ac.uk<br>
+ * www.cs.man.ac.uk/~horridgm<br><br>
+ */
+
+options
+{
+	STATIC = false;
+}
+
+
+PARSER_BEGIN(DotParser)
+
+package uk.ac.man.cs.mig.util.tree.layout.dotlayoutengine.dotparser;
+import java.io.*;
+import java.util.*;
+
+public class DotParser
+{
+	private static boolean gotGraphBB;
+
+	private static DotParameterSetter paramSetter;
+
+	public static void parse(DotParameterSetter setter, InputStream inputStream) throws ParseException
+	{
+		paramSetter = setter;
+
+		gotGraphBB = false;
+
+		DotParser parser = new DotParser(DotPreParser.preParse(inputStream));
+
+		parser.start();
+	}
+
+	public static void setGraphAttribute(String name, String value)
+	{
+		if(name.equals("bb"))
+		{
+			if(gotGraphBB == false)
+			{
+				paramSetter.setGraphAttribute(name, removeQuotes(value));
+
+				gotGraphBB = true;
+			}
+		}	
+		else
+		{
+			paramSetter.setGraphAttribute(name, removeQuotes(value));
+		}
+	}
+
+	public static void setNodeAttribute(String nodeID, String name, String value)
+	{
+		paramSetter.setNodeAttribute(removeQuotes(nodeID), name, removeQuotes(value));
+	}
+
+	public static void setEdgeAttribute(String tailNode, String headNode, String name, String value)
+	{
+		paramSetter.setEdgeAttribute(removeQuotes(tailNode), removeQuotes(headNode), name, removeQuotes(value));
+	}
+
+	protected static String removeQuotes(String s)
+	{
+		if(s.charAt(0) == '\"' && s.charAt(s.length() - 1) == '\"')
+		{
+			return s.substring(1, s.length() - 1);
+		}
+		else
+		{
+			return s;
+		}
+	}
+}
+
+PARSER_END(DotParser)
+
+SKIP: {" "}
+SKIP: {"\n" | "\r" | "\t"}
+
+TOKEN: {<KWSTRICT: "strict">}
+TOKEN: {<KWGRAPH: "tree">}
+TOKEN: {<KWDIGRAPH: "digraph">}
+TOKEN: {<KWSUBGRAPH: "subgraph">}
+TOKEN: {<KWNODE: "node">}
+TOKEN: {<KWEDGE: "edge">}
+TOKEN: {<SQOPENPAR: "[">}
+TOKEN: {<SQCLOSEPAR: "]">}
+TOKEN: {<EQUALS: "=">}
+TOKEN: {<COMMA: ",">}
+TOKEN: {<EDGEOP: "->">}
+
+TOKEN: {<ID: ("\""(~["\""])*"\"") | (<ALPHANUM> (<ALPHANUM> | "_")*)>}
+TOKEN: {<#ALPHA: ["a"-"z"] | ["A"-"Z"]>}
+TOKEN: {<#NUM: ["0"-"9"]>}
+TOKEN: {<#ALPHANUM: <ALPHA>|<NUM>>}
+
+
+void start():
+{
+}
+{
+	tree()
+}
+
+void tree():
+{
+}
+{
+	(<KWSTRICT>)?
+	(<KWGRAPH> | <KWDIGRAPH>)
+	(<ID>)?
+	"{"
+	(stmt())+
+	"}"
+}
+
+
+void stmt():
+{
+}
+{
+	(node_or_edge_stmt() | attr_stmt() | subgraph()) (";")*
+}
+
+void node_or_edge_stmt():
+{
+	String id1, id2 = null;
+	String name = "";
+	String value = "";
+}
+{
+	id1 = ID() // Node ID
+	(
+		<EDGEOP>
+		id2 = ID()
+		<SQOPENPAR> // Edge
+		(
+			(name = ID()
+			(
+				(
+					<EQUALS>
+					value = ID()
+				)*
+			(<COMMA>)?
+			)
+			{
+				setEdgeAttribute(id1, id2, name, value);
+
+				name = "";
+
+				value = "";
+			}
+			)*
+
+		)
+		<SQCLOSEPAR>
+		|
+		<SQOPENPAR> // Node
+		(
+			(name = ID()
+			(
+				(
+					<EQUALS>
+					value = ID()
+				)*
+			(<COMMA>)?
+			)
+			{
+				setNodeAttribute(id1, name, value);
+
+				name = "";
+
+				value = "";
+			}
+			)*
+
+		)
+		<SQCLOSEPAR>
+	)
+}
+
+void attr_stmt():
+{
+	String name = "";
+	String value = "";
+
+	final int TYPE_GRAPH = 0;
+	final int TYPE_NODE = 1;
+	final int TYPE_EDGE = 2;
+
+	int TYPE = TYPE_GRAPH;
+}
+{
+	(
+		<KWGRAPH>
+		{
+			TYPE = TYPE_GRAPH;
+		}
+		|
+		<KWNODE>
+		{
+			TYPE = TYPE_NODE;
+		}
+		|
+		<KWEDGE>
+		{
+			TYPE = TYPE_EDGE;
+		}
+	)
+	<SQOPENPAR>
+	(
+		(name = ID()
+		(
+			(
+				<EQUALS>
+				value = ID()
+			)
+		(<COMMA>)?
+		)
+		{
+			if(TYPE == TYPE_GRAPH)
+			{
+				setGraphAttribute(name, value);
+			}
+			name = "";
+
+			value = "";
+		}
+		)*
+
+	)
+	<SQCLOSEPAR>
+}
+
+
+
+
+
+void subgraph():
+{
+}
+{
+	(<KWSUBGRAPH>(ID()) "{" (stmt())+ "}")
+}
+
+String ID():
+{
+	Token t;
+}
+{
+	t = <ID>
+	{
+		return t.image;
+	}
+}
