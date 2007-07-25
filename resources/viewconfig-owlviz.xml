@@ -8,7 +8,7 @@
         </CNode>
         <CNode>
             <Component label="OWLViz">
-                <Property id="pluginId" value="org.co-ode.owlviz.OWLVizView"/>
+                <Property id="pluginId" value="org.coode.owlviz.OWLVizView"/>
             </Component>
         </CNode>
     </VSNode>
