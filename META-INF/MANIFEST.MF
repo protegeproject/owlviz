@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Owlviz Plug-in
+Bundle-Category: protege
+Bundle-Vendor: Protege Development Team (First working version written a
+ t the University of Manchester by Matthew Horridge)
+Import-Package: org.osgi.framework,
+ org.apache.log4j
+Bundle-Version: 4.0.0
+Bundle-Description: A plugin for visualizing owl ontologies.
+Bundle-SymbolicName: org.coode.owlviz;singleton:=true
+Require-Bundle: org.protege.common,
+ org.protege.editor.core.application,
+ org.protege.editor.owl,
+ owlapi
+Bundle-ClassPath: .
