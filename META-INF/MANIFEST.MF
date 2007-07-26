@@ -2,8 +2,8 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Owlviz Plug-in
 Bundle-Category: protege
-Bundle-Vendor: Protege Development Team (First working version written a
- t the University of Manchester by Matthew Horridge)
+Bundle-Vendor: The CO-ODE Group
+Bundle-DocURL: http://www.co-ode.org
 Import-Package: org.osgi.framework,
  org.apache.log4j
 Bundle-Version: 4.0.0
