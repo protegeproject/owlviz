@@ -12,5 +12,5 @@ Bundle-SymbolicName: org.coode.owlviz;singleton:=true
 Require-Bundle: org.protege.common,
  org.protege.editor.core.application,
  org.protege.editor.owl,
- owlapi
+ org.semanticweb.owl.owlapi
 Bundle-ClassPath: .
