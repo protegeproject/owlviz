@@ -1,15 +1,15 @@
 package uk.ac.man.cs.mig.coode.owlviz.command;
 
-import uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizIcons;
-import uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizView;
-import uk.ac.man.cs.mig.util.graph.ui.GraphComponent;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.util.Iterator;
 
-import org.protege.editor.core.ui.view.DisposableAction;
+import javax.swing.AbstractAction;
+
 import org.protege.editor.core.ui.util.Icons;
+import org.protege.editor.core.ui.view.DisposableAction;
+
+import uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizView;
+import uk.ac.man.cs.mig.util.graph.ui.GraphComponent;
 
 /**
  * User: matthewhorridge<br>

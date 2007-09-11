@@ -1,11 +1,51 @@
 package uk.ac.man.cs.mig.coode.owlviz.ui;
 
-import uk.ac.man.cs.mig.coode.owlviz.command.*;
-import uk.ac.man.cs.mig.coode.owlviz.export.DotExportFormat;
+import java.awt.BorderLayout;
+import java.awt.Frame;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetDragEvent;
+import java.awt.dnd.DropTargetDropEvent;
+import java.awt.dnd.DropTargetEvent;
+import java.awt.dnd.DropTargetListener;
+import java.awt.event.ContainerEvent;
+import java.awt.event.ContainerListener;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import javax.swing.JPopupMenu;
+import javax.swing.JTabbedPane;
+import javax.swing.JToolBar;
+import javax.swing.SwingUtilities;
+
+import org.protege.editor.owl.ui.transfer.OWLObjectDataFlavor;
+import org.protege.editor.owl.ui.view.AbstractOWLClassViewComponent;
+import org.semanticweb.owl.model.OWLClass;
+import org.semanticweb.owl.model.OWLObject;
+
+import uk.ac.man.cs.mig.coode.owlviz.command.HideAllClassesCommand;
+import uk.ac.man.cs.mig.coode.owlviz.command.HideClassCommand;
+import uk.ac.man.cs.mig.coode.owlviz.command.HideClassesPastRadiusCommand;
+import uk.ac.man.cs.mig.coode.owlviz.command.HideSubclassesCommand;
+import uk.ac.man.cs.mig.coode.owlviz.command.SetOptionsCommand;
+import uk.ac.man.cs.mig.coode.owlviz.command.ShowAllClassesCommand;
+import uk.ac.man.cs.mig.coode.owlviz.command.ShowClassCommand;
+import uk.ac.man.cs.mig.coode.owlviz.command.ShowSubclassesCommand;
+import uk.ac.man.cs.mig.coode.owlviz.command.ShowSuperclassesCommand;
+import uk.ac.man.cs.mig.coode.owlviz.command.ZoomInCommand;
+import uk.ac.man.cs.mig.coode.owlviz.command.ZoomOutCommand;
 import uk.ac.man.cs.mig.coode.owlviz.model.OWLClassGraphAssertedModel;
 import uk.ac.man.cs.mig.coode.owlviz.model.OWLClassGraphInferredModel;
-import uk.ac.man.cs.mig.coode.owlviz.model.OWLVizAxiomGraphModel;
-import uk.ac.man.cs.mig.coode.owlviz.ui.options.*;
+import uk.ac.man.cs.mig.coode.owlviz.ui.options.DotProcessPathPage;
+import uk.ac.man.cs.mig.coode.owlviz.ui.options.LayoutDirectionOptionsPage;
+import uk.ac.man.cs.mig.coode.owlviz.ui.options.LayoutSpacingOptionsPage;
+import uk.ac.man.cs.mig.coode.owlviz.ui.options.OptionsDialog;
 import uk.ac.man.cs.mig.util.graph.controller.Controller;
 import uk.ac.man.cs.mig.util.graph.event.GraphSelectionModelEvent;
 import uk.ac.man.cs.mig.util.graph.event.GraphSelectionModelListener;
@@ -16,23 +56,7 @@ import uk.ac.man.cs.mig.util.graph.export.impl.JPEGExportFormat;
 import uk.ac.man.cs.mig.util.graph.export.impl.PNGExportFormat;
 import uk.ac.man.cs.mig.util.graph.export.impl.SVGExportFormat;
 import uk.ac.man.cs.mig.util.graph.layout.dotlayoutengine.DotGraphLayoutEngine;
-import uk.ac.man.cs.mig.util.graph.layout.dotlayoutengine.DotLayoutEngineProperties;
 import uk.ac.man.cs.mig.util.graph.ui.GraphComponent;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.awt.dnd.*;
-import java.awt.event.*;
-import java.util.*;
-import java.util.List;
-import java.io.IOException;
-
-import org.protege.editor.owl.ui.view.AbstractOWLClassViewComponent;
-import org.protege.editor.owl.ui.transfer.OWLObjectDataFlavor;
-import org.semanticweb.owl.model.OWLClass;
-import org.semanticweb.owl.model.OWLException;
-import org.semanticweb.owl.model.OWLObject;
 
 /**
  * User: matthewhorridge<br>
@@ -56,9 +80,9 @@ public class OWLVizView extends AbstractOWLClassViewComponent implements DropTar
 
     private JPopupMenu closeMenu;
 
-    private Map componentGroupMap;
+    private Map<OWLVizGraphPanel,List<GraphComponent>> componentGroupMap;
 
-    private HashSet graphComponents;
+    private HashSet<GraphComponent> graphComponents;
 
     public static final String DOT_PATH_PROPERTIES_KEY = "OWLViz.Dot.Path";
 
@@ -72,8 +96,8 @@ public class OWLVizView extends AbstractOWLClassViewComponent implements DropTar
         selectionModel = new OWLVizSelectionModel();
         setupExportFormats();
         closableTabs = new HashSet();
-        componentGroupMap = new HashMap();
-        graphComponents = new HashSet();
+        componentGroupMap = new HashMap<OWLVizGraphPanel,List<GraphComponent>>();
+        graphComponents = new HashSet<GraphComponent>();
         createOWLVizTabUI();
 
         DropTarget dt = new DropTarget(this, this);
@@ -99,12 +123,12 @@ public class OWLVizView extends AbstractOWLClassViewComponent implements DropTar
         return selectionModel;
     }
 
-    public Collection getGraphComponents() {
+    public Collection<GraphComponent> getGraphComponents() {
         return getAllGraphComponents();
     }
 
-    public Collection getAllGraphComponents() {
-        return new ArrayList(graphComponents);
+    public Collection<GraphComponent> getAllGraphComponents() {
+        return new ArrayList<GraphComponent>(graphComponents);
     }
 
     public GraphComponent getAssertedGraphComponent() {
@@ -162,7 +186,7 @@ public class OWLVizView extends AbstractOWLClassViewComponent implements DropTar
 
         // Group the asserted and inferred hierarchy tabs, so that operations
         // such as showing subclasses etc. are applied to both tabs.
-        ArrayList list = new ArrayList();
+        ArrayList<GraphComponent> list = new ArrayList<GraphComponent>();
         list.add(assertedGraphComponent);
         list.add(inferredGraphComponent);
         componentGroupMap.put(assertedPanel, list);
@@ -174,8 +198,8 @@ public class OWLVizView extends AbstractOWLClassViewComponent implements DropTar
 
 
     protected void forceRepaint() {
-        for (Iterator it = getGraphComponents().iterator(); it.hasNext();) {
-            GraphComponent curGraphComponent = (GraphComponent) it.next();
+        for (Iterator<GraphComponent> it = getGraphComponents().iterator(); it.hasNext();) {
+            GraphComponent curGraphComponent = it.next();
             curGraphComponent.getGraphView().repaint();
         }
     }

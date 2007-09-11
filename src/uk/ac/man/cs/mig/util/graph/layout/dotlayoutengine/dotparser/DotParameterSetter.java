@@ -213,7 +213,7 @@ public class DotParameterSetter
 		String token;
 
 		// Create a list to hold the points in
-		ArrayList edgePoints = new ArrayList(10); // A size of around 10 should be enough
+		ArrayList<Point> edgePoints = new ArrayList<Point>(10); // A size of around 10 should be enough
 
 		Point edgePoint;
 
@@ -254,7 +254,7 @@ public class DotParameterSetter
 		edge.resetPath();
 
 		// Set the start of the edge path
-		edgePoint = (Point) edgePoints.get(0);
+		edgePoint = edgePoints.get(0);
 
 		edge.setPathOrigin(edgePoint.x, edgePoint.y);
 
@@ -274,11 +274,11 @@ public class DotParameterSetter
 		{
 			ctrlPointIndex = i * 3 + 1;
 
-			cp1 = (Point) edgePoints.get(ctrlPointIndex);
+			cp1 =  edgePoints.get(ctrlPointIndex);
 
-			cp2 = (Point) edgePoints.get(ctrlPointIndex + 1);
+			cp2 =  edgePoints.get(ctrlPointIndex + 1);
 
-			cp3 = (Point) edgePoints.get(ctrlPointIndex + 2);
+			cp3 =  edgePoints.get(ctrlPointIndex + 2);
 
 			edge.pathTo(cp1.x, cp1.y, cp2.x, cp2.y, cp3.x, cp3.y);
 		}
@@ -288,7 +288,7 @@ public class DotParameterSetter
 		if(startPoint != null)
 		{
 			// Arrowhead base should be first point in the list
-			arrowheadBase = (Point) edgePoints.get(0);
+			arrowheadBase =  edgePoints.get(0);
 
 			// Set the arrowhead, which goes from tip to base points
 			edge.setArrowTail(arrowheadBase.x, arrowheadBase.y, startPoint.x, startPoint.y);
@@ -298,7 +298,7 @@ public class DotParameterSetter
 		if(endPoint != null)
 		{
 			// Arrowhead base should be the last point in the list
-			arrowheadBase = (Point) edgePoints.get(edgePoints.size() - 1);
+			arrowheadBase = edgePoints.get(edgePoints.size() - 1);
 
 			// Set the arrowhead, which goes from tip to base points
 			edge.setArrowTail(arrowheadBase.x, arrowheadBase.y, endPoint.x, endPoint.y);

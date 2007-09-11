@@ -1,20 +1,30 @@
 package uk.ac.man.cs.mig.util.graph.ui;
 
-import uk.ac.man.cs.mig.util.graph.controller.Controller;
-import uk.ac.man.cs.mig.util.graph.event.*;
-import uk.ac.man.cs.mig.util.graph.graph.Edge;
-import uk.ac.man.cs.mig.util.graph.graph.Graph;
-import uk.ac.man.cs.mig.util.graph.graph.Node;
-import uk.ac.man.cs.mig.util.graph.renderer.EdgeRenderer;
-import uk.ac.man.cs.mig.util.graph.renderer.NodeRenderer;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.event.HierarchyEvent;
+import java.awt.event.HierarchyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import javax.swing.JPanel;
+
+import uk.ac.man.cs.mig.util.graph.controller.Controller;
+import uk.ac.man.cs.mig.util.graph.event.GraphGeneratorEvent;
+import uk.ac.man.cs.mig.util.graph.event.GraphGeneratorListener;
+import uk.ac.man.cs.mig.util.graph.event.GraphSelectionModelEvent;
+import uk.ac.man.cs.mig.util.graph.event.GraphSelectionModelListener;
+import uk.ac.man.cs.mig.util.graph.event.NodeClickedEvent;
+import uk.ac.man.cs.mig.util.graph.event.NodeClickedListener;
+import uk.ac.man.cs.mig.util.graph.graph.Graph;
+import uk.ac.man.cs.mig.util.graph.graph.Node;
+import uk.ac.man.cs.mig.util.graph.renderer.EdgeRenderer;
+import uk.ac.man.cs.mig.util.graph.renderer.NodeRenderer;
 
 /**
  * User: matthewhorridge<br>
@@ -38,7 +48,7 @@ public abstract class GraphView extends JPanel implements Zoomable, PropertyChan
 	protected GraphSelectionModelListener selectionListener;
 	protected GraphGeneratorListener graphGenListener;
 
-	protected ArrayList nodeClickedListeners;
+	protected ArrayList<NodeClickedListener> nodeClickedListeners;
 
 	private Graph graph;
 
@@ -56,7 +66,7 @@ public abstract class GraphView extends JPanel implements Zoomable, PropertyChan
 			throw new NullPointerException("GraphLayoutEngine must not be null");
 		}
 		controller.addPropertyChangeListener(this);
-		nodeClickedListeners = new ArrayList();
+		nodeClickedListeners = new ArrayList<NodeClickedListener>();
 		setupGraphViewListeners();
 	}
 
@@ -182,7 +192,7 @@ public abstract class GraphView extends JPanel implements Zoomable, PropertyChan
 	                                    MouseEvent evt) {
 		NodeClickedEvent nce = new NodeClickedEvent(node, evt);
 		for(int i = 0; i < nodeClickedListeners.size(); i++) {
-			((NodeClickedListener) nodeClickedListeners.get(i)).nodeClicked(nce);
+			nodeClickedListeners.get(i).nodeClicked(nce);
 		}
 	}
 

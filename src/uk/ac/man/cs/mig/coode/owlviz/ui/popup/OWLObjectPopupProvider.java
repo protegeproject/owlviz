@@ -1,10 +1,10 @@
 package uk.ac.man.cs.mig.coode.owlviz.ui.popup;
 
-import org.protege.editor.owl.model.OWLModelManager;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+
 import org.protege.editor.owl.OWLEditorKit;
 import org.semanticweb.owl.model.OWLObject;
-
-import javax.swing.*;
 
 import uk.ac.man.cs.mig.util.graph.ui.PopupProvider;
 

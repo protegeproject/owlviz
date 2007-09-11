@@ -158,7 +158,7 @@ public interface GraphModel
 	 * Gets an <code>Iterator</code> that can be used to
 	 * traverse and remove listeners.
 	 */
-	public Iterator getListeners();
+	public Iterator<GraphModelListener> getListeners();
 
     /**
      * Disposed of the graph model.  This clears any cached information

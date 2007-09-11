@@ -18,11 +18,11 @@ public class OWLVizSelectionModel {
 
     private OWLClass selectedClass;
 
-    private ArrayList listeners;
+    private ArrayList<OWLVizSelectionListener> listeners;
 
 
     public OWLVizSelectionModel() {
-        listeners = new ArrayList();
+        listeners = new ArrayList<OWLVizSelectionListener>();
     }
 
 
@@ -64,8 +64,8 @@ public class OWLVizSelectionModel {
     }
 
     private void fireSelectionChanged() {
-        for(Iterator it = listeners.iterator(); it.hasNext(); ) {
-            OWLVizSelectionListener lsnr = (OWLVizSelectionListener) it.next();
+        for(Iterator<OWLVizSelectionListener> it = listeners.iterator(); it.hasNext(); ) {
+            OWLVizSelectionListener lsnr = it.next();
             lsnr.selectionChanged(this);
         }
     }

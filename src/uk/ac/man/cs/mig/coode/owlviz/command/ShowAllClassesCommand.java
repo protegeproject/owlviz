@@ -1,18 +1,17 @@
 package uk.ac.man.cs.mig.coode.owlviz.command;
 
-import uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizIcons;
-import uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizView;
-import uk.ac.man.cs.mig.util.graph.ui.GraphComponent;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.Collections;
 
-import org.protege.editor.owl.ui.view.OWLSelectionViewAction;
+import javax.swing.JOptionPane;
+
 import org.protege.editor.owl.model.OWLModelManager;
-import org.semanticweb.owl.model.OWLException;
+import org.protege.editor.owl.ui.view.OWLSelectionViewAction;
+
+import uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizIcons;
+import uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizView;
+import uk.ac.man.cs.mig.util.graph.ui.GraphComponent;
 
 /**
  * User: matthewhorridge<br>

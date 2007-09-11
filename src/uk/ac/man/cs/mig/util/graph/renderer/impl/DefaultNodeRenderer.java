@@ -1,15 +1,26 @@
 package uk.ac.man.cs.mig.util.graph.renderer.impl;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Polygon;
+import java.awt.Rectangle;
+import java.awt.Shape;
+import java.awt.Stroke;
+import java.awt.geom.Rectangle2D;
+
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+
 import uk.ac.man.cs.mig.util.graph.controller.Controller;
 import uk.ac.man.cs.mig.util.graph.controller.VisualisedObjectManager;
 import uk.ac.man.cs.mig.util.graph.graph.Node;
 import uk.ac.man.cs.mig.util.graph.layout.GraphLayoutEngine;
-import uk.ac.man.cs.mig.util.graph.renderer.NodeLabelRenderer;
 import uk.ac.man.cs.mig.util.graph.renderer.NodeRenderer;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Rectangle2D;
 
 /**
  * User: matthewhorridge<br>

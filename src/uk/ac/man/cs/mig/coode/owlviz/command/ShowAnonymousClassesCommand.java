@@ -1,12 +1,12 @@
 package uk.ac.man.cs.mig.coode.owlviz.command;
 
-import uk.ac.man.cs.mig.util.graph.controller.Controller;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 
-import org.protege.editor.owl.ui.OWLIcons;
+import javax.swing.AbstractAction;
+
 import org.semanticweb.owl.model.OWLDescription;
+
+import uk.ac.man.cs.mig.util.graph.controller.Controller;
 
 /**
  * User: matthewhorridge<br>

@@ -1,18 +1,25 @@
 package uk.ac.man.cs.mig.coode.owlviz.model;
 
-import uk.ac.man.cs.mig.util.graph.model.impl.AbstractGraphModel;
-import uk.ac.man.cs.mig.util.graph.model.GraphModel;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
-import java.util.*;
-
+import org.protege.editor.owl.model.OWLModelManager;
+import org.protege.editor.owl.model.event.EventType;
+import org.protege.editor.owl.model.event.OWLModelManagerChangeEvent;
+import org.protege.editor.owl.model.event.OWLModelManagerListener;
 import org.protege.editor.owl.model.hierarchy.OWLObjectHierarchyProvider;
 import org.protege.editor.owl.model.hierarchy.OWLObjectHierarchyProviderListener;
-import org.protege.editor.owl.model.OWLModelManager;
-import org.protege.editor.owl.model.event.OWLModelManagerListener;
-import org.protege.editor.owl.model.event.OWLModelManagerChangeEvent;
-import org.protege.editor.owl.model.event.EventType;
-import org.semanticweb.owl.model.*;
-import org.apache.log4j.Logger;
+import org.semanticweb.owl.model.OWLClass;
+import org.semanticweb.owl.model.OWLObject;
+import org.semanticweb.owl.model.OWLOntology;
+import org.semanticweb.owl.model.OWLOntologyChange;
+import org.semanticweb.owl.model.OWLOntologyChangeListener;
+
+import uk.ac.man.cs.mig.util.graph.model.GraphModel;
+import uk.ac.man.cs.mig.util.graph.model.impl.AbstractGraphModel;
 
 /**
  * Author: Matthew Horridge<br>
@@ -32,8 +39,6 @@ public class AbstractOWLClassGraphModel extends AbstractGraphModel {
     private OWLObjectHierarchyProviderListener listener;
 
     private OWLOntologyChangeListener changeListener;
-
-    private OWLOntologyChangeVisitor changeFilter;
 
     private OWLModelManagerListener owlModelManagerListener;
 
@@ -72,21 +77,7 @@ public class AbstractOWLClassGraphModel extends AbstractGraphModel {
         changeListener = new OWLOntologyChangeListener() {
             public void ontologiesChanged(List<? extends OWLOntologyChange> changes) {
             }
-
-
-//            public void ontologyChanged(OWLOntologyChange evt) throws OWLException {
-//                evt.accept(changeFilter);
-//            }
         };
-//        changeFilter = new ChangeVisitorAdapter() {
-//            public void visit(RemoveEntity event) throws OWLException {
-//                if (event.getEntity() instanceof OWLClass) {
-//                    ArrayList list = new ArrayList();
-//                    list.add(event.getEntity());
-//                    fireObjectsRemovedEvent(list);
-//                }
-//            }
-//        };
         owlModelManager.addOntologyChangeListener(changeListener);
         owlModelManagerListener = new OWLModelManagerListener() {
             public void handleChange(OWLModelManagerChangeEvent event) {
