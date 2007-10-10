@@ -1,13 +1,15 @@
 package uk.ac.man.cs.mig.coode.owlviz.ui.popup;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
 
-import org.protege.editor.owl.OWLEditorKit;
-import org.semanticweb.owl.model.OWLObject;
-import org.semanticweb.owl.model.OWLClass;
-import org.semanticweb.owl.model.OWLException;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+
 import org.apache.log4j.Logger;
+import org.protege.editor.owl.OWLEditorKit;
+import org.semanticweb.owl.model.OWLClass;
+import org.semanticweb.owl.model.OWLObject;
 
 /**
  * User: matthewhorridge<br>

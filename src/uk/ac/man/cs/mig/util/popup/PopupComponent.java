@@ -28,7 +28,7 @@ public class PopupComponent extends JComponent
 	private JComponent content; // The content that represents the popup
 	private JComponent glassPane; // The glass pane that will contain the popup
 
-	private ArrayList listeners; // A list of listeners to be informed of popup events
+	private ArrayList<PopupComponentListener> listeners; // A list of listeners to be informed of popup events
     private boolean mouseOverGlassPane;
 
 
@@ -73,7 +73,7 @@ public class PopupComponent extends JComponent
 
 		glassPane.setOpaque(false);
 
-		listeners = new ArrayList();
+		listeners = new ArrayList<PopupComponentListener>();
 
 		setupListeners();
 
@@ -384,11 +384,11 @@ public class PopupComponent extends JComponent
 
         // Just iterate through the list of listeners
         // and fire the events to them
-		Iterator it = listeners.iterator();
+		Iterator<PopupComponentListener> it = listeners.iterator();
 
 		while(it.hasNext())
 		{
-			((PopupComponentListener)it.next()).popupClosed(evt);
+			it.next().popupClosed(evt);
 		}
 	}
 

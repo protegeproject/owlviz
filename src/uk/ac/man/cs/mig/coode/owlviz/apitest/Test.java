@@ -1,16 +1,5 @@
 package uk.ac.man.cs.mig.coode.owlviz.apitest;
 
-import uk.ac.man.cs.mig.coode.owlviz.ui.renderer.OWLClsEdgeRenderer;
-import uk.ac.man.cs.mig.coode.owlviz.ui.renderer.OWLClsNodeLabelRenderer;
-import uk.ac.man.cs.mig.coode.owlviz.ui.renderer.OWLClsNodeRenderer;
-import uk.ac.man.cs.mig.util.graph.controller.impl.DefaultController;
-import uk.ac.man.cs.mig.util.graph.export.impl.PNGExportFormat;
-
-import javax.swing.*;
-import java.awt.*;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 /**
  * User: matthewhorridge<br>

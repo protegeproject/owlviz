@@ -16,12 +16,12 @@ import java.util.ArrayList;
  */
 public class ExportFormatManager
 {
-    private ArrayList exportFormats;
+    private ArrayList<ExportFormat> exportFormats;
     protected static ExportFormatManager instance;
 
     protected ExportFormatManager()
     {
-        exportFormats = new ArrayList();
+        exportFormats = new ArrayList<ExportFormat>();
     }
 
     /**

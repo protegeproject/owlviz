@@ -1,13 +1,9 @@
 package uk.ac.man.cs.mig.util.graph.export.impl;
 
-import org.w3c.dom.DOMImplementation;
-import org.w3c.dom.Document;
-import uk.ac.man.cs.mig.util.graph.controller.Controller;
-
-import java.awt.*;
+import java.awt.Dimension;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
+
+import uk.ac.man.cs.mig.util.graph.controller.Controller;
 
 
 /**

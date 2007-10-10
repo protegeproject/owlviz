@@ -1,11 +1,7 @@
 package uk.ac.man.cs.mig.coode.owlviz.model;
 
 import org.protege.editor.owl.model.OWLModelManager;
-import org.protege.editor.owl.model.hierarchy.OWLObjectHierarchyProvider;
-import org.semanticweb.owl.model.OWLObject;
 import org.semanticweb.owl.model.OWLClass;
-
-import java.util.Set;
 
 /**
  * Author: Matthew Horridge<br>

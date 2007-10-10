@@ -41,7 +41,7 @@ public class GraphComponent extends JComponent implements ThumbnailViewSource {
 	private static final int THUMBNAIL_EVENT_VISIBLE_RECT_CHANGED = 2;
 	private static final int THUMBNAIL_EVENT_CONTENT_CHANGED = 3;
 
-	private ArrayList thumbnailViewSourceListeners;
+	private ArrayList<ThumbnailViewSourceListener> thumbnailViewSourceListeners;
 
 
 	public GraphComponent() {
@@ -53,7 +53,7 @@ public class GraphComponent extends JComponent implements ThumbnailViewSource {
 
 		setFocusable(true);
 
-		thumbnailViewSourceListeners = new ArrayList();
+		thumbnailViewSourceListeners = new ArrayList<ThumbnailViewSourceListener>();
 
 		setupThumbnailListeners();
 	}
@@ -390,19 +390,19 @@ public class GraphComponent extends JComponent implements ThumbnailViewSource {
 
 	protected void fireThumbnailViewSourceEvent(ThumbnailViewSourceEvent evt,
 	                                            int type) {
-		Iterator it = thumbnailViewSourceListeners.iterator();
+		Iterator<ThumbnailViewSourceListener> it = thumbnailViewSourceListeners.iterator();
 
 		while(it.hasNext()) {
-			Object obj = it.next();
+			ThumbnailViewSourceListener obj = it.next();
 
 			if(type == THUMBNAIL_EVENT_BOUNDS_CHANGED) {
-				((ThumbnailViewSourceListener) obj).sourceViewBoundsChanged(evt);
+				 obj.sourceViewBoundsChanged(evt);
 			}
 			else if(type == THUMBNAIL_EVENT_CONTENT_CHANGED) {
-				((ThumbnailViewSourceListener) obj).sourceViewContentsChanged(evt);
+				 obj.sourceViewContentsChanged(evt);
 			}
 			else if(type == THUMBNAIL_EVENT_VISIBLE_RECT_CHANGED) {
-				((ThumbnailViewSourceListener) obj).sourceViewVisibleRectChanged(evt);
+				obj.sourceViewVisibleRectChanged(evt);
 			}
 		}
 	}

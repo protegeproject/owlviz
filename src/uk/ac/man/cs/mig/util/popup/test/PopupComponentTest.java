@@ -1,15 +1,24 @@
 package uk.ac.man.cs.mig.util.popup.test;
 
-import uk.ac.man.cs.mig.util.popup.PopupComponent;
-import uk.ac.man.cs.mig.util.popup.PopupComponentListener;
-import uk.ac.man.cs.mig.util.popup.PopupComponentEvent;
-
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.*;
+
+import javax.swing.AbstractAction;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JList;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JPanel;
+
+import uk.ac.man.cs.mig.util.popup.PopupComponent;
+import uk.ac.man.cs.mig.util.popup.PopupComponentEvent;
+import uk.ac.man.cs.mig.util.popup.PopupComponentListener;
 
 /**
  * User: matthewhorridge<br>

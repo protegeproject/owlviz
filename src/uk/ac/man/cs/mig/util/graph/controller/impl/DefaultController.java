@@ -61,13 +61,13 @@ public class DefaultController implements Controller {
 	private EdgeLabelRenderer edgeLabelRenderer;
 
 	// Property Change listeners and Property names
-	private ArrayList listeners;
+	private ArrayList<PropertyChangeListener> listeners;
 	//private MouseAdapter graphViewListener;
 	//private GraphSelectionModelListener selectionListener;
 
 
 	public DefaultController(GraphModel model) {
-		listeners = new ArrayList();
+		listeners = new ArrayList<PropertyChangeListener>();
 
 		this.graphModel = model;
 
@@ -541,10 +541,10 @@ public class DefaultController implements Controller {
 	protected void firePropertyChangeEvent(String propertyName,
 	                                       Object oldValue,
 	                                       Object newValue) {
-		Iterator it = new ArrayList(listeners).iterator();
+		Iterator<PropertyChangeListener> it = new ArrayList<PropertyChangeListener>(listeners).iterator();
 		PropertyChangeEvent evt = new PropertyChangeEvent(this, propertyName, oldValue, newValue);
 		while(it.hasNext()) {
-			final PropertyChangeListener pcl = (PropertyChangeListener) it.next();
+			final PropertyChangeListener pcl = it.next();
 			pcl.propertyChange(evt);
 		}
 	}

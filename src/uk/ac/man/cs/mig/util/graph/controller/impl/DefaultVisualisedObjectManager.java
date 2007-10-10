@@ -25,7 +25,7 @@ public class DefaultVisualisedObjectManager implements VisualisedObjectManager
 	private GraphModel model;
 	private VisualisedObjectCache visualisedObjects;
 
-	private ArrayList listeners;
+	private ArrayList<VisualisedObjectManagerListener> listeners;
 
 
 	private static final boolean EVENTDEBUG = false;
@@ -40,7 +40,7 @@ public class DefaultVisualisedObjectManager implements VisualisedObjectManager
 
 		visualisedObjects = new VisualisedObjectCache();
 
-		listeners = new ArrayList();
+		listeners = new ArrayList<VisualisedObjectManagerListener>();
 
 		this.model = model;
 
@@ -700,7 +700,7 @@ public class DefaultVisualisedObjectManager implements VisualisedObjectManager
 	 * @return An <code>Iterator</code>, which can be used to add and remove
 	 * listeners, as well as traverse the list of listeners.
 	 */
-	public Iterator getVisualisedObjectManagerListeners()
+	public Iterator<VisualisedObjectManagerListener> getVisualisedObjectManagerListeners()
 	{
 		return listeners.iterator();
 	}
@@ -723,7 +723,7 @@ public class DefaultVisualisedObjectManager implements VisualisedObjectManager
 
 		for(int i = 0; i < listeners.size(); i++)
 		{
-			((VisualisedObjectManagerListener)listeners.get(i)).objectsAdded(evt);
+			listeners.get(i).objectsAdded(evt);
 
 		}
 	}
@@ -746,7 +746,7 @@ public class DefaultVisualisedObjectManager implements VisualisedObjectManager
 
 		for(int i = 0; i < listeners.size(); i++)
 		{
-			((VisualisedObjectManagerListener)listeners.get(i)).objectsRemoved(evt);
+			listeners.get(i).objectsRemoved(evt);
 
 		}
 	}
@@ -769,7 +769,7 @@ public class DefaultVisualisedObjectManager implements VisualisedObjectManager
 
 		for(int i = 0; i < listeners.size(); i++)
 		{
-			((VisualisedObjectManagerListener)listeners.get(i)).objectsChanged(evt);
+			listeners.get(i).objectsChanged(evt);
 
 		}
 	}
@@ -798,7 +798,7 @@ public class DefaultVisualisedObjectManager implements VisualisedObjectManager
 
 		for(int i = 0; i < listeners.size(); i++)
 		{
-			((VisualisedObjectManagerListener)listeners.get(i)).parentObjectAdded(evt);
+			listeners.get(i).parentObjectAdded(evt);
 		}
 	}
 
@@ -827,7 +827,7 @@ public class DefaultVisualisedObjectManager implements VisualisedObjectManager
 
 		for(int i = 0; i < listeners.size(); i++)
 		{
-			((VisualisedObjectManagerListener)listeners.get(i)).parentObjectRemoved(evt);
+			listeners.get(i).parentObjectRemoved(evt);
 		}
 	}
 
@@ -855,7 +855,7 @@ public class DefaultVisualisedObjectManager implements VisualisedObjectManager
 
 		for(int i = 0; i < listeners.size(); i++)
 		{
-			((VisualisedObjectManagerListener)listeners.get(i)).childObjectAdded(evt);
+			listeners.get(i).childObjectAdded(evt);
 		}
 	}
 
@@ -883,7 +883,7 @@ public class DefaultVisualisedObjectManager implements VisualisedObjectManager
 
 		for(int i = 0; i < listeners.size(); i++)
 		{
-			((VisualisedObjectManagerListener)listeners.get(i)).childObjectRemoved(evt);
+			listeners.get(i).childObjectRemoved(evt);
 		}
 	}
 

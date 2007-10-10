@@ -23,13 +23,13 @@ import java.util.Iterator;
  */
 public abstract class AbstractGraphModel implements GraphModel
 {
-	protected ArrayList listeners;
+	protected ArrayList<GraphModelListener> listeners;
 
 	private static final boolean EVENTDEBUG = false;
 
 	public AbstractGraphModel()
 	{
-		listeners = new ArrayList();
+		listeners = new ArrayList<GraphModelListener>();
 	}
 
 	/**
@@ -62,7 +62,7 @@ public abstract class AbstractGraphModel implements GraphModel
 
 		for(int i = 0; i < listeners.size(); i++)
 		{
-			((GraphModelListener)listeners.get(i)).objectAdded(evt);
+			listeners.get(i).objectAdded(evt);
 		}
 	}
 
@@ -82,7 +82,7 @@ public abstract class AbstractGraphModel implements GraphModel
 
 		for(int i = 0; i < listeners.size(); i++)
 		{
-			((GraphModelListener)listeners.get(i)).objectRemoved(evt);
+			listeners.get(i).objectRemoved(evt);
 		}
 	}
 
@@ -102,7 +102,7 @@ public abstract class AbstractGraphModel implements GraphModel
 
 		for(int i = 0; i < listeners.size(); i++)
 		{
-			((GraphModelListener)listeners.get(i)).objectChanged(evt);
+			listeners.get(i).objectChanged(evt);
 		}
 	}
 
@@ -128,7 +128,7 @@ public abstract class AbstractGraphModel implements GraphModel
 
 		for(int i = 0; i < listeners.size(); i++)
 		{
-			((GraphModelListener)listeners.get(i)).parentAdded(evt);
+			listeners.get(i).parentAdded(evt);
 		}
 	}
 
@@ -154,7 +154,7 @@ public abstract class AbstractGraphModel implements GraphModel
 
 		for(int i = 0; i < listeners.size(); i++)
 		{
-			((GraphModelListener)listeners.get(i)).parentRemoved(evt);
+			listeners.get(i).parentRemoved(evt);
 		}
 	}
 
@@ -180,7 +180,7 @@ public abstract class AbstractGraphModel implements GraphModel
 
 		for(int i = 0; i < listeners.size(); i++)
 		{
-			((GraphModelListener)listeners.get(i)).childAdded(evt);
+			listeners.get(i).childAdded(evt);
 		}
 	}
 
@@ -206,7 +206,7 @@ public abstract class AbstractGraphModel implements GraphModel
 
 		for(int i = 0; i < listeners.size(); i++)
 		{
-			((GraphModelListener)listeners.get(i)).childRemoved(evt);
+			listeners.get(i).childRemoved(evt);
 		}
 	}
 
@@ -228,7 +228,7 @@ public abstract class AbstractGraphModel implements GraphModel
 
             for(int i = 0; i < listeners.size(); i++)
             {
-                ((GraphModelListener)listeners.get(i)).modelChanged(evt);
+                listeners.get(i).modelChanged(evt);
             }
 
 
@@ -252,7 +252,7 @@ public abstract class AbstractGraphModel implements GraphModel
 	 * Gets an <code>Iterator</code> that can be used to
 	 * traverse and remove listeners.
 	 */
-	public Iterator getListeners()
+	public Iterator<GraphModelListener> getListeners()
 	{
 		return listeners.iterator();
 	}

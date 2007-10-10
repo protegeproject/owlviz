@@ -1,5 +1,12 @@
 package uk.ac.man.cs.mig.util.graph.outputrenderer.impl;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.util.HashMap;
+import java.util.Iterator;
+
 import uk.ac.man.cs.mig.util.graph.graph.Edge;
 import uk.ac.man.cs.mig.util.graph.graph.Graph;
 import uk.ac.man.cs.mig.util.graph.graph.Node;
@@ -9,15 +16,6 @@ import uk.ac.man.cs.mig.util.graph.model.GraphModel;
 import uk.ac.man.cs.mig.util.graph.outputrenderer.GraphOutputRenderer;
 import uk.ac.man.cs.mig.util.graph.renderer.EdgeLabelRenderer;
 import uk.ac.man.cs.mig.util.graph.renderer.NodeLabelRenderer;
-
-import java.awt.*;
-import java.awt.geom.Ellipse2D;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.util.HashMap;
-import java.util.Iterator;
 
 /**
  * User: matthewhorridge<br>

@@ -1,14 +1,18 @@
 package uk.ac.man.cs.mig.coode.owlviz.model;
 
-import uk.ac.man.cs.mig.util.graph.model.impl.AbstractGraphModel;
-import uk.ac.man.cs.mig.util.graph.model.GraphModel;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
-import java.util.*;
-
-import org.semanticweb.owl.model.OWLOntology;
-import org.semanticweb.owl.model.OWLException;
-import org.protege.editor.owl.model.OWLModelManager;
 import org.apache.log4j.Logger;
+import org.protege.editor.owl.model.OWLModelManager;
+import org.semanticweb.owl.model.OWLOntology;
+
+import uk.ac.man.cs.mig.util.graph.model.GraphModel;
+import uk.ac.man.cs.mig.util.graph.model.impl.AbstractGraphModel;
 
 
 /**

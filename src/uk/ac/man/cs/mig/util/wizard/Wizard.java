@@ -31,7 +31,7 @@ import java.util.ArrayList;
  */
 public class Wizard extends JDialog
 {
-	private ArrayList listeners;
+	private ArrayList<WizardEventListener> listeners;
 
 	private WizardPage [] pages; // An array containing the wizard pages
 	private JPanel pagePanel; // A panel (with a CardLayout) to hold the pages
@@ -109,7 +109,7 @@ public class Wizard extends JDialog
 
 		setDefaultCloseOperation(JDialog.EXIT_ON_CLOSE);
 
-		listeners = new ArrayList();
+		listeners = new ArrayList<WizardEventListener>();
 
 		nextText = nextButtonLabel;
 
@@ -724,7 +724,7 @@ public class Wizard extends JDialog
 
 		for(int i = 0; i < listeners.size(); i++)
 		{
-			(((WizardEventListener)listeners.get(i))).nextPressed(evt);
+			listeners.get(i).nextPressed(evt);
 		}
 	}
 
@@ -734,7 +734,7 @@ public class Wizard extends JDialog
 
 		for(int i = 0; i < listeners.size(); i++)
 		{
-			(((WizardEventListener)listeners.get(i))).prevPressed(evt);
+			listeners.get(i).prevPressed(evt);
 		}
 	}
 
@@ -744,7 +744,7 @@ public class Wizard extends JDialog
 
 		for(int i = 0; i < listeners.size(); i++)
 		{
-			(((WizardEventListener)listeners.get(i))).pageChanged(evt);
+			listeners.get(i).pageChanged(evt);
 		}
 
         pages[currentPage].pageSelected(this);
@@ -756,7 +756,7 @@ public class Wizard extends JDialog
 
 		for(int i = 0; i < listeners.size(); i++)
 		{
-			(((WizardEventListener)listeners.get(i))).finishPressed(evt);
+			listeners.get(i).finishPressed(evt);
 		}
 	}
 
@@ -766,7 +766,7 @@ public class Wizard extends JDialog
 
 		for(int i = 0; i < listeners.size(); i++)
 		{
-			(((WizardEventListener)listeners.get(i))).cancelPressed(evt);
+			listeners.get(i).cancelPressed(evt);
 		}
 	}
 

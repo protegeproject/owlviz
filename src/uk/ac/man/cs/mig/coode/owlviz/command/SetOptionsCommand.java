@@ -1,16 +1,15 @@
 package uk.ac.man.cs.mig.coode.owlviz.command;
 
+import java.awt.event.ActionEvent;
+import java.util.Iterator;
+
+import org.protege.editor.core.ui.view.DisposableAction;
+
 import uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizIcons;
 import uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizView;
 import uk.ac.man.cs.mig.coode.owlviz.ui.options.OptionsDialog;
 import uk.ac.man.cs.mig.util.graph.ui.GraphComponent;
 import uk.ac.man.cs.mig.util.okcanceldialog.OKCancelDialog;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.util.Iterator;
-
-import org.protege.editor.core.ui.view.DisposableAction;
 
 /**
  * User: matthewhorridge<br>
