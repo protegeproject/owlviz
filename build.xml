@@ -20,7 +20,6 @@
 	<!-- INIT -->
 	<!-- =================================================================== -->
 	<target name = "init">
-            <echo message="Alt OWLViz"/>
             <echo message="---------------Building the Owlviz Plugin -------------"/>
             <tstamp/>
             <mkdir dir = "${owlviz.classes}"/>
