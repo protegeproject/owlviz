@@ -13,7 +13,7 @@
             <pathelement path="${core.jar}"/>
             <path refid="core.classpath"/>
             <pathelement path="${owleditor.jar}"/>
-            <pathelement path="${owlapi.jar}"/>
+            <path refid="owlapi.classpath"/>
 	</path>
 
 	<!-- =================================================================== -->
