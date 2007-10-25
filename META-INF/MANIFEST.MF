@@ -5,7 +5,32 @@ Bundle-Category: protege
 Bundle-Vendor: The CO-ODE Group
 Bundle-DocURL: http://www.co-ode.org
 Import-Package: org.osgi.framework,
- org.apache.log4j
+ org.apache.log4j,
+ javax.swing,
+ javax.swing.border,
+ javax.swing.colorchooser,
+ javax.swing.event,
+ javax.swing.filechooser,
+ javax.swing.plaf,
+ javax.swing.plaf.basic,
+ javax.swing.plaf.metal,
+ javax.swing.plaf.multi,
+ javax.swing.plaf.synth,
+ javax.swing.table,
+ javax.swing.text,
+ javax.swing.text.html,
+ javax.swing.text.html.parser,
+ javax.swing.text.rtf,
+ javax.swing.tree,
+ javax.swing.undo,
+ org.w3c.dom,
+ org.w3c.dom.bootstrap,
+ org.w3c.dom.events,
+ org.w3c.dom.ls,
+ org.xml.sax,
+ org.xml.sax.ext,
+ org.xml.sax.helpers,
+ javax.xml.parsers
 Bundle-Version: 4.0.0
 Bundle-Description: A plugin for visualizing owl ontologies.
 Bundle-SymbolicName: org.coode.owlviz;singleton:=true
