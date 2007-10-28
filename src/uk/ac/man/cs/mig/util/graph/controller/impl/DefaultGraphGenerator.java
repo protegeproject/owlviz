@@ -1,5 +1,12 @@
 package uk.ac.man.cs.mig.util.graph.controller.impl;
 
+import java.awt.Dimension;
+import java.beans.PropertyChangeEvent;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 import uk.ac.man.cs.mig.util.graph.controller.Controller;
 import uk.ac.man.cs.mig.util.graph.controller.GraphGenerator;
 import uk.ac.man.cs.mig.util.graph.controller.VisualisedObjectManager;
@@ -14,15 +21,7 @@ import uk.ac.man.cs.mig.util.graph.graph.Edge;
 import uk.ac.man.cs.mig.util.graph.graph.Graph;
 import uk.ac.man.cs.mig.util.graph.graph.Node;
 import uk.ac.man.cs.mig.util.graph.model.GraphModel;
-import uk.ac.man.cs.mig.util.graph.renderer.NodeLabelRenderer;
 import uk.ac.man.cs.mig.util.graph.renderer.NodeRenderer;
-
-import java.awt.*;
-import java.beans.PropertyChangeEvent;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 /**
  * User: matthewhorridge<br>
@@ -44,7 +43,6 @@ public class DefaultGraphGenerator implements GraphGenerator
 	private GraphFactory graphFactory; // The factory responsible for generating the graph
 	private NodeFactory nodeFactory; // The factory responsible for generating nodes
 	private EdgeFactory edgeFactory; // The factory responsible for generating edges
-	private NodeLabelRenderer nodeLabelRenderer;
 	private NodeRenderer nodeRenderer;
 	private Controller controller;
 
@@ -53,7 +51,7 @@ public class DefaultGraphGenerator implements GraphGenerator
 	private boolean recreateNodes = false;
 
 
-	private Map nodeMap; // Maps objects to the nodes that represent the objects
+	private Map<Object, Node> nodeMap; // Maps objects to the nodes that represent the objects
 
 	private ArrayList listeners;
 
@@ -118,7 +116,7 @@ public class DefaultGraphGenerator implements GraphGenerator
 		controller.addPropertyChangeListener(this);
 
 
-		nodeMap = new HashMap();
+		nodeMap = new HashMap<Object, Node>();
 		
 		listeners = new ArrayList();
 
@@ -210,7 +208,7 @@ public class DefaultGraphGenerator implements GraphGenerator
 				{
 					obj = it.next();
 
-					node = (Node)nodeMap.get(obj);
+					node = nodeMap.get(obj);
 
 					oldSize = (Dimension)node.getSize().clone();
 
@@ -232,9 +230,9 @@ public class DefaultGraphGenerator implements GraphGenerator
 			{
 				Node parentNode, childNode;
 
-				parentNode = (Node)nodeMap.get(evt.getObjects().get(1));
+				parentNode = nodeMap.get(evt.getObjects().get(1));
 
-				childNode = (Node)nodeMap.get(evt.getObjects().get(0));
+				childNode = nodeMap.get(evt.getObjects().get(0));
 
 
 				int dir = DefaultGraphGenerator.this.controller.getGraphModel().getRelationshipDirection(parentNode.getUserObject(),
@@ -252,9 +250,9 @@ public class DefaultGraphGenerator implements GraphGenerator
 			{
 				Node tailNode, headNode;
 
-				tailNode = (Node)nodeMap.get(evt.getObjects().get(1));
+				tailNode = nodeMap.get(evt.getObjects().get(1));
 
-				headNode = (Node)nodeMap.get(evt.getObjects().get(0));
+				headNode = nodeMap.get(evt.getObjects().get(0));
 
 				graph.remove(tailNode, headNode);
 
@@ -265,9 +263,9 @@ public class DefaultGraphGenerator implements GraphGenerator
 			{
 				Node parentNode, childNode;
 
-				parentNode = (Node)nodeMap.get(evt.getObjects().get(0));
+				parentNode = nodeMap.get(evt.getObjects().get(0));
 
-				childNode = (Node)nodeMap.get(evt.getObjects().get(1));
+				childNode = nodeMap.get(evt.getObjects().get(1));
 
 				int dir = DefaultGraphGenerator.this.controller.getGraphModel().getRelationshipDirection(parentNode.getUserObject(),
 								                                                              childNode.getUserObject());
@@ -285,9 +283,9 @@ public class DefaultGraphGenerator implements GraphGenerator
 			{
 				Node tailNode, headNode;
 
-				tailNode = (Node)nodeMap.get(evt.getObjects().get(0));
+				tailNode = nodeMap.get(evt.getObjects().get(0));
 
-				headNode = (Node)nodeMap.get(evt.getObjects().get(1));
+				headNode = nodeMap.get(evt.getObjects().get(1));
 
 				graph.remove(tailNode, headNode);
 
@@ -401,7 +399,7 @@ public class DefaultGraphGenerator implements GraphGenerator
 
 		if(recreateNodes == false)
 		{
-			node = (Node)nodeMap.get(obj);
+			node = nodeMap.get(obj);
 		}
 
 		if(node == null)
@@ -421,7 +419,7 @@ public class DefaultGraphGenerator implements GraphGenerator
 
 	protected void removeNode(Object obj)
 	{
-		graph.remove((Node)(nodeMap.get(obj)));
+		graph.remove(nodeMap.get(obj));
 
 		nodeMap.remove(obj);
 	}
@@ -449,13 +447,13 @@ public class DefaultGraphGenerator implements GraphGenerator
 
 		parIt = model.getParents(obj);
 
-		node = (Node)nodeMap.get(obj);
+		node = nodeMap.get(obj);
 
 		while (parIt.hasNext())
 		{
 			par = parIt.next();
 
-			parNode = (Node) nodeMap.get(par);
+			parNode = nodeMap.get(par);
 
 			if (parNode != null)
 			{
@@ -489,13 +487,13 @@ public class DefaultGraphGenerator implements GraphGenerator
 
 		childIt = model.getChildren(obj);
 
-		node = (Node)nodeMap.get(obj);
+		node = nodeMap.get(obj);
 
 		while(childIt.hasNext())
 		{
 			child = childIt.next();
 
-			childNode = (Node)nodeMap.get(child);
+			childNode = nodeMap.get(child);
 
 			if(childNode != null)
 			{
@@ -517,7 +515,7 @@ public class DefaultGraphGenerator implements GraphGenerator
 	 */
 	protected void cleanNodeMap()
 	{
-		Iterator it = nodeMap.keySet().iterator();
+		Iterator<Object> it = nodeMap.keySet().iterator();
 
 		Object obj;
 
@@ -554,7 +552,7 @@ public class DefaultGraphGenerator implements GraphGenerator
 	 */
 	public Node getNodeForObject(Object obj)
 	{
-		return (Node)nodeMap.get(obj);
+		return nodeMap.get(obj);
 	}
 
 
