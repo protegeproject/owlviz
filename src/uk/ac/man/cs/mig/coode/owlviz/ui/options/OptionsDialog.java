@@ -17,7 +17,7 @@ import java.util.ArrayList;
  */
 public class OptionsDialog extends OKCancelDialog {
 
-	private ArrayList optionPages;
+	private ArrayList<OptionsPage> optionPages;
 	private JTabbedPane tabPane;
 
 	public static final String DEFAULT_PAGE = "General Options";
@@ -25,7 +25,7 @@ public class OptionsDialog extends OKCancelDialog {
 
 	public OptionsDialog(Frame owner) {
 		super(owner, "Options", "OK", "Cancel");
-		optionPages = new ArrayList();
+		optionPages = new ArrayList<OptionsPage>();
 		tabPane = new JTabbedPane();
 		setContent(tabPane);
 	}
@@ -67,14 +67,14 @@ public class OptionsDialog extends OKCancelDialog {
 
 	public void applyOptions() {
 		for(int i = 0; i < optionPages.size(); i++) {
-			((OptionsPage) optionPages.get(i)).applyOptions();
+			optionPages.get(i).applyOptions();
 		}
 	}
 
 
 	public void updateInterface() {
 		for(int i = 0; i < optionPages.size(); i++) {
-			((OptionsPage) optionPages.get(i)).updateInterface();
+			optionPages.get(i).updateInterface();
 		}
 	}
 }
