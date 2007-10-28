@@ -41,7 +41,7 @@ public class SpecifyHierarchyPage extends WizardPage {
 		JPanel panel = new JPanel(new BorderLayout(12, 12));
 		JLabel label = new JLabel("<html><body>Please select the hierarchy that you would<br>" + "like to export.</body></html>");
 		panel.add(label, BorderLayout.NORTH);
-		ArrayList names = new ArrayList();
+		ArrayList<String> names = new ArrayList<String>();
 		for(int i = 0; i < view.getTabbedPane().getTabCount(); i++) {
 			names.add(view.getTabbedPane().getTitleAt(i));
 		}
