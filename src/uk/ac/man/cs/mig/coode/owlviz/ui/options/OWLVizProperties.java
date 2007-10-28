@@ -100,7 +100,7 @@ public class OWLVizProperties {
 
 	private Properties properties;
 
-	private ArrayList listeners;
+	private ArrayList<WeakReference<PropertyChangeListener>> listeners;
 
 
 	private OWLVizProperties() {
@@ -114,7 +114,7 @@ public class OWLVizProperties {
 		properties.setProperty(LAYOUT_DIRECTION, Integer.toString(DotGraphLayoutEngine.LAYOUT_TOP_TO_BOTTOM));
 		properties.setProperty(RANK_SPACING, Double.toString(1.0));
 		properties.setProperty(SIBLING_SPACING, Double.toString(0.2));
-		listeners = new ArrayList();
+		listeners = new ArrayList<WeakReference<PropertyChangeListener>>();
 	}
 
 
@@ -309,10 +309,10 @@ public class OWLVizProperties {
 	 * @param lsnr
 	 */
 	public void removePropertyChangeListener(PropertyChangeListener lsnr) {
-		Iterator it = listeners.iterator();
-		WeakReference ref;
+		Iterator<WeakReference<PropertyChangeListener>> it = listeners.iterator();
+		WeakReference<PropertyChangeListener> ref;
 		while(it.hasNext()) {
-			ref = (WeakReference) it.next();
+			ref = it.next();
 			if(ref.get() == lsnr) {
 				it.remove();
 				break;
@@ -331,13 +331,13 @@ public class OWLVizProperties {
 	protected void firePropertyChangeEvent(String propertyName,
 	                                       String oldValue,
 	                                       String newValue) {
-		Iterator it = listeners.iterator();
+		Iterator<WeakReference<PropertyChangeListener>> it = listeners.iterator();
 		PropertyChangeEvent evt = new PropertyChangeEvent(this, propertyName, oldValue, newValue);
-		WeakReference ref;
+		WeakReference<PropertyChangeListener> ref;
 		while(it.hasNext()) {
-			ref = (WeakReference) it.next();
+			ref = it.next();
 			if(ref.get() != null) {
-				((PropertyChangeListener) ref.get()).propertyChange(evt);
+				ref.get().propertyChange(evt);
 			}
 			else {
 				// If there is no longer a refernece to the
