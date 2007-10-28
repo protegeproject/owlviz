@@ -16,7 +16,6 @@ public class OWLVizOptions {
 
 	private static OWLVizOptions instance;
 
-	private boolean displayHiddenClasses = false;
 	private boolean displayAnonymousClasses = false;
 	private boolean displayIndividuals = false;
 	private boolean groupClassesByNameSpace = false;
@@ -24,11 +23,11 @@ public class OWLVizOptions {
 	private boolean displayIsALabels = false;
 	private double edgeBrightness = 0.5;
 
-	private ArrayList listeners;
+	private ArrayList<OptionsChangedListener> listeners;
 
 
 	protected OWLVizOptions() {
-		listeners = new ArrayList();
+		listeners = new ArrayList<OptionsChangedListener>();
 	}
 
 
@@ -126,9 +125,9 @@ public class OWLVizOptions {
 
 
 	protected void fireOptionsChangedEvent() {
-		Iterator it = listeners.iterator();
+		Iterator<OptionsChangedListener> it = listeners.iterator();
 		while(it.hasNext()) {
-			((OptionsChangedListener) it.next()).optionsChanged();
+		    it.next().optionsChanged();
 		}
 	}
 
