@@ -27,7 +27,7 @@ public class DotLayoutEngineProperties {
     private static DotLayoutEngineProperties instance;
 
     public static final String DEFAULT_MAC_PATH = "/Applications/Graphviz.app/Contents/MacOS/dot";//"/usr/local/bin/dot";
-    public static final String DEFAULT_WINDOWS_PATH = "C:\\Program Files\\ATT\\GraphViz\\bin\\Dot";
+    public static final String DEFAULT_WINDOWS_PATH = "C:\\Program Files\\GraphViz\\bin\\Dot"; // was "C:\\Program Files\\ATT\\GraphViz\\bin\\Dot" until Mar 08
     public static final String DEFAULT_LINUX_PATH = "/usr/bin/dot";
 
 
