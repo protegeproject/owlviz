@@ -66,7 +66,10 @@ public class DotProcess {
 		catch(IOException ioEx) {
 			String errMsg = "An error related to DOT has occurred. " + "This error was probably because OWLViz could not" + " find the DOT application.  Please ensure that the" + " path to the DOT application is set properly";
 
-			String dlgErrMsg = "<html><body>An error related to DOT has occurred.<br>" + "This error was probably because OWLViz could not<br>" + " find the DOT application.  Please ensure that the<br>" + " path to the DOT application is set properly</body></html>";
+			String dlgErrMsg = "<html><body>A DOT error has occurred.<br>" +
+                    "This is probably because OWLViz could not find the DOT application.<br>" +
+                    "OWLViz requires that Graphviz (http://www.graphviz.org/) is installed<br>" +
+                    " and the path to the DOT application is set properly (in options).</body></html>";
 
 			JOptionPane.showMessageDialog(null, dlgErrMsg, "DOT Error", JOptionPane.ERROR_MESSAGE);
 			
