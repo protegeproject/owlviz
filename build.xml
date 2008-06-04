@@ -29,25 +29,28 @@
 	<!-- COMPILE -->
 	<!-- =================================================================== -->
 	<target name = "compile" depends = "init">    
-            <javac srcdir = "${src.dir}" destdir = "${owlviz.classes}" 
-                   debug="${debug}" source = "${source}" 
-                   includeAntRuntime = "${includeAntRuntime}">
+            <javac srcdir = "${src.dir}" destdir = "${owlviz.classes}" debug = "${debug}" source = "${source}" includeAntRuntime = "${includeAntRuntime}">
                 <classpath refid = "owlviz.classpath"/>
             </javac>
 	</target>
-	
 
 	<!-- ===================================================================================== -->
 	<!-- JAR - create the distribution JAR file that goes in the JPF "plugins" directory -->
 	<!-- ===================================================================================== -->
 	<target name = "bundle" depends = "compile">
-            <copy todir="${owlviz.classes}" file="${owlviz.dir}/plugin.xml"/>
-            <copy todir="${owlviz.classes}">
-                <fileset dir="${owlviz.dir}/resources"/>
+	
+            <copy todir = "${owlviz.classes}" file = "${owlviz.dir}/plugin.xml"/>
+
+            <copy todir = "${owlviz.classes}">
+                <fileset dir = "${owlviz.dir}/resources"/>
             </copy>
-	    <jar basedir = "${owlviz.classes}"
-                 destfile = "${owlviz.jar}"
-                 manifest = "${owlviz.dir}/META-INF/MANIFEST.MF"/>
+            
+			<!-- image files -->
+            <copy todir = "${owlviz.classes}/uk/ac/man/cs/mig/coode/owlviz/ui/image">
+                <fileset dir = "${src.dir}/uk/ac/man/cs/mig/coode/owlviz/ui/image"/>
+            </copy>
+
+	    <jar basedir = "${owlviz.classes}" destfile = "${owlviz.jar}" manifest = "${owlviz.dir}/META-INF/MANIFEST.MF"/>
 	</target>
         
 </project>
