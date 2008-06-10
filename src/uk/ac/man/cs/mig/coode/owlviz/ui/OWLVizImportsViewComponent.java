@@ -78,20 +78,23 @@ public class OWLVizImportsViewComponent extends AbstractOWLViewComponent {
         });
         controller.setNodeRenderer(new DefaultNodeRenderer(controller) {
 
-            private Color lineColor = OWLSystemColors.getOWLOntologyColor();
+            private Color lineColor = Color.LIGHT_GRAY;
 
             private Color activeOntologyFillColor = new Color(205, 220, 243);
+
+            public Color activeOntologiesLineColor = OWLSystemColors.getOWLOntologyColor();;
 
             protected Color getFillColor(Node node) {
                 if (node.getUserObject().equals(getOWLModelManager().getActiveOntology())) {
                     return activeOntologyFillColor;
                 }
-                else {
                     return Color.WHITE;
-                }
             }
 
             protected Color getLineColor(Node node) {
+                if (getOWLModelManager().getActiveOntologies().contains(node.getUserObject())){
+                    return activeOntologiesLineColor;
+                }
                 return lineColor;
             }
         });
