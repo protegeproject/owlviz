@@ -1,30 +1,30 @@
 package uk.ac.man.cs.mig.coode.owlviz.ui;
 
-import org.protege.editor.owl.ui.view.AbstractOWLViewComponent;
-import org.protege.editor.owl.ui.renderer.OWLSystemColors;
-import org.protege.editor.owl.model.event.OWLModelManagerListener;
-import org.protege.editor.owl.model.event.OWLModelManagerChangeEvent;
-import org.protege.editor.owl.model.event.EventType;
 import org.protege.editor.core.ui.util.ComponentFactory;
-import org.semanticweb.owl.model.*;
+import org.protege.editor.owl.model.event.EventType;
+import org.protege.editor.owl.model.event.OWLModelManagerChangeEvent;
+import org.protege.editor.owl.model.event.OWLModelManagerListener;
+import org.protege.editor.owl.ui.renderer.OWLSystemColors;
+import org.protege.editor.owl.ui.view.AbstractOWLViewComponent;
+import org.semanticweb.owl.model.OWLImportsDeclaration;
+import org.semanticweb.owl.model.OWLOntology;
+import org.semanticweb.owl.model.OWLOntologyChangeListener;
 import org.semanticweb.owl.util.FilteringOWLOntologyChangeListener;
-
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.HierarchyListener;
-import java.awt.event.HierarchyEvent;
-
+import uk.ac.man.cs.mig.coode.owlviz.model.OWLOntologyImportsGraphModel;
 import uk.ac.man.cs.mig.util.graph.controller.Controller;
 import uk.ac.man.cs.mig.util.graph.controller.impl.DefaultController;
+import uk.ac.man.cs.mig.util.graph.event.NodeClickedEvent;
+import uk.ac.man.cs.mig.util.graph.event.NodeClickedListener;
+import uk.ac.man.cs.mig.util.graph.graph.Node;
 import uk.ac.man.cs.mig.util.graph.renderer.NodeLabelRenderer;
 import uk.ac.man.cs.mig.util.graph.renderer.impl.DefaultNodeRenderer;
-import uk.ac.man.cs.mig.util.graph.graph.Node;
 import uk.ac.man.cs.mig.util.graph.ui.GraphView;
-import uk.ac.man.cs.mig.util.graph.event.NodeClickedListener;
-import uk.ac.man.cs.mig.util.graph.event.NodeClickedEvent;
-import uk.ac.man.cs.mig.coode.owlviz.model.OWLOntologyImportsGraphModel;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.HierarchyEvent;
+import java.awt.event.HierarchyListener;
 
 
 /**
@@ -102,8 +102,12 @@ public class OWLVizImportsViewComponent extends AbstractOWLViewComponent {
         graphView.addNodeClickedListener(new NodeClickedListener() {
             public void nodeClicked(NodeClickedEvent evt) {
                 if (SwingUtilities.isRightMouseButton(evt.getMouseEvent())) {
-                    // Show mouse
+                    // Show right click menu
                     showPopupMenu(evt);
+                }
+                else if (evt.getMouseEvent().getClickCount() == 2){
+                    OWLOntology ont = (OWLOntology) evt.getNode().getUserObject();
+                    getOWLModelManager().setActiveOntology(ont);
                 }
             }
         });
