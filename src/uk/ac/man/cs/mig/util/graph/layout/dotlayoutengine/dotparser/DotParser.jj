@@ -16,7 +16,7 @@ options
 
 PARSER_BEGIN(DotParser)
 
-package uk.ac.man.cs.mig.util.tree.layout.dotlayoutengine.dotparser;
+package uk.ac.man.cs.mig.util.graph.layout.dotlayoutengine.dotparser;
 import java.io.*;
 import java.util.*;
 
@@ -83,7 +83,7 @@ SKIP: {" "}
 SKIP: {"\n" | "\r" | "\t"}
 
 TOKEN: {<KWSTRICT: "strict">}
-TOKEN: {<KWGRAPH: "tree">}
+TOKEN: {<KWGRAPH: "graph">}
 TOKEN: {<KWDIGRAPH: "digraph">}
 TOKEN: {<KWSUBGRAPH: "subgraph">}
 TOKEN: {<KWNODE: "node">}
@@ -95,7 +95,7 @@ TOKEN: {<COMMA: ",">}
 TOKEN: {<EDGEOP: "->">}
 
 TOKEN: {<ID: ("\""(~["\""])*"\"") | (<ALPHANUM> (<ALPHANUM> | "_")*)>}
-TOKEN: {<#ALPHA: ["a"-"z"] | ["A"-"Z"]>}
+TOKEN: {<#ALPHA: ["a"-"z"] | ["A"-"Z"] | ["\u00A1"-"\u00FF"] | ["\u0100"-"\u024f"] | ["\uAC00"-"\uD7AF"]>}
 TOKEN: {<#NUM: ["0"-"9"]>}
 TOKEN: {<#ALPHANUM: <ALPHA>|<NUM>>}
 
@@ -104,10 +104,10 @@ void start():
 {
 }
 {
-	tree()
+	graph()
 }
 
-void tree():
+void graph():
 {
 }
 {
