@@ -5,14 +5,14 @@ import uk.ac.man.cs.mig.util.graph.controller.GraphSelectionModel;
 import uk.ac.man.cs.mig.util.graph.controller.VisualisedObjectManager;
 import uk.ac.man.cs.mig.util.graph.controller.impl.DefaultController;
 import uk.ac.man.cs.mig.util.graph.event.*;
+import uk.ac.man.cs.mig.util.graph.factory.EdgeFactory;
+import uk.ac.man.cs.mig.util.graph.factory.GraphFactory;
+import uk.ac.man.cs.mig.util.graph.factory.NodeFactory;
 import uk.ac.man.cs.mig.util.graph.model.GraphModel;
 import uk.ac.man.cs.mig.util.graph.model.impl.DefaultGraphModel;
 import uk.ac.man.cs.mig.util.graph.renderer.EdgeRenderer;
 import uk.ac.man.cs.mig.util.graph.renderer.NodeLabelRenderer;
 import uk.ac.man.cs.mig.util.graph.renderer.NodeRenderer;
-import uk.ac.man.cs.mig.util.graph.factory.NodeFactory;
-import uk.ac.man.cs.mig.util.graph.factory.EdgeFactory;
-import uk.ac.man.cs.mig.util.graph.factory.GraphFactory;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -43,9 +43,17 @@ public class GraphComponent extends JComponent implements ThumbnailViewSource {
 
 	private ArrayList<ThumbnailViewSourceListener> thumbnailViewSourceListeners;
 
+    private String name;
 
-	public GraphComponent() {
-		controller = new DefaultController(new DefaultGraphModel());
+
+    public GraphComponent() {
+        this("Unnamed");
+    }
+    
+    public GraphComponent(String name) {
+        this.name = name;
+
+        controller = new DefaultController(new DefaultGraphModel());
 
 		this.setLayout(new BorderLayout());
 
@@ -78,6 +86,10 @@ public class GraphComponent extends JComponent implements ThumbnailViewSource {
 		return controller.getGraphView();
 	}
 
+
+    public String getName() {
+        return name;
+    }
 
 //	public Object[] getObjects() {
 //		return controller.getVisualisedObjectManager().getVisualisedObjects();

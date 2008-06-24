@@ -1,45 +1,10 @@
 package uk.ac.man.cs.mig.coode.owlviz.ui;
 
-import java.awt.BorderLayout;
-import java.awt.Frame;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.awt.dnd.DropTarget;
-import java.awt.dnd.DropTargetDragEvent;
-import java.awt.dnd.DropTargetDropEvent;
-import java.awt.dnd.DropTargetEvent;
-import java.awt.dnd.DropTargetListener;
-import java.awt.event.ContainerEvent;
-import java.awt.event.ContainerListener;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.swing.JPopupMenu;
-import javax.swing.JTabbedPane;
-import javax.swing.JToolBar;
-import javax.swing.SwingUtilities;
-
 import org.protege.editor.owl.ui.transfer.OWLObjectDataFlavor;
 import org.protege.editor.owl.ui.view.AbstractOWLClassViewComponent;
 import org.semanticweb.owl.model.OWLClass;
 import org.semanticweb.owl.model.OWLObject;
-
-import uk.ac.man.cs.mig.coode.owlviz.command.HideAllClassesCommand;
-import uk.ac.man.cs.mig.coode.owlviz.command.HideClassCommand;
-import uk.ac.man.cs.mig.coode.owlviz.command.HideClassesPastRadiusCommand;
-import uk.ac.man.cs.mig.coode.owlviz.command.HideSubclassesCommand;
-import uk.ac.man.cs.mig.coode.owlviz.command.SetOptionsCommand;
-import uk.ac.man.cs.mig.coode.owlviz.command.ShowAllClassesCommand;
-import uk.ac.man.cs.mig.coode.owlviz.command.ShowClassCommand;
-import uk.ac.man.cs.mig.coode.owlviz.command.ShowSubclassesCommand;
-import uk.ac.man.cs.mig.coode.owlviz.command.ShowSuperclassesCommand;
-import uk.ac.man.cs.mig.coode.owlviz.command.ZoomInCommand;
-import uk.ac.man.cs.mig.coode.owlviz.command.ZoomOutCommand;
+import uk.ac.man.cs.mig.coode.owlviz.command.*;
 import uk.ac.man.cs.mig.coode.owlviz.model.OWLClassGraphAssertedModel;
 import uk.ac.man.cs.mig.coode.owlviz.model.OWLClassGraphInferredModel;
 import uk.ac.man.cs.mig.coode.owlviz.ui.options.DotProcessPathPage;
@@ -54,9 +19,18 @@ import uk.ac.man.cs.mig.util.graph.event.NodeClickedListener;
 import uk.ac.man.cs.mig.util.graph.export.ExportFormatManager;
 import uk.ac.man.cs.mig.util.graph.export.impl.JPEGExportFormat;
 import uk.ac.man.cs.mig.util.graph.export.impl.PNGExportFormat;
-import uk.ac.man.cs.mig.util.graph.export.impl.SVGExportFormat;
 import uk.ac.man.cs.mig.util.graph.layout.dotlayoutengine.DotGraphLayoutEngine;
 import uk.ac.man.cs.mig.util.graph.ui.GraphComponent;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.dnd.*;
+import java.awt.event.ContainerEvent;
+import java.awt.event.ContainerListener;
+import java.io.IOException;
+import java.util.*;
+import java.util.List;
 
 /**
  * User: matthewhorridge<br>
@@ -77,8 +51,6 @@ public class OWLVizView extends AbstractOWLClassViewComponent implements DropTar
     private HashSet closableTabs;
 
     private JTabbedPane tabbedPane;
-
-    private JPopupMenu closeMenu;
 
     private Map<OWLVizGraphPanel,List<GraphComponent>> componentGroupMap;
 
@@ -157,19 +129,18 @@ public class OWLVizView extends AbstractOWLClassViewComponent implements DropTar
         tabbedPane = new JTabbedPane();
         add(tabbedPane);
 
-        // OWLModel model = (OWLModel) getKnowledgeBase();
-
         ///////////////////////////////////////////////////////////////////////
         //
         // Build the asserted subclass hierarchy tabs
         //
         //////////////////////////////////////////////////////////////////////
         assertedGraphModel = new OWLClassGraphAssertedModel(getOWLModelManager());
-        OWLVizGraphPanel assertedPanel = new OWLVizGraphPanel(this, getOWLEditorKit(),
+        OWLVizGraphPanel assertedPanel = new OWLVizGraphPanel("Asserted model",
+                                                              this, getOWLEditorKit(),
                                                               assertedGraphModel);
         assertedGraphComponent = assertedPanel.getGraphComponent();
         setupListeners(assertedGraphComponent);
-        tabbedPane.add("Asserted model", assertedPanel);
+        tabbedPane.add(assertedPanel.getName(), assertedPanel);
         graphComponents.add(assertedGraphComponent);
 
         ///////////////////////////////////////////////////////////////////////
@@ -178,10 +149,11 @@ public class OWLVizView extends AbstractOWLClassViewComponent implements DropTar
         //
         //////////////////////////////////////////////////////////////////////
         inferredGraphModel = new OWLClassGraphInferredModel(getOWLModelManager());
-        OWLVizGraphPanel inferredPanel = new OWLVizGraphPanel(this,
-                                                              getOWLEditorKit(), inferredGraphModel);
+        OWLVizGraphPanel inferredPanel = new OWLVizGraphPanel("Inferred model",
+                                                              this, getOWLEditorKit(),
+                                                              inferredGraphModel);
         inferredGraphComponent = inferredPanel.getGraphComponent();
-        tabbedPane.add("Inferred model", inferredPanel);
+        tabbedPane.add(inferredPanel.getName(), inferredPanel);
         graphComponents.add(inferredGraphComponent);
 
         // Group the asserted and inferred hierarchy tabs, so that operations
@@ -277,6 +249,7 @@ public class OWLVizView extends AbstractOWLClassViewComponent implements DropTar
 
         addAction(new ZoomOutCommand(this), "B", "A");
         addAction(new ZoomInCommand(this), "B", "A");
+        addAction(new ExportCommand(this), "C", "A");
         addAction(new SetOptionsCommand(this, setupOptionsDialog()), "D", "A");
         return toolBar;
     }
@@ -284,7 +257,7 @@ public class OWLVizView extends AbstractOWLClassViewComponent implements DropTar
     protected void setupExportFormats() {
         ExportFormatManager.addExportFormat(new PNGExportFormat());
         ExportFormatManager.addExportFormat(new JPEGExportFormat());
-        ExportFormatManager.addExportFormat(new SVGExportFormat());
+        //ExportFormatManager.addExportFormat(new SVGExportFormat());
         //ExportFormatManager.addExportFormat(new DotExportFormat((OWLModel) getKnowledgeBase()));
     }
 

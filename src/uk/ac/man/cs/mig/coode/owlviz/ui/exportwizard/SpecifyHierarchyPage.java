@@ -1,12 +1,15 @@
 package uk.ac.man.cs.mig.coode.owlviz.ui.exportwizard;
 
-import uk.ac.man.cs.mig.util.wizard.WizardPage;
-import uk.ac.man.cs.mig.util.graph.ui.GraphComponent;
 import uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizView;
+import uk.ac.man.cs.mig.util.graph.ui.GraphComponent;
+import uk.ac.man.cs.mig.util.wizard.WizardPage;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * User: matthewhorridge<br>
@@ -18,9 +21,6 @@ import java.util.ArrayList;
  * www.cs.man.ac.uk/~horridgm<br><br>
  */
 public class SpecifyHierarchyPage extends WizardPage {
-
-	private JRadioButton assertedHierarchyButton;
-	private JRadioButton inferredHierarchyButton;
 
 	private OWLVizView view;
 	private JList tabList;
@@ -41,31 +41,25 @@ public class SpecifyHierarchyPage extends WizardPage {
 		JPanel panel = new JPanel(new BorderLayout(12, 12));
 		JLabel label = new JLabel("<html><body>Please select the hierarchy that you would<br>" + "like to export.</body></html>");
 		panel.add(label, BorderLayout.NORTH);
-		ArrayList<String> names = new ArrayList<String>();
-		for(int i = 0; i < view.getTabbedPane().getTabCount(); i++) {
-			names.add(view.getTabbedPane().getTitleAt(i));
-		}
-		tabList = new JList(names.toArray());
-		tabList.setSelectedIndex(0);
-//		Box box = new Box(BoxLayout.Y_AXIS);
-//		box.add(assertedHierarchyButton = new JRadioButton("Asserted hierarchy", true));
-//		box.add(Box.createVerticalStrut(12));
-//		box.add(inferredHierarchyButton = new JRadioButton("Inferred hierarchy"));
-//		ButtonGroup buttonGroup = new ButtonGroup();
-//		buttonGroup.add(assertedHierarchyButton);
-//		buttonGroup.add(inferredHierarchyButton);
-//		box.setBorder(BorderFactory.createEmptyBorder(12, 12, 12, 12));
-//		panel.add(box);
+        List<GraphComponent> sortedGraphs = new ArrayList<GraphComponent>(view.getGraphComponents());
+        Collections.sort(sortedGraphs, new Comparator<GraphComponent>(){
+            public int compare(GraphComponent graphComponent, GraphComponent graphComponent1) {
+                return graphComponent.getName().compareToIgnoreCase(graphComponent1.getName());
+            }
+        });
+        tabList = new JList(sortedGraphs.toArray());
+        tabList.setCellRenderer(new DefaultListCellRenderer(){
+            public Component getListCellRendererComponent(JList list, Object value, int index, boolean sel, boolean focused) {
+                return super.getListCellRendererComponent(list, ((GraphComponent)value).getName(), index, sel, focused);
+            }
+        });
+        tabList.setSelectedIndex(0);
 		panel.add(new JScrollPane(tabList));
 		return panel;
 	}
 
 	public GraphComponent getSelectedGraphComponent() {
-		int index = tabList.getSelectedIndex();
-		if(index > -1) {
-			return (GraphComponent) view.getGraphComponents().toArray()[index];
-		}
-		return view.getAssertedGraphComponent();
+		return (GraphComponent)tabList.getSelectedValue();
 	}
 }
 

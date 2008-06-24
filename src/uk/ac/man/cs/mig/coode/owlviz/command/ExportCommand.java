@@ -1,11 +1,11 @@
 package uk.ac.man.cs.mig.coode.owlviz.command;
 
+import org.protege.editor.owl.ui.view.OWLSelectionViewAction;
 import uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizIcons;
 import uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizView;
 import uk.ac.man.cs.mig.coode.owlviz.ui.exportwizard.SelectFormatPage;
 import uk.ac.man.cs.mig.coode.owlviz.ui.exportwizard.SpecifyFileNamePage;
 import uk.ac.man.cs.mig.coode.owlviz.ui.exportwizard.SpecifyHierarchyPage;
-import uk.ac.man.cs.mig.util.graph.controller.Controller;
 import uk.ac.man.cs.mig.util.graph.export.ExportFormat;
 import uk.ac.man.cs.mig.util.graph.ui.GraphComponent;
 import uk.ac.man.cs.mig.util.wizard.Wizard;
@@ -24,10 +24,7 @@ import java.io.*;
  * matthew.horridge@cs.man.ac.uk<br>
  * www.cs.man.ac.uk/~horridgm<br><br>
  */
-public class ExportCommand extends AbstractAction {
-
-	private Controller assertedController;
-	private Controller inferredController;
+public class ExportCommand extends OWLSelectionViewAction {
 
 	private Wizard wizard;
 	private SelectFormatPage formatPage;
@@ -123,5 +120,15 @@ public class ExportCommand extends AbstractAction {
 		GraphComponent graphComponent = hierarchyPage.getSelectedGraphComponent();
 		exportFormat.export(graphComponent.getController(), os);
 	}
+
+
+    public void updateState() {
+        setEnabled(true);
+    }
+
+
+    public void dispose() {
+        // do nothing
+    }
 }
 

@@ -1,10 +1,14 @@
 package uk.ac.man.cs.mig.coode.owlviz.ui;
 
+import org.protege.editor.owl.OWLEditorKit;
+import org.protege.editor.owl.model.OWLModelManager;
+import org.semanticweb.owl.model.OWLClass;
+import org.semanticweb.owl.model.OWLEntity;
+import uk.ac.man.cs.mig.coode.owlviz.command.*;
+import uk.ac.man.cs.mig.coode.owlviz.ui.popup.OWLObjectPopupProvider;
 import uk.ac.man.cs.mig.coode.owlviz.ui.renderer.OWLClsEdgeRenderer;
 import uk.ac.man.cs.mig.coode.owlviz.ui.renderer.OWLClsNodeLabelRenderer;
 import uk.ac.man.cs.mig.coode.owlviz.ui.renderer.OWLClsNodeRenderer;
-import uk.ac.man.cs.mig.coode.owlviz.ui.popup.OWLObjectPopupProvider;
-import uk.ac.man.cs.mig.coode.owlviz.command.*;
 import uk.ac.man.cs.mig.util.graph.event.GraphSelectionModelEvent;
 import uk.ac.man.cs.mig.util.graph.event.GraphSelectionModelListener;
 import uk.ac.man.cs.mig.util.graph.event.NodeClickedEvent;
@@ -16,11 +20,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
-import org.semanticweb.owl.model.OWLEntity;
-import org.semanticweb.owl.model.OWLClass;
-import org.protege.editor.owl.model.OWLModelManager;
-import org.protege.editor.owl.OWLEditorKit;
 
 /**
  * User: matthewhorridge<br>
@@ -44,12 +43,21 @@ public class OWLVizGraphPanel extends JPanel {
 
     private OWLVizSelectionListener owlVizSelectionListener;
 
+    
     public OWLVizGraphPanel(OWLVizView view,
+                            OWLEditorKit owlEditorKit,
+                            GraphModel graphModel) {
+        this("Unnamed", view, owlEditorKit, graphModel);
+    }
+
+
+    public OWLVizGraphPanel(String name,
+                            OWLVizView view,
                             OWLEditorKit owlEditorKit,
                             GraphModel graphModel) {
         this.view = view;
         this.owlEditorKit = owlEditorKit;
-        graphComponent = new GraphComponent();
+        graphComponent = new GraphComponent(name);
         graphComponent.setGraphModel(graphModel);
         graphComponent.setNodeLabelRenderer(new OWLClsNodeLabelRenderer(getOWLModelManager()));
         graphComponent.setNodeRenderer(new OWLClsNodeRenderer(graphComponent.getController(),
@@ -60,14 +68,14 @@ public class OWLVizGraphPanel extends JPanel {
 
         // Create the thumbnail splitter that contains the treePanel
         // and thumbnail
-   //     JSplitPane thumbnailSplitter = new JSplitPane(JSplitPane.VERTICAL_SPLIT, false);
+//        JSplitPane thumbnailSplitter = new JSplitPane(JSplitPane.VERTICAL_SPLIT, false);
 //        thumbnailSplitter.add(treePanel, JSplitPane.TOP);
      //   thumbnailSplitter.add(new DefaultThumbnailView(graphComponent), JSplitPane.BOTTOM);
     //    JSplitPane splitter = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, false);
       //  splitter.add(graphComponent, JSplitPane.RIGHT);
      //   splitter.add(thumbnailSplitter, JSplitPane.LEFT);
         panel.add(graphComponent);
-        OWLObjectPopupProvider  popupProvider = new OWLObjectPopupProvider("Asserted", owlEditorKit);
+        OWLObjectPopupProvider  popupProvider = new OWLObjectPopupProvider(name, owlEditorKit);
         graphComponent.setPopupProvider(popupProvider);
         createPopupMenu();
         setupListeners();
@@ -86,6 +94,11 @@ public class OWLVizGraphPanel extends JPanel {
         popupMenu.add(new HideSubclassesCommand(view));
         popupMenu.add(new HideAllClassesCommand(view));
         popupMenu.addSeparator();
+    }
+
+
+    public String getName(){
+        return graphComponent.getName();
     }
 
 
