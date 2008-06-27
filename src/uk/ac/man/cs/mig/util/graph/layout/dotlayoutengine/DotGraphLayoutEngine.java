@@ -74,7 +74,7 @@ public class DotGraphLayoutEngine implements GraphLayoutEngine
 
 		        file.deleteOnExit();
 
-		    //    System.out.println("TRACE(DotGraphLayoutEngine): TempFile: " + file.getAbsolutePath());
+		        System.out.println("TRACE(DotGraphLayoutEngine): TempFile: " + file.getAbsolutePath());
 
 	            FileOutputStream fos = new FileOutputStream(file);
 
