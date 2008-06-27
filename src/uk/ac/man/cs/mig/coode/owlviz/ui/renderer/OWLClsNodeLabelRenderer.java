@@ -1,9 +1,9 @@
 package uk.ac.man.cs.mig.coode.owlviz.ui.renderer;
 
+import org.protege.editor.owl.model.OWLModelManager;
+import org.semanticweb.owl.model.OWLEntity;
 import uk.ac.man.cs.mig.util.graph.graph.Node;
 import uk.ac.man.cs.mig.util.graph.renderer.NodeLabelRenderer;
-import org.semanticweb.owl.model.OWLEntity;
-import org.protege.editor.owl.model.OWLModelManager;
 
 /**
  * User: matthewhorridge<br>
@@ -31,7 +31,7 @@ public class OWLClsNodeLabelRenderer implements NodeLabelRenderer {
     public String getLabel(Node node) {
         Object obj = node.getUserObject();
         if(obj instanceof OWLEntity) {
-            return owlModelManager.getOWLEntityRenderer().render((OWLEntity) obj);
+            return owlModelManager.getRendering((OWLEntity) obj);
         }
         return "";
     }

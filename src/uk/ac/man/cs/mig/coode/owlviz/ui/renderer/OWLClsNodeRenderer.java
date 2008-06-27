@@ -1,5 +1,12 @@
 package uk.ac.man.cs.mig.coode.owlviz.ui.renderer;
 
+import org.apache.log4j.Logger;
+import org.protege.editor.owl.model.OWLModelManager;
+import org.semanticweb.owl.inference.OWLReasonerException;
+import org.semanticweb.owl.model.OWLClass;
+import org.semanticweb.owl.model.OWLEntity;
+import org.semanticweb.owl.model.OWLOntology;
+import org.semanticweb.owl.model.OWLRuntimeException;
 import uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizIcons;
 import uk.ac.man.cs.mig.coode.owlviz.ui.options.OWLVizOptions;
 import uk.ac.man.cs.mig.util.graph.controller.Controller;
@@ -12,11 +19,6 @@ import uk.ac.man.cs.mig.util.graph.renderer.NodeRenderer;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
-
-import org.semanticweb.owl.model.*;
-import org.semanticweb.owl.inference.OWLReasonerException;
-import org.protege.editor.owl.model.OWLModelManager;
-import org.apache.log4j.Logger;
 
 /**
  * User: matthewhorridge<br>
@@ -265,7 +267,7 @@ public class OWLClsNodeRenderer implements NodeRenderer {
 
                 Point pos = node.getPosition();
                 String label = " ";
-                label = owlModelManager.getOWLEntityRenderer().render((OWLEntity) userObject);
+                label = owlModelManager.getRendering((OWLEntity) userObject);
                 Font f = g2.getFont();
                 g2.setFont(labelFont);
                 g2.setColor(getTextColor(userObject));
@@ -284,7 +286,7 @@ public class OWLClsNodeRenderer implements NodeRenderer {
     public Dimension getPreferredSize(Node node,
                                       Dimension size) {
         if (node.getUserObject() instanceof OWLClass) {
-            String label = owlModelManager.getOWLEntityRenderer().render(((OWLClass) node.getUserObject()));
+            String label = owlModelManager.getRendering(((OWLClass) node.getUserObject()));
             int width = SwingUtilities.computeStringWidth(fontMetrics, label);
             int height = fontMetrics.getHeight();
             if (size != null) {
