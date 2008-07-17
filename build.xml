@@ -1,12 +1,12 @@
 <?xml version = "1.0" encoding = "utf-8"?>
 <project name = "owlviz" default = "compile" basedir = "..">
 
-	<property name = "src.dir" value = "${owlviz.dir}/src"/>
+    <property name = "src.dir" value = "${owlviz.dir}/src"/>
 
-	<!-- =================================================================== -->
-	<!-- Classpath declaration - used in the "compile" target -->
-	<!-- =================================================================== -->
-	<path id = "owlviz.classpath">    
+    <!-- =================================================================== -->
+    <!-- Classpath declaration - used in the "compile" target -->
+    <!-- =================================================================== -->
+    <path id = "owlviz.classpath">    
             <path refid="osgi.libs"/>
             <pathelement path="${commonlibs.jar}"/>
             <path refid="commonlibs.classpath"/>
@@ -14,43 +14,46 @@
             <path refid="core.classpath"/>
             <pathelement path="${owleditor.jar}"/>
             <path refid="owlapi.classpath"/>
-	</path>
+    </path>
 
-	<!-- =================================================================== -->
-	<!-- INIT -->
-	<!-- =================================================================== -->
-	<target name = "init">
+    <!-- =================================================================== -->
+    <!-- INIT -->
+    <!-- =================================================================== -->
+    <target name = "init">
             <echo message="---------------Building the Owlviz Plugin -------------"/>
             <tstamp/>
             <mkdir dir = "${owlviz.classes}"/>
-	</target>  
+    </target>  
 
-	<!-- =================================================================== -->
-	<!-- COMPILE -->
-	<!-- =================================================================== -->
-	<target name = "compile" depends = "init">    
+    <!-- =================================================================== -->
+    <!-- COMPILE -->
+    <!-- =================================================================== -->
+    <target name = "compile" depends = "init">    
             <javac srcdir = "${src.dir}" destdir = "${owlviz.classes}" debug = "${debug}" source = "${source}" includeAntRuntime = "${includeAntRuntime}">
                 <classpath refid = "owlviz.classpath"/>
             </javac>
-	</target>
+    </target>
 
-	<!-- ===================================================================================== -->
-	<!-- JAR - create the distribution JAR file that goes in the JPF "plugins" directory -->
-	<!-- ===================================================================================== -->
-	<target name = "bundle" depends = "compile">
-	
+    <!-- ===================================================================================== -->
+    <!-- JAR - create the distribution JAR file that goes in the JPF "plugins" directory -->
+    <!-- ===================================================================================== -->
+    <target name = "bundle" depends = "compile">
+    
             <copy todir = "${owlviz.classes}" file = "${owlviz.dir}/plugin.xml"/>
 
             <copy todir = "${owlviz.classes}">
                 <fileset dir = "${owlviz.dir}/resources"/>
             </copy>
             
-			<!-- image files -->
+            <!-- image files -->
             <copy todir = "${owlviz.classes}/uk/ac/man/cs/mig/coode/owlviz/ui/image">
                 <fileset dir = "${src.dir}/uk/ac/man/cs/mig/coode/owlviz/ui/image"/>
             </copy>
 
-	    <jar basedir = "${owlviz.classes}" destfile = "${owlviz.jar}" manifest = "${owlviz.dir}/META-INF/MANIFEST.MF"/>
-	</target>
+        <jar basedir = "${owlviz.classes}" destfile = "${owlviz.jar}" manifest = "${owlviz.dir}/META-INF/MANIFEST.MF"/>
+    </target>
+
+        <target name = "junit"/>
+
         
 </project>
