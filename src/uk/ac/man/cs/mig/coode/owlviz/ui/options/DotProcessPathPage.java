@@ -1,15 +1,14 @@
 package uk.ac.man.cs.mig.coode.owlviz.ui.options;
 
+import org.protege.editor.core.ui.util.UIUtil;
 import uk.ac.man.cs.mig.util.graph.layout.dotlayoutengine.DotLayoutEngineProperties;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.util.Set;
-import java.util.HashSet;
 import java.io.File;
-
-import org.protege.editor.core.ui.util.UIUtil;
+import java.util.HashSet;
+import java.util.Set;
 
 
 /**
@@ -47,7 +46,6 @@ public class DotProcessPathPage extends OptionsPage {
         gbc.anchor = GridBagConstraints.NORTHWEST;
         panel.add(label, gbc);
         pathField = new JTextField(15);
-        pathField.setEditable(false);
         gbc.gridx = 1;
         gbc.gridy = 0;
         gbc.gridwidth = 1;
