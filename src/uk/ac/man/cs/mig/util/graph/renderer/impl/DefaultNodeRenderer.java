@@ -16,6 +16,8 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import org.apache.log4j.Logger;
+
 import uk.ac.man.cs.mig.util.graph.controller.Controller;
 import uk.ac.man.cs.mig.util.graph.controller.VisualisedObjectManager;
 import uk.ac.man.cs.mig.util.graph.graph.Node;
@@ -34,6 +36,7 @@ import uk.ac.man.cs.mig.util.graph.renderer.NodeRenderer;
  */
 public class DefaultNodeRenderer implements NodeRenderer
 {
+    private static Logger log = Logger.getLogger(DefaultNodeRenderer.class);
 //	private NodeLabelRenderer labelRenderer;
 
 	private static Color fillColor;
@@ -70,14 +73,14 @@ public class DefaultNodeRenderer implements NodeRenderer
 
 		if(labelFont == null)
 		{
-			System.out.println("Font is NULL!");
+			log.error("Font is NULL!");
 		}
 
 		fontMetrics = pan.getFontMetrics(labelFont);
 
 		if(fontMetrics == null)
 		{
-			System.out.println("Font metrics is NULL!");
+			log.error("Font metrics is NULL!");
 		}
 
 		if(visualisedObjectManager == null)

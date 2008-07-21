@@ -1,16 +1,20 @@
 package uk.ac.man.cs.mig.util.graph.export.impl;
 
-import uk.ac.man.cs.mig.util.graph.controller.Controller;
-import uk.ac.man.cs.mig.util.graph.export.ExportFormat;
-
-import javax.imageio.ImageIO;
-import javax.imageio.ImageWriter;
-import javax.imageio.stream.ImageOutputStream;
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Iterator;
+
+import javax.imageio.ImageIO;
+import javax.imageio.ImageWriter;
+import javax.imageio.stream.ImageOutputStream;
+
+import org.apache.log4j.Logger;
+
+import uk.ac.man.cs.mig.util.graph.controller.Controller;
+import uk.ac.man.cs.mig.util.graph.export.ExportFormat;
 
 /**
  * User: matthewhorridge<br>
@@ -22,6 +26,7 @@ import java.util.Iterator;
  * www.cs.man.ac.uk/~horridgm<br><br>
  */
 public abstract class AbstractRasterFormat implements ExportFormat {
+    private static Logger log = Logger.getLogger(AbstractRasterFormat.class);
 
 	private String format;
 	private boolean antialiased = true;
@@ -79,7 +84,7 @@ public abstract class AbstractRasterFormat implements ExportFormat {
 				}
 			}
 			else {
-				System.out.println("No image writer available for the " + format + " format.");
+				log.error("No image writer available for the " + format + " format.");
 			}
 		}
 	}

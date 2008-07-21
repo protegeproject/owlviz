@@ -141,14 +141,6 @@ public class PopupComponent extends JComponent
         int yPosOnRoot = SwingUtilities.convertPoint(component, x, y, rootComp).y;
 
 
-      //System.out.println("TRACE(PopupComponent: showPopup): VisibleRect: " + component.getVisibleRect());
-
-      //System.out.println("\t\tTRACE(PopupComponent: showPopup): MaxX: " + componentMaxX);
-
-      //System.out.println("\t\tTRACE(PopupComponent: showPopup): MaxY: " + componentMaxY);
-
-
-
         // Display to the right of the mouse cursor, unless
         // there is not enough room
         int deltaX = xPosOnRoot + content.getWidth() - componentMaxX;
@@ -427,11 +419,8 @@ public class PopupComponent extends JComponent
     {
         if(POPUP_IS_MODAL == false)
         {
-            //System.out.println("TRACE(PopupComponentTest: propagateMouseListenerEvent)");
 
             Component deepestComponent = getDeepestComponent(e.getPoint());
-
-            //System.out.println("\tTRACE(PopupComponentTest: propagateMouseListenerEvent) Deepestcomponent: " + deepestComponent);
 
             if(deepestComponent != null)
             {
@@ -474,9 +463,6 @@ public class PopupComponent extends JComponent
                     {
                         mouseListeners[i].mouseClicked(evt);
                     }
-
-
-                  //  System.out.println("TRACE(PopupComponent: PropagateMouseEvent): deepest comp: " + deepestComponent);
 
                 }
             }

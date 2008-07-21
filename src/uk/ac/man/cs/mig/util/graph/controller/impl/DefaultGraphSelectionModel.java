@@ -1,11 +1,13 @@
 package uk.ac.man.cs.mig.util.graph.controller.impl;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import org.apache.log4j.Logger;
+
 import uk.ac.man.cs.mig.util.graph.controller.GraphSelectionModel;
 import uk.ac.man.cs.mig.util.graph.event.GraphSelectionModelEvent;
 import uk.ac.man.cs.mig.util.graph.event.GraphSelectionModelListener;
-
-import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * User: matthewhorridge<br>
@@ -19,13 +21,13 @@ import java.util.Iterator;
  */
 public class DefaultGraphSelectionModel implements GraphSelectionModel
 {
+    private static Logger log = Logger.getLogger(DefaultGraphSelectionModel.class);
 
 	private Object selObj;
 
 	private ArrayList listeners;
 	private GraphSelectionModelEvent evt;
 
-	private static final boolean EVENTDEBUG = false;
 
 	public DefaultGraphSelectionModel()
 	{
@@ -128,9 +130,9 @@ public class DefaultGraphSelectionModel implements GraphSelectionModel
 	 */
 	protected void fireNodeSelectionChangedEvent()
 	{
-		if(EVENTDEBUG)
+		if(log.isDebugEnabled())
 		{
-			System.out.println("TRACE(DefaultGraphSelectionModel) firing node selection changed event");
+			log.debug("TRACE(DefaultGraphSelectionModel) firing node selection changed event");
 		}
 
 		for(int i = 0; i < listeners.size(); i++)

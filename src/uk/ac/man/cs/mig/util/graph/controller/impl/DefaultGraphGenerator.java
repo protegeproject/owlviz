@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 import uk.ac.man.cs.mig.util.graph.controller.Controller;
 import uk.ac.man.cs.mig.util.graph.controller.GraphGenerator;
 import uk.ac.man.cs.mig.util.graph.controller.VisualisedObjectManager;
@@ -37,6 +39,8 @@ import uk.ac.man.cs.mig.util.graph.renderer.NodeRenderer;
  */
 public class DefaultGraphGenerator implements GraphGenerator
 {
+    private static Logger log = Logger.getLogger(DefaultGraphGenerator.class);
+
 	private Graph graph; // The graph that we generate
 	private VisualisedObjectManager visualisedObjectManager; // The manager that the graph is generated for
 	private VisualisedObjectManagerListener visualisedObjectManagerListener;
@@ -44,10 +48,11 @@ public class DefaultGraphGenerator implements GraphGenerator
 	private NodeFactory nodeFactory; // The factory responsible for generating nodes
 	private EdgeFactory edgeFactory; // The factory responsible for generating edges
 	private NodeRenderer nodeRenderer;
-	private Controller controller;
+    private Controller controller;
 
-	private boolean rebuildGraph = true; // A flag to indicate that the graph is out of date and
-										 // needs to be rebuilt
+    private boolean rebuildGraph = true; // A flag to indicate that the graph is out of date and
+	                                     // needs to be rebuilt
+
 	private boolean recreateNodes = false;
 
 
@@ -58,7 +63,6 @@ public class DefaultGraphGenerator implements GraphGenerator
 
 	private GraphGeneratorEvent graphChangedEvent;
 
-	private static final boolean EVENTDEBUG = false;
 
 	public DefaultGraphGenerator(Controller controller,
 	                             VisualisedObjectManager visualisedObjectManager,
@@ -593,9 +597,9 @@ public class DefaultGraphGenerator implements GraphGenerator
 
 	protected void fireGraphChangedEvent()
 	{
-		if(EVENTDEBUG)
+		if(log.isDebugEnabled())
 		{
-			System.out.println("TRACE(DefaultGraphGenerator) firing graph changed event");
+			log.debug("TRACE(DefaultGraphGenerator) firing graph changed event");
 		}
 
 		for(int i = 0; i < listeners.size(); i++)

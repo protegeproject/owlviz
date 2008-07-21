@@ -1,5 +1,14 @@
 package uk.ac.man.cs.mig.util.graph.outputrenderer.impl;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.util.HashMap;
+import java.util.Iterator;
+
+import org.apache.log4j.Logger;
+
 import uk.ac.man.cs.mig.util.graph.graph.Edge;
 import uk.ac.man.cs.mig.util.graph.graph.Graph;
 import uk.ac.man.cs.mig.util.graph.graph.Node;
@@ -9,13 +18,6 @@ import uk.ac.man.cs.mig.util.graph.model.GraphModel;
 import uk.ac.man.cs.mig.util.graph.outputrenderer.GraphOutputRenderer;
 import uk.ac.man.cs.mig.util.graph.renderer.EdgeLabelRenderer;
 import uk.ac.man.cs.mig.util.graph.renderer.NodeLabelRenderer;
-
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.util.HashMap;
-import java.util.Iterator;
 
 /**
  * User: matthewhorridge<br>
@@ -28,7 +30,7 @@ import java.util.Iterator;
  */
 public class DotOutputGraphRenderer implements GraphOutputRenderer
 {
-
+    private static Logger log = Logger.getLogger(DotOutputGraphRenderer.class);
 	private static HashMap shapeMap;
 	protected BufferedWriter writer;
 	private NodeLabelRenderer labelRen;
@@ -209,7 +211,7 @@ public class DotOutputGraphRenderer implements GraphOutputRenderer
 
 	protected void writeHeader(Graph graph) throws IOException
 	{
-        System.out.println("graph = " + graph);
+        log.info("graph = " + graph);
         writer.write("digraph g");
 
 		writer.newLine();

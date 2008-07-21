@@ -62,7 +62,6 @@ public class DefaultGraph implements Graph
 
 		if(nodes.containsKey(node))
 		{
-			//System.out.println("TRACE(DefaultGraph: remove) Node removed");
 			// Remove the node
 			nodes.remove(node);
 
@@ -74,15 +73,6 @@ public class DefaultGraph implements Graph
 			while(it.hasNext())
 			{
 				edge = (Edge)it.next();
-
-			//	System.out.println("TRACE(DefaultGraph: remove) Egde: " + edge);
-
-			//	System.out.println("\t\tTRACE(DefaultGraph: remove) TailNode: " + edge.getTailNode());
-
-			//	System.out.println("\t\tTRACE(DefaultGraph: remove) HeadNode: " + edge.getHeadNode());
-
-			//	System.out.println("\t\tTRACE(DefaultGraph: remove) Node: " + node);
-
 
 				if(node.equals(edge.getTailNode()))
 				{

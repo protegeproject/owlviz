@@ -153,7 +153,6 @@ public abstract class GraphView extends JPanel implements Zoomable, PropertyChan
 				// We are now showing the graph.  Check to see if the
 				// graph has changed, if so, request the latest layout.
 				if(updateGraph == true) {
-					//System.out.println("TRACE: GraphView: RequestingLayout");
 					revalidateGraph();
 				}
 			}

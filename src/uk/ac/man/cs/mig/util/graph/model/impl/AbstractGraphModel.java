@@ -1,11 +1,13 @@
 package uk.ac.man.cs.mig.util.graph.model.impl;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import org.apache.log4j.Logger;
+
 import uk.ac.man.cs.mig.util.graph.event.GraphModelEvent;
 import uk.ac.man.cs.mig.util.graph.event.GraphModelListener;
 import uk.ac.man.cs.mig.util.graph.model.GraphModel;
-
-import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * User: matthewhorridge<br>
@@ -23,9 +25,9 @@ import java.util.Iterator;
  */
 public abstract class AbstractGraphModel implements GraphModel
 {
-	protected ArrayList<GraphModelListener> listeners;
+    private static Logger log = Logger.getLogger(AbstractGraphModel.class);
 
-	private static final boolean EVENTDEBUG = false;
+	protected ArrayList<GraphModelListener> listeners;
 
 	public AbstractGraphModel()
 	{
@@ -53,9 +55,9 @@ public abstract class AbstractGraphModel implements GraphModel
 
 	public void fireObjectsAddedEvent(ArrayList objects)
 	{
-		if(EVENTDEBUG)
+		if(log.isDebugEnabled())
 		{
-			System.out.println("TRACE(DefaultGraphModel) firing object added event " + objects);
+			log.debug("TRACE(DefaultGraphModel) firing object added event " + objects);
 		}
 
 		GraphModelEvent evt = new GraphModelEvent(this, objects);
@@ -73,9 +75,9 @@ public abstract class AbstractGraphModel implements GraphModel
 	 */
 	protected void fireObjectsRemovedEvent(ArrayList objects)
 	{
-		if(EVENTDEBUG)
+		if(log.isDebugEnabled())
 		{
-			System.out.println("TRACE(DefaultGraphModel) firing object removed event " + objects);
+			log.debug("TRACE(DefaultGraphModel) firing object removed event " + objects);
 		}
 
 		GraphModelEvent evt = new GraphModelEvent(this, objects);
@@ -93,9 +95,9 @@ public abstract class AbstractGraphModel implements GraphModel
 	 */
 	protected void fireObjectsChangedEvent(ArrayList objects)
 	{
-		if(EVENTDEBUG)
+		if(log.isDebugEnabled())
 		{
-			System.out.println("TRACE(DefaultGraphModel) firing object changed event " + objects);
+			log.debug("TRACE(DefaultGraphModel) firing object changed event " + objects);
 		}
 
 		GraphModelEvent evt = new GraphModelEvent(this, objects);
@@ -119,9 +121,9 @@ public abstract class AbstractGraphModel implements GraphModel
 
 		objects.add(parentObject);
 
-		if(EVENTDEBUG)
+		if(log.isDebugEnabled())
 		{
-			System.out.println("TRACE(DefaultGraphModel) firing parent added event " + objects);
+			log.debug("TRACE(DefaultGraphModel) firing parent added event " + objects);
 		}
 
 		GraphModelEvent evt = new GraphModelEvent(this, objects);
@@ -145,9 +147,9 @@ public abstract class AbstractGraphModel implements GraphModel
 
 		objects.add(parentObject);
 
-		if(EVENTDEBUG)
+		if(log.isDebugEnabled())
 		{
-			System.out.println("TRACE(DefaultGraphModel) firing parent removed event " + objects);
+			log.debug("TRACE(DefaultGraphModel) firing parent removed event " + objects);
 		}
 
 		GraphModelEvent evt = new GraphModelEvent(this, objects);
@@ -173,9 +175,9 @@ public abstract class AbstractGraphModel implements GraphModel
 
 		GraphModelEvent evt = new GraphModelEvent(this, objects);
 
-		if(EVENTDEBUG)
+		if(log.isDebugEnabled())
 		{
-			System.out.println("TRACE(DefaultGraphModel) firing child added event " + objects);
+			log.debug("TRACE(DefaultGraphModel) firing child added event " + objects);
 		}
 
 		for(int i = 0; i < listeners.size(); i++)
@@ -197,9 +199,9 @@ public abstract class AbstractGraphModel implements GraphModel
 
 		objects.add(childObject);
 
-		if(EVENTDEBUG)
+		if(log.isDebugEnabled())
 		{
-			System.out.println("TRACE(DefaultGraphModel) firing child removed event " + objects);
+			log.debug("TRACE(DefaultGraphModel) firing child removed event " + objects);
 		}
 
 		GraphModelEvent evt = new GraphModelEvent(this, objects);
@@ -220,9 +222,9 @@ public abstract class AbstractGraphModel implements GraphModel
     {
         ArrayList objects = new ArrayList();
 
-        if(EVENTDEBUG)
+        if(log.isDebugEnabled())
         {
-	        System.out.println("TRACE(DefaultGraphModel) firing child removed event " + objects);
+	        log.debug("TRACE(DefaultGraphModel) firing child removed event " + objects);
         }
             GraphModelEvent evt = new GraphModelEvent(this, objects);
 

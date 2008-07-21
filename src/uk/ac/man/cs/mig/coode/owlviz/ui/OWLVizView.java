@@ -1,10 +1,46 @@
 package uk.ac.man.cs.mig.coode.owlviz.ui;
 
+import java.awt.BorderLayout;
+import java.awt.Frame;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetDragEvent;
+import java.awt.dnd.DropTargetDropEvent;
+import java.awt.dnd.DropTargetEvent;
+import java.awt.dnd.DropTargetListener;
+import java.awt.event.ContainerEvent;
+import java.awt.event.ContainerListener;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import javax.swing.JTabbedPane;
+import javax.swing.JToolBar;
+import javax.swing.SwingUtilities;
+
+import org.apache.log4j.Logger;
 import org.protege.editor.owl.ui.transfer.OWLObjectDataFlavor;
 import org.protege.editor.owl.ui.view.AbstractOWLClassViewComponent;
 import org.semanticweb.owl.model.OWLClass;
 import org.semanticweb.owl.model.OWLObject;
-import uk.ac.man.cs.mig.coode.owlviz.command.*;
+
+import uk.ac.man.cs.mig.coode.owlviz.command.ExportCommand;
+import uk.ac.man.cs.mig.coode.owlviz.command.HideAllClassesCommand;
+import uk.ac.man.cs.mig.coode.owlviz.command.HideClassCommand;
+import uk.ac.man.cs.mig.coode.owlviz.command.HideClassesPastRadiusCommand;
+import uk.ac.man.cs.mig.coode.owlviz.command.HideSubclassesCommand;
+import uk.ac.man.cs.mig.coode.owlviz.command.SetOptionsCommand;
+import uk.ac.man.cs.mig.coode.owlviz.command.ShowAllClassesCommand;
+import uk.ac.man.cs.mig.coode.owlviz.command.ShowClassCommand;
+import uk.ac.man.cs.mig.coode.owlviz.command.ShowSubclassesCommand;
+import uk.ac.man.cs.mig.coode.owlviz.command.ShowSuperclassesCommand;
+import uk.ac.man.cs.mig.coode.owlviz.command.ZoomInCommand;
+import uk.ac.man.cs.mig.coode.owlviz.command.ZoomOutCommand;
 import uk.ac.man.cs.mig.coode.owlviz.model.OWLClassGraphAssertedModel;
 import uk.ac.man.cs.mig.coode.owlviz.model.OWLClassGraphInferredModel;
 import uk.ac.man.cs.mig.coode.owlviz.ui.options.DotProcessPathPage;
@@ -22,16 +58,6 @@ import uk.ac.man.cs.mig.util.graph.export.impl.PNGExportFormat;
 import uk.ac.man.cs.mig.util.graph.layout.dotlayoutengine.DotGraphLayoutEngine;
 import uk.ac.man.cs.mig.util.graph.ui.GraphComponent;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.awt.dnd.*;
-import java.awt.event.ContainerEvent;
-import java.awt.event.ContainerListener;
-import java.io.IOException;
-import java.util.*;
-import java.util.List;
-
 /**
  * User: matthewhorridge<br>
  * The Univeristy Of Manchester<br>
@@ -42,6 +68,7 @@ import java.util.List;
  * www.cs.man.ac.uk/~horridgm<br><br>
  */
 public class OWLVizView extends AbstractOWLClassViewComponent implements DropTargetListener {
+    private static Logger logger = Logger.getLogger(OWLVizView.class);
 
     private GraphComponent assertedGraphComponent;
     private GraphComponent inferredGraphComponent;
@@ -313,7 +340,7 @@ public class OWLVizView extends AbstractOWLClassViewComponent implements DropTar
 
 
     public void drop(DropTargetDropEvent dtde) {
-        System.out.println("Drop: " + dtde);
+        logger.info("Drop: " + dtde);
         if(dtde.isDataFlavorSupported(OWLObjectDataFlavor.OWL_OBJECT_DATA_FLAVOR)) {
             try {
                 List<OWLObject> objects = (List<OWLObject>) dtde.getTransferable().getTransferData(OWLObjectDataFlavor.OWL_OBJECT_DATA_FLAVOR);

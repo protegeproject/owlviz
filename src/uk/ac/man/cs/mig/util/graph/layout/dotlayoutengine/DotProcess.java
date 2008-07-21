@@ -1,7 +1,10 @@
 package uk.ac.man.cs.mig.util.graph.layout.dotlayoutengine;
 
-import javax.swing.*;
 import java.io.IOException;
+
+import javax.swing.JOptionPane;
+
+import org.apache.log4j.Logger;
 
 /**
  * User: matthewhorridge<br>
@@ -15,6 +18,7 @@ import java.io.IOException;
  * A wrapper for a native dot process.
  */
 public class DotProcess {
+    private static Logger log = Logger.getLogger(DotProcess.class);
 
 	private Process process;
 
@@ -74,11 +78,11 @@ public class DotProcess {
 			JOptionPane.showMessageDialog(null, dlgErrMsg, "DOT Error", JOptionPane.ERROR_MESSAGE);
 			
 			// Display on stderr
-			System.out.println("DOT Process Error:");
+			log.error("DOT Process Error:");
 
-			System.out.println(ioEx.getMessage());
+			log.error(ioEx.getMessage());
 
-			System.out.println(errMsg);
+			log.error(errMsg);
 
 			return false;
 

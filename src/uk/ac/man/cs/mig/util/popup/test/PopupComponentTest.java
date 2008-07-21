@@ -1,5 +1,6 @@
 package uk.ac.man.cs.mig.util.popup.test;
 
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -15,6 +16,8 @@ import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
+
+import org.apache.log4j.Logger;
 
 import uk.ac.man.cs.mig.util.popup.PopupComponent;
 import uk.ac.man.cs.mig.util.popup.PopupComponentEvent;
@@ -32,6 +35,8 @@ import uk.ac.man.cs.mig.util.popup.PopupComponentListener;
  */
 public class PopupComponentTest extends JFrame
 {
+    private static Logger log = Logger.getLogger(PopupComponentTest.class);
+
 	private PopupComponent popup;
 
 	private JComponent comp;
@@ -65,7 +70,7 @@ public class PopupComponentTest extends JFrame
 			{
 				if(e.getClickCount() == 2)
 				{
-					System.out.println("TRACE(PopupComonentTest): Setting list ");
+					log.info("TRACE(PopupComonentTest): Setting list ");
 
 					list.setListData(new Object [] {"One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight"});
 				}
@@ -83,7 +88,7 @@ public class PopupComponentTest extends JFrame
 		{
 			public void popupClosed(PopupComponentEvent e)
 			{
-				System.out.println("Popup Closed");
+				log.info("Popup Closed");
 			}
 		});
 
@@ -107,7 +112,7 @@ public class PopupComponentTest extends JFrame
 			{
 				if(e.isPopupTrigger())
 				{
-					System.out.println("TRACE(PopupComponentTest): Show popup at " + e.getPoint());
+					log.info("TRACE(PopupComponentTest): Show popup at " + e.getPoint());
 
 					popup.showPopup(comp, e.getPoint().x, e.getPoint().y);
 				}

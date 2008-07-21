@@ -1,14 +1,20 @@
 package uk.ac.man.cs.mig.util.graph.controller.impl;
 
+import java.beans.PropertyChangeEvent;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+import org.apache.log4j.Logger;
+
 import uk.ac.man.cs.mig.util.graph.controller.VisualisedObjectManager;
 import uk.ac.man.cs.mig.util.graph.event.GraphModelEvent;
 import uk.ac.man.cs.mig.util.graph.event.GraphModelListener;
 import uk.ac.man.cs.mig.util.graph.event.VisualisedObjectManagerEvent;
 import uk.ac.man.cs.mig.util.graph.event.VisualisedObjectManagerListener;
 import uk.ac.man.cs.mig.util.graph.model.GraphModel;
-
-import java.beans.PropertyChangeEvent;
-import java.util.*;
 
 /**
  * User: matthewhorridge<br>
@@ -22,15 +28,14 @@ import java.util.*;
  */
 public class DefaultVisualisedObjectManager implements VisualisedObjectManager
 {
+    private static Logger log = Logger.getLogger(DefaultVisualisedObjectManager.class);
+
 	private GraphModel model;
 	private VisualisedObjectCache visualisedObjects;
 
 	private ArrayList<VisualisedObjectManagerListener> listeners;
 
 
-	private static final boolean EVENTDEBUG = false;
-
-	
 	public DefaultVisualisedObjectManager(GraphModel model)
 	{
 		if(model == null)
@@ -714,11 +719,11 @@ public class DefaultVisualisedObjectManager implements VisualisedObjectManager
 	{
 		VisualisedObjectManagerEvent evt = new VisualisedObjectManagerEvent(this, list);
 
-		if(EVENTDEBUG)
+		if(log.isDebugEnabled())
 		{
-			System.out.println("TRACE(DefaultVisualisedObjectManager) firing object added event");
+			log.debug("TRACE(DefaultVisualisedObjectManager) firing object added event");
 
-			System.out.println(evt.getObjects());
+			log.debug(evt.getObjects());
 		}
 
 		for(int i = 0; i < listeners.size(); i++)
@@ -737,11 +742,11 @@ public class DefaultVisualisedObjectManager implements VisualisedObjectManager
 	{
 		VisualisedObjectManagerEvent evt = new VisualisedObjectManagerEvent(this, list);
 
-		if(EVENTDEBUG)
+		if(log.isDebugEnabled())
 		{
-			System.out.println("TRACE(DefaultVisualisedObjectManager) firing object removed event.");
+			log.debug("TRACE(DefaultVisualisedObjectManager) firing object removed event.");
 
-			System.out.println(evt.getObjects());
+			log.debug(evt.getObjects());
 		}
 
 		for(int i = 0; i < listeners.size(); i++)
@@ -760,11 +765,11 @@ public class DefaultVisualisedObjectManager implements VisualisedObjectManager
 	{
 		VisualisedObjectManagerEvent evt = new VisualisedObjectManagerEvent(this, list);
 
-		if(EVENTDEBUG)
+		if(log.isDebugEnabled())
 		{
-			System.out.println("TRACE(DefaultVisualisedObjectManager) firing object changed event");
+			log.debug("TRACE(DefaultVisualisedObjectManager) firing object changed event");
 
-			System.out.println(evt.getObjects());
+			log.debug(evt.getObjects());
 		}
 
 		for(int i = 0; i < listeners.size(); i++)
@@ -789,11 +794,11 @@ public class DefaultVisualisedObjectManager implements VisualisedObjectManager
 
 		VisualisedObjectManagerEvent evt = new VisualisedObjectManagerEvent(this, list);
 
-		if(EVENTDEBUG)
+		if(log.isDebugEnabled())
 		{
-			System.out.println("TRACE(DefaultVisualisedObjectManager) firing parent object added event");
+			log.debug("TRACE(DefaultVisualisedObjectManager) firing parent object added event");
 
-			System.out.println(evt.getObjects());
+			log.debug(evt.getObjects());
 		}
 
 		for(int i = 0; i < listeners.size(); i++)
@@ -818,11 +823,11 @@ public class DefaultVisualisedObjectManager implements VisualisedObjectManager
 
 		VisualisedObjectManagerEvent evt = new VisualisedObjectManagerEvent(this, list);
 
-		if(EVENTDEBUG)
+		if(log.isDebugEnabled())
 		{
-			System.out.println("TRACE(DefaultVisualisedObjectManager) firing parent object removed event");
+			log.debug("TRACE(DefaultVisualisedObjectManager) firing parent object removed event");
 
-			System.out.println(evt.getObjects());
+			log.debug(evt.getObjects());
 		}
 
 		for(int i = 0; i < listeners.size(); i++)
@@ -846,11 +851,11 @@ public class DefaultVisualisedObjectManager implements VisualisedObjectManager
 
 		VisualisedObjectManagerEvent evt = new VisualisedObjectManagerEvent(this, list);
 
-		if(EVENTDEBUG)
+		if(log.isDebugEnabled())
 		{
-			System.out.println("TRACE(DefaultVisualisedObjectManager) firing child object added event");
+			log.debug("TRACE(DefaultVisualisedObjectManager) firing child object added event");
 
-			System.out.println(evt.getObjects());
+			log.debug(evt.getObjects());
 		}
 
 		for(int i = 0; i < listeners.size(); i++)
@@ -874,11 +879,11 @@ public class DefaultVisualisedObjectManager implements VisualisedObjectManager
 
 		VisualisedObjectManagerEvent evt = new VisualisedObjectManagerEvent(this, list);
 
-		if(EVENTDEBUG)
+		if(log.isDebugEnabled())
 		{
-			System.out.println("TRACE(DefaultVisualisedObjectManager) firing child object removed event");
+			log.debug("TRACE(DefaultVisualisedObjectManager) firing child object removed event");
 
-			System.out.println(evt.getObjects());
+			log.debug(evt.getObjects());
 		}
 
 		for(int i = 0; i < listeners.size(); i++)
