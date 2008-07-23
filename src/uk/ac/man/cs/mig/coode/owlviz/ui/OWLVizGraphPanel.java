@@ -182,7 +182,7 @@ public class OWLVizGraphPanel extends JPanel {
     }
 
     protected OWLModelManager getOWLModelManager() {
-        return owlEditorKit.getOWLModelManager();
+        return owlEditorKit.getModelManager();
     }
 }
 
