@@ -1,5 +1,7 @@
 package uk.ac.man.cs.mig.util.graph.layout.dotlayoutengine.dotparser;
 
+import org.apache.log4j.Logger;
+
 import java.io.*;
 
 /**
@@ -13,43 +15,47 @@ import java.io.*;
  */
 public class DotPreParser
 {
+    private static Logger logger = Logger.getLogger(DotPreParser.class);
 
-	static Reader preParse(InputStream is)
-	{
-		BufferedReader br = new BufferedReader(new InputStreamReader(is));
+    static String preParse(InputStream is) {
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+            StringWriter sr = new StringWriter();
 
-		StringWriter sr = new StringWriter();
+            try
+            {
+                String line = br.readLine();
 
-		try
-		{
-			String line = br.readLine();
+                while(line != null)
+                {
 
-			while(line != null)
-			{
+                    if(line.endsWith("\\"))
+                    {
+                        // We need to concatenate the next line
 
-				if(line.endsWith("\\"))
-				{
-					// We need to concatente the next line
+                        while(line.endsWith("\\"))
+                        {
+                            sr.write(line.substring(0, line.length() - 1));
 
-					while(line.endsWith("\\"))
-					{
-						sr.write(line.substring(0, line.length() - 1));
+                            line = br.readLine();
+                        }
+                    }
 
-						line = br.readLine();
-					}
-				}
+                    sr.write(line);
 
-				sr.write(line);
-
-				line = br.readLine();
-			}
-		}
-		catch(IOException e)
-		{
-			e.printStackTrace();
-		}
-
-		return new StringReader(sr.toString());
-	}
+                    line = br.readLine();
+                }
+            }
+            catch(IOException e)
+            {
+                logger.error(e);
+            }
+            return sr.toString();
+        }
+        catch (UnsupportedEncodingException e) {
+            logger.error(e);
+        }
+        return null;
+    }
 }
 

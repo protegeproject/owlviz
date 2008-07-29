@@ -1,13 +1,6 @@
 package uk.ac.man.cs.mig.util.graph.layout.dotlayoutengine;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
 import org.apache.log4j.Logger;
-
 import uk.ac.man.cs.mig.util.graph.graph.Graph;
 import uk.ac.man.cs.mig.util.graph.layout.GraphLayoutEngine;
 import uk.ac.man.cs.mig.util.graph.layout.dotlayoutengine.dotparser.DotParameterSetter;
@@ -17,6 +10,8 @@ import uk.ac.man.cs.mig.util.graph.outputrenderer.GraphOutputRenderer;
 import uk.ac.man.cs.mig.util.graph.outputrenderer.impl.DotOutputGraphRenderer;
 import uk.ac.man.cs.mig.util.graph.renderer.impl.DefaultEdgeLabelRenderer;
 import uk.ac.man.cs.mig.util.graph.renderer.impl.DefaultNodeLabelRenderer;
+
+import java.io.*;
 
 /**
  * User: matthewhorridge<br>
@@ -81,7 +76,7 @@ public class DotGraphLayoutEngine implements GraphLayoutEngine
 
 		        file.deleteOnExit();
 
-		        log.info("TRACE(DotGraphLayoutEngine): TempFile: " + file.getAbsolutePath());
+		        log.debug("TRACE(DotGraphLayoutEngine): TempFile: " + file.getAbsolutePath());
 
 	            FileOutputStream fos = new FileOutputStream(file);
 

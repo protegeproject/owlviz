@@ -1,14 +1,6 @@
 package uk.ac.man.cs.mig.util.graph.outputrenderer.impl;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.util.HashMap;
-import java.util.Iterator;
-
 import org.apache.log4j.Logger;
-
 import uk.ac.man.cs.mig.util.graph.graph.Edge;
 import uk.ac.man.cs.mig.util.graph.graph.Graph;
 import uk.ac.man.cs.mig.util.graph.graph.Node;
@@ -18,6 +10,10 @@ import uk.ac.man.cs.mig.util.graph.model.GraphModel;
 import uk.ac.man.cs.mig.util.graph.outputrenderer.GraphOutputRenderer;
 import uk.ac.man.cs.mig.util.graph.renderer.EdgeLabelRenderer;
 import uk.ac.man.cs.mig.util.graph.renderer.NodeLabelRenderer;
+
+import java.io.*;
+import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * User: matthewhorridge<br>
@@ -31,220 +27,219 @@ import uk.ac.man.cs.mig.util.graph.renderer.NodeLabelRenderer;
 public class DotOutputGraphRenderer implements GraphOutputRenderer
 {
     private static Logger log = Logger.getLogger(DotOutputGraphRenderer.class);
-	private static HashMap shapeMap;
-	protected BufferedWriter writer;
-	private NodeLabelRenderer labelRen;
-	private EdgeLabelRenderer edgeLabelRen;
-	private HashMap attributeMap;
+    private static HashMap shapeMap;
+    protected BufferedWriter writer;
+    private NodeLabelRenderer labelRen;
+    private EdgeLabelRenderer edgeLabelRen;
+    private HashMap attributeMap;
 
-	public static final String LAYOUT_DIRECTION = "rankdir";
-	public static final String RANK_SPACING = "ranksep";
-	public static final String SIBLING_SPACING = "nodesep";
-
-
-	public DotOutputGraphRenderer(NodeLabelRenderer labelRen, EdgeLabelRenderer edgeLabelRen)
-	{
-		this.labelRen = labelRen;
-
-		this.edgeLabelRen = edgeLabelRen;
-
-		shapeMap = new HashMap();
-
-		registerShapeMapping(DefaultNode.class, "box");
-
-		registerShapeMapping(EllipticalNode.class, "ellipse");
-
-		attributeMap = new HashMap();
-
-		attributeMap.put(LAYOUT_DIRECTION, "LR");
-
-		attributeMap.put(RANK_SPACING, "1.0");
-
-		attributeMap.put(SIBLING_SPACING, "0.2");
-	}
-
-	/**
-	 * Adds a map to convert a class of node to a dot
-	 * shape name. (e.g. by default, Rectangle.class maps to "box")
-	 * @param nodeClass The class of the node to map to a dot shape name
-	 * @param dotShapeName The name of the dot shape.
-	 */
-	public static void registerShapeMapping(Class nodeClass, String dotShapeName)
-	{
-		shapeMap.put(nodeClass, dotShapeName);
-	}
+    public static final String LAYOUT_DIRECTION = "rankdir";
+    public static final String RANK_SPACING = "ranksep";
+    public static final String SIBLING_SPACING = "nodesep";
 
 
-	public void setRendererOption(String attribute, String value)
-	{
-		attributeMap.remove(attribute);
+    public DotOutputGraphRenderer(NodeLabelRenderer labelRen, EdgeLabelRenderer edgeLabelRen)
+    {
+        this.labelRen = labelRen;
 
-		attributeMap.put(attribute, value);
-	}
+        this.edgeLabelRen = edgeLabelRen;
 
+        shapeMap = new HashMap();
 
-	public synchronized void renderGraph(Graph graph, OutputStream os)
-	{
-		OutputStreamWriter osw = new OutputStreamWriter(os);
+        registerShapeMapping(DefaultNode.class, "box");
 
-		writer = new BufferedWriter(osw);
+        registerShapeMapping(EllipticalNode.class, "ellipse");
 
-		try
-		{
-			writeHeader(graph);
+        attributeMap = new HashMap();
 
-			// Write Nodes
-			Node[] nodes = graph.getNodes();
+        attributeMap.put(LAYOUT_DIRECTION, "LR");
 
-			for(int i = 0; i < nodes.length; i++)
-			{
-				renderNode(nodes[i]);
-			}
+        attributeMap.put(RANK_SPACING, "1.0");
 
-			// Write edges
+        attributeMap.put(SIBLING_SPACING, "0.2");
+    }
 
-			Edge[] edges = graph.getEdges();
-
-			for(int i = 0; i < edges.length; i++)
-			{
-				renderEdge(edges[i]);
-			}
-
-			closeGraph();
-
-			writer.flush();
-		}
-
-		catch(IOException ioEx)
-		{
-			ioEx.printStackTrace();
-		}
-	}
+    /**
+     * Adds a map to convert a class of node to a dot
+     * shape name. (e.g. by default, Rectangle.class maps to "box")
+     * @param nodeClass The class of the node to map to a dot shape name
+     * @param dotShapeName The name of the dot shape.
+     */
+    public static void registerShapeMapping(Class nodeClass, String dotShapeName)
+    {
+        shapeMap.put(nodeClass, dotShapeName);
+    }
 
 
-	protected void renderNode(Node node) throws IOException
-	{
-		writer.write('"');
+    public void setRendererOption(String attribute, String value)
+    {
+        attributeMap.remove(attribute);
 
-		writer.write(labelRen.getLabel(node));
-
-		writer.write('"');
-
-		String shape = (String) shapeMap.get(node.getClass());
-
-		if(shape != null)
-		{
-			writer.write(" [shape=");
-
-			writer.write(shape);
-
-			writer.write(", fixedsize=true, width=\"");
-
-			writer.write(Double.toString(node.getSize().width / 72.0));
-
-			writer.write("\", height=\"");
-
-			writer.write(Double.toString(node.getSize().height / 72.0));
-
-			writer.write("\"]");
-		}
-
-		writer.write(';');
-
-		writer.newLine();
-	}
+        attributeMap.put(attribute, value);
+    }
 
 
-	protected void renderEdge(Edge edge) throws IOException
-	{
-		writer.write('"');
+    public synchronized void renderGraph(Graph graph, OutputStream os)
+    {
+        try {
+            // dot likes UTF-8
+            OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
 
-		writer.write(labelRen.getLabel(edge.getTailNode()));
+            writer = new BufferedWriter(osw);
 
-		writer.write('"');
+            writeHeader(graph);
 
-		writer.write("->");
+            // Write Nodes
+            Node[] nodes = graph.getNodes();
 
-		writer.write('"');
+            for(int i = 0; i < nodes.length; i++)
+            {
+                renderNode(nodes[i]);
+            }
 
-		writer.write(labelRen.getLabel(edge.getHeadNode()));
+            // Write edges
+            Edge[] edges = graph.getEdges();
 
-		writer.write('"');
+            for(int i = 0; i < edges.length; i++)
+            {
+                renderEdge(edges[i]);
+            }
 
-		String direction = "forward";
+            closeGraph();
 
-		int edgeDirection = edge.getDirection();
-
-		if(edgeDirection == GraphModel.DIRECTION_NONE)
-		{
-			direction = "none";
-		}
-		else if(edgeDirection == GraphModel.DIRECTION_FORWARD)
-		{
-			direction = "forward";
-		}
-		else if(edgeDirection == GraphModel.DIRECTION_BACK)
-		{
-			direction = "back";
-		}
-		else if(edgeDirection == GraphModel.DIRECTION_BOTH)
-		{
-			direction = "both";
-		}
-
-		writer.write(" [dir=");
-
-		writer.write(direction);
-
-		String label = edgeLabelRen.getEdgeLabel(edge);
-
-		if(label != null)
-		{
-			writer.write(", fontsize=\"10\", floatlabel=true, label=\"" + label + "\"");
-		}
-
-		writer.write("];");
-
-		writer.newLine();
-	}
+            writer.flush();
+        }
+        catch (UnsupportedEncodingException e) {
+            log.error(e);
+        }
+        catch(IOException e)    {
+            log.error(e);
+        }
+    }
 
 
-	protected void writeHeader(Graph graph) throws IOException
-	{
-        log.info("graph = " + graph);
+    protected void renderNode(Node node) throws IOException
+    {
+        writer.write('"');
+
+        writer.write(labelRen.getLabel(node));
+
+        writer.write('"');
+
+        String shape = (String) shapeMap.get(node.getClass());
+
+        if(shape != null)
+        {
+            writer.write(" [shape=");
+
+            writer.write(shape);
+
+            writer.write(", fixedsize=true, width=\"");
+
+            writer.write(Double.toString(node.getSize().width / 72.0));
+
+            writer.write("\", height=\"");
+
+            writer.write(Double.toString(node.getSize().height / 72.0));
+
+            writer.write("\"]");
+        }
+
+        writer.write(';');
+
+        writer.newLine();
+    }
+
+
+    protected void renderEdge(Edge edge) throws IOException
+    {
+        writer.write('"');
+
+        writer.write(labelRen.getLabel(edge.getTailNode()));
+
+        writer.write('"');
+
+        writer.write("->");
+
+        writer.write('"');
+
+        writer.write(labelRen.getLabel(edge.getHeadNode()));
+
+        writer.write('"');
+
+        String direction = "forward";
+
+        int edgeDirection = edge.getDirection();
+
+        if(edgeDirection == GraphModel.DIRECTION_NONE)
+        {
+            direction = "none";
+        }
+        else if(edgeDirection == GraphModel.DIRECTION_FORWARD)
+        {
+            direction = "forward";
+        }
+        else if(edgeDirection == GraphModel.DIRECTION_BACK)
+        {
+            direction = "back";
+        }
+        else if(edgeDirection == GraphModel.DIRECTION_BOTH)
+        {
+            direction = "both";
+        }
+
+        writer.write(" [dir=");
+
+        writer.write(direction);
+
+        String label = edgeLabelRen.getEdgeLabel(edge);
+
+        if(label != null)
+        {
+            writer.write(", fontsize=\"10\", floatlabel=true, label=\"" + label + "\"");
+        }
+
+        writer.write("];");
+
+        writer.newLine();
+    }
+
+
+    protected void writeHeader(Graph graph) throws IOException
+    {
         writer.write("digraph g");
 
-		writer.newLine();
+        writer.newLine();
 
-		writer.write("{");
+        writer.write("{");
 
-		// Check map for any specifiction of layout direction
+        // Check map for any specifiction of layout direction
 
-		Iterator it = attributeMap.keySet().iterator();
+        Iterator it = attributeMap.keySet().iterator();
 
         if (it.hasNext()){
             writer.newLine();
 
             writer.write("graph [");
-        Object key;
+            Object key;
 
-		Object value;
+            Object value;
 
-		while(it.hasNext())
-		{
-			key = it.next();
+            while(it.hasNext())
+            {
+                key = it.next();
 
-			writer.write(key.toString());
+                writer.write(key.toString());
 
-			writer.write('=');
+                writer.write('=');
 
-			value = attributeMap.get(key);
+                value = attributeMap.get(key);
 
-			writer.write(value.toString());
+                writer.write(value.toString());
 
-            writer.write(" ");
+                writer.write(" ");
 
-        }
+            }
             writer.write("]");
         }
 
@@ -253,10 +248,10 @@ public class DotOutputGraphRenderer implements GraphOutputRenderer
     }
 
 
-	protected void closeGraph() throws IOException
-	{
-		writer.write("}");
+    protected void closeGraph() throws IOException
+    {
+        writer.write("}");
 
-		writer.newLine();
-	}
+        writer.newLine();
+    }
 }

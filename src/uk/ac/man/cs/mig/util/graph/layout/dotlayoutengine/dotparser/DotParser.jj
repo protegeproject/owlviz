@@ -32,9 +32,17 @@ public class DotParser
 
 		gotGraphBB = false;
 
-		DotParser parser = new DotParser(DotPreParser.preParse(inputStream));
+        String s = DotPreParser.preParse(inputStream);
+        try {
+            InputStream iStream = new ByteArrayInputStream(s.getBytes("UTF-8"));
 
-		parser.start();
+            DotParser parser = new DotParser(iStream, "UTF-8");
+
+            parser.start();
+        }
+        catch (UnsupportedEncodingException e) {
+            throw new ParseException("Cannot parse the input - bad encoding");
+        }
 	}
 
 	public static void setGraphAttribute(String name, String value)
