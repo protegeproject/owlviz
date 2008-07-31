@@ -6,7 +6,7 @@ import java.util.Iterator;
 import org.protege.editor.owl.ui.view.OWLSelectionViewAction;
 
 import uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizIcons;
-import uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizView;
+import uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizViewI;
 import uk.ac.man.cs.mig.util.graph.ui.GraphComponent;
 
 /**
@@ -20,9 +20,9 @@ import uk.ac.man.cs.mig.util.graph.ui.GraphComponent;
  */
 public class HideAllClassesCommand extends OWLSelectionViewAction {
 
-    private OWLVizView view;
+    private OWLVizViewI view;
 
-    public HideAllClassesCommand(OWLVizView view) {
+    public HideAllClassesCommand(OWLVizViewI view) {
         super("Hide all classes", OWLVizIcons.getIcon(OWLVizIcons.HIDE_ALL_CLASSES_ICON));
         this.view = view;
     }

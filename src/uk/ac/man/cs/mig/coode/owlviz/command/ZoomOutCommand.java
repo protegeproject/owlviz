@@ -8,7 +8,7 @@ import javax.swing.AbstractAction;
 import org.protege.editor.core.ui.util.Icons;
 import org.protege.editor.core.ui.view.DisposableAction;
 
-import uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizView;
+import uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizViewI;
 import uk.ac.man.cs.mig.util.graph.ui.GraphComponent;
 
 /**
@@ -22,9 +22,9 @@ import uk.ac.man.cs.mig.util.graph.ui.GraphComponent;
  */
 public class ZoomOutCommand extends DisposableAction {
 
-    private OWLVizView view;
+    private OWLVizViewI view;
 
-    public ZoomOutCommand(OWLVizView view) {
+    public ZoomOutCommand(OWLVizViewI view) {
         super("Zoom Out", Icons.getIcon("zoom.out.png"));
         this.putValue(AbstractAction.SHORT_DESCRIPTION, "Zoom Out");
         this.view = view;

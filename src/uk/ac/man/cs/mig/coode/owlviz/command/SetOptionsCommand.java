@@ -6,7 +6,7 @@ import java.util.Iterator;
 import org.protege.editor.core.ui.view.DisposableAction;
 
 import uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizIcons;
-import uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizView;
+import uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizViewI;
 import uk.ac.man.cs.mig.coode.owlviz.ui.options.OptionsDialog;
 import uk.ac.man.cs.mig.util.graph.ui.GraphComponent;
 import uk.ac.man.cs.mig.util.okcanceldialog.OKCancelDialog;
@@ -22,11 +22,11 @@ import uk.ac.man.cs.mig.util.okcanceldialog.OKCancelDialog;
  */
 public class SetOptionsCommand extends DisposableAction {
 
-    private OWLVizView view;
+    private OWLVizViewI view;
 
     private OptionsDialog optionsDialog;
 
-    public SetOptionsCommand(OWLVizView view, OptionsDialog optionsDialog) {
+    public SetOptionsCommand(OWLVizViewI view, OptionsDialog optionsDialog) {
         super("Options...", OWLVizIcons.getIcon(OWLVizIcons.OPTIONS_ICON));
         this.view = view;
         this.optionsDialog = optionsDialog;

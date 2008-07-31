@@ -1,8 +1,18 @@
 package uk.ac.man.cs.mig.coode.owlviz.command;
 
+import java.awt.event.ActionEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+
+import javax.swing.AbstractAction;
+
 import org.protege.editor.owl.ui.view.OWLSelectionViewAction;
+
 import uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizIcons;
-import uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizView;
+import uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizViewI;
 import uk.ac.man.cs.mig.coode.owlviz.ui.exportwizard.SelectFormatPage;
 import uk.ac.man.cs.mig.coode.owlviz.ui.exportwizard.SpecifyFileNamePage;
 import uk.ac.man.cs.mig.coode.owlviz.ui.exportwizard.SpecifyHierarchyPage;
@@ -10,10 +20,6 @@ import uk.ac.man.cs.mig.util.graph.export.ExportFormat;
 import uk.ac.man.cs.mig.util.graph.ui.GraphComponent;
 import uk.ac.man.cs.mig.util.wizard.Wizard;
 import uk.ac.man.cs.mig.util.wizard.WizardPage;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.io.*;
 
 /**
  * User: matthewhorridge<br>
@@ -31,9 +37,9 @@ public class ExportCommand extends OWLSelectionViewAction {
 	private SpecifyFileNamePage fileNamePage;
 	private SpecifyHierarchyPage hierarchyPage;
 
-	private OWLVizView view;
+	private OWLVizViewI view;
 
-	public ExportCommand(OWLVizView view) {
+	public ExportCommand(OWLVizViewI view) {
 		super("Export", OWLVizIcons.getIcon(OWLVizIcons.EXPORT_ICON));
 		this.view = view;
 		this.putValue(AbstractAction.SHORT_DESCRIPTION, "Export To Image");

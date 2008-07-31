@@ -1,14 +1,15 @@
 package uk.ac.man.cs.mig.coode.owlviz.command;
 
-import uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizView;
-import uk.ac.man.cs.mig.util.graph.ui.GraphComponent;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.util.Iterator;
 
-import org.protege.editor.core.ui.view.DisposableAction;
+import javax.swing.AbstractAction;
+
 import org.protege.editor.core.ui.util.Icons;
+import org.protege.editor.core.ui.view.DisposableAction;
+
+import uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizViewI;
+import uk.ac.man.cs.mig.util.graph.ui.GraphComponent;
 
 
 /**
@@ -22,9 +23,9 @@ import org.protege.editor.core.ui.util.Icons;
  */
 public class ZoomInCommand extends DisposableAction {
 
-    private OWLVizView view;
+    private OWLVizViewI view;
 
-    public ZoomInCommand(OWLVizView view) {
+    public ZoomInCommand(OWLVizViewI view) {
         super("Zoom In", Icons.getIcon("zoom.in.png"));
         this.putValue(AbstractAction.SHORT_DESCRIPTION, "Zoom In");
         this.view = view;

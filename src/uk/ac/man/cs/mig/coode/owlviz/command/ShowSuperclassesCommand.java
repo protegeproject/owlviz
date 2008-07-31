@@ -1,15 +1,16 @@
 package uk.ac.man.cs.mig.coode.owlviz.command;
 
-import uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizIcons;
-import uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizView;
-import uk.ac.man.cs.mig.util.graph.ui.GraphComponent;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.util.Iterator;
 
-import org.semanticweb.owl.model.OWLClass;
+import javax.swing.AbstractAction;
+
 import org.protege.editor.owl.ui.view.OWLSelectionViewAction;
+import org.semanticweb.owl.model.OWLClass;
+
+import uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizIcons;
+import uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizViewI;
+import uk.ac.man.cs.mig.util.graph.ui.GraphComponent;
 
 /**
  * User: matthewhorridge<br>
@@ -22,9 +23,9 @@ import org.protege.editor.owl.ui.view.OWLSelectionViewAction;
  */
 public class ShowSuperclassesCommand extends OWLSelectionViewAction {
 
-    private OWLVizView view;
+    private OWLVizViewI view;
 
-    public ShowSuperclassesCommand(OWLVizView view) {
+    public ShowSuperclassesCommand(OWLVizViewI view) {
         super("Show parents", OWLVizIcons.getIcon(OWLVizIcons.SHOW_SUPERCLASSES_ICON));
         this.putValue(AbstractAction.SHORT_DESCRIPTION, "Show parents");
         putValue(AbstractAction.SHORT_DESCRIPTION, "Show parents");

@@ -1,19 +1,20 @@
 package uk.ac.man.cs.mig.coode.owlviz.command;
 
-import uk.ac.man.cs.mig.coode.owlviz.ui.ClassRadiusDialog;
-import uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizIcons;
-import uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizView;
-import uk.ac.man.cs.mig.util.graph.ui.GraphComponent;
-import uk.ac.man.cs.mig.util.okcanceldialog.OKCancelDialog;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.util.Iterator;
 
-import org.protege.editor.owl.ui.view.OWLSelectionViewAction;
+import javax.swing.AbstractAction;
+
 import org.protege.editor.owl.model.OWLModelManager;
+import org.protege.editor.owl.ui.view.OWLSelectionViewAction;
 import org.semanticweb.owl.model.OWLClass;
+
+import uk.ac.man.cs.mig.coode.owlviz.ui.ClassRadiusDialog;
+import uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizIcons;
+import uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizViewI;
+import uk.ac.man.cs.mig.util.graph.ui.GraphComponent;
+import uk.ac.man.cs.mig.util.okcanceldialog.OKCancelDialog;
 
 /**
  * User: matthewhorridge<br>
@@ -26,12 +27,12 @@ import org.semanticweb.owl.model.OWLClass;
  */
 public class ShowClassCommand extends OWLSelectionViewAction {
 
-    private OWLVizView view;
+    private OWLVizViewI view;
     private OWLModelManager kb;
     private Frame owner;
 
 
-    public ShowClassCommand(OWLVizView view,
+    public ShowClassCommand(OWLVizViewI view,
                             OWLModelManager kb,
                             Frame owner) {
         super("Show class", OWLVizIcons.getIcon(OWLVizIcons.SHOW_CLASS_ICON));

@@ -10,7 +10,7 @@ import org.protege.editor.owl.model.OWLModelManager;
 import org.protege.editor.owl.ui.view.OWLSelectionViewAction;
 
 import uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizIcons;
-import uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizView;
+import uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizViewI;
 import uk.ac.man.cs.mig.util.graph.ui.GraphComponent;
 
 /**
@@ -25,11 +25,11 @@ import uk.ac.man.cs.mig.util.graph.ui.GraphComponent;
 public class ShowAllClassesCommand extends OWLSelectionViewAction {
 
     private OWLModelManager model;
-    private OWLVizView view;
+    private OWLVizViewI view;
     private static final int WARNING_LEVEL = 200;
 
 
-    public ShowAllClassesCommand(OWLVizView view, OWLModelManager owlModelManager) {
+    public ShowAllClassesCommand(OWLVizViewI view, OWLModelManager owlModelManager) {
         super("Show all classes", OWLVizIcons.getIcon(OWLVizIcons.SHOW_ALL_CLASSES_ICON));
         this.view = view;
         this.model = owlModelManager ;
@@ -62,10 +62,8 @@ public class ShowAllClassesCommand extends OWLSelectionViewAction {
         }
     }
 
-
     public Object[] getClses() {
             Collection clses = model.getActiveOntology().getReferencedClasses();
             return clses.toArray();
     }
 }
-
