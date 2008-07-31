@@ -242,12 +242,13 @@ public class DefaultGraphGenerator implements GraphGenerator
 				int dir = DefaultGraphGenerator.this.controller.getGraphModel().getRelationshipDirection(parentNode.getUserObject(),
 				                                                              childNode.getUserObject());
 
+				if(dir > -1) {
 				Edge edge = DefaultGraphGenerator.this.edgeFactory.createEdge(parentNode, childNode, dir);
 
 				graph.add(edge);
 
 				fireGraphChangedEvent();
-
+				}
 			}
 
 			public void parentObjectRemoved(VisualisedObjectManagerEvent evt)
@@ -275,12 +276,13 @@ public class DefaultGraphGenerator implements GraphGenerator
 								                                                              childNode.getUserObject());
 
 
-
+				if(dir > -1) {
 				Edge edge = DefaultGraphGenerator.this.edgeFactory.createEdge(parentNode, childNode, dir);
 
 				graph.add(edge);
 
 				fireGraphChangedEvent();
+				}
 			}
 
 			public void childObjectRemoved(VisualisedObjectManagerEvent evt)
@@ -463,9 +465,11 @@ public class DefaultGraphGenerator implements GraphGenerator
 			{
 				int dir = controller.getGraphModel().getRelationshipDirection(parNode.getUserObject(),
 				                                                              node.getUserObject());
+				if(dir > -1) {
 				edge = edgeFactory.createEdge(parNode, node, dir);
 
 				graph.add(edge);
+				}
 			}
 		}
 	}
@@ -503,9 +507,11 @@ public class DefaultGraphGenerator implements GraphGenerator
 			{
 				int dir = controller.getGraphModel().getRelationshipDirection(node.getUserObject(),
 				                                                              childNode.getUserObject());
+				if(dir > -1) {
 				edge = edgeFactory.createEdge(node, childNode, dir);
 
 				graph.add(edge);
+				}
 			}
 		}
 	}
