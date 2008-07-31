@@ -1,15 +1,22 @@
 package uk.ac.man.cs.mig.coode.owlviz.ui.exportwizard;
 
-import uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizView;
-import uk.ac.man.cs.mig.util.graph.ui.GraphComponent;
-import uk.ac.man.cs.mig.util.wizard.WizardPage;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
+import uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizViewI;
+import uk.ac.man.cs.mig.util.graph.ui.GraphComponent;
+import uk.ac.man.cs.mig.util.wizard.WizardPage;
 
 /**
  * User: matthewhorridge<br>
@@ -22,14 +29,14 @@ import java.util.List;
  */
 public class SpecifyHierarchyPage extends WizardPage {
 
-	private OWLVizView view;
+	private OWLVizViewI view;
 	private JList tabList;
 
 	public static final int ASSERTED_HIERARCHY = 0;
 	public static final int INFERRED_HIERARCHY = 1;
 
 
-	public SpecifyHierarchyPage(OWLVizView view) {
+	public SpecifyHierarchyPage(OWLVizViewI view) {
 		super("SpecifyHierarchyPage");
 		this.view = view;
 		setLayout(new BorderLayout());
