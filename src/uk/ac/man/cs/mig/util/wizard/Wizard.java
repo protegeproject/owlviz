@@ -1,12 +1,22 @@
 package uk.ac.man.cs.mig.util.wizard;
 
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.FlowLayout;
+import java.awt.Frame;
+import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+
+import javax.swing.AbstractAction;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 /**
  * User: matthewhorridge<br>
@@ -107,7 +117,8 @@ public class Wizard extends JDialog
 
 		setResizable(false);
 
-		setDefaultCloseOperation(JDialog.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		//setDefaultCloseOperation(JDialog.EXIT_ON_CLOSE);
 
 		listeners = new ArrayList<WizardEventListener>();
 
