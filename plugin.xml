@@ -5,7 +5,7 @@
     <!-- Classes view -->
     <extension point="org.protege.editor.core.application.WorkspaceTab" id="OWLVizTab">
         <label value="OWLViz"/>
-        <class value="org.protege.editor.core.ui.workspace.WorkspaceViewsTab"/>
+        <class value="org.protege.editor.owl.ui.OWLWorkspaceViewsTab"/>
         <editorKitId value="OWLEditorKit"/>
         <index value="JJJ"/>
         <defaultViewConfigFileName value="viewconfig-owlviz.xml"/>
