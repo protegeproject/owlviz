@@ -14,6 +14,6 @@ import org.protege.editor.owl.model.OWLModelManager;
 public class OWLClassGraphAssertedModel extends AbstractOWLClassGraphModel {
 
     public OWLClassGraphAssertedModel(OWLModelManager owlModelManager) {
-        super(owlModelManager, owlModelManager.getOWLClassHierarchyProvider());
+        super(owlModelManager, owlModelManager.getOWLHierarchyManager().getOWLClassHierarchyProvider());
     }
 }
