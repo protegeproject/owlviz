@@ -17,7 +17,7 @@ public class OWLClassGraphInferredModel extends AbstractOWLClassGraphModel {
     private OWLClass nothing;
 
     public OWLClassGraphInferredModel(OWLModelManager owlModelManager) {
-        super(owlModelManager, owlModelManager.getInferredOWLClassHierarchyProvider());
+        super(owlModelManager, owlModelManager.getOWLHierarchyManager().getInferredOWLClassHierarchyProvider());
         nothing = owlModelManager.getOWLOntologyManager().getOWLDataFactory().getOWLNothing();
     }
 }
