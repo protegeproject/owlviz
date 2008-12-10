@@ -59,7 +59,10 @@ public class GraphComponent extends JComponent implements ThumbnailViewSource {
 
 		this.add(scrollPane = new JScrollPane(controller.getGraphView()));
 
-		setFocusable(true);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(20);
+        scrollPane.getHorizontalScrollBar().setUnitIncrement(20);
+
+        setFocusable(true);
 
 		thumbnailViewSourceListeners = new ArrayList<ThumbnailViewSourceListener>();
 
