@@ -148,16 +148,11 @@ public class OWLVizGraphPanel extends JPanel {
         owlVizSelectionListener = new OWLVizSelectionListener() {
             public void selectionChanged(OWLVizSelectionModel model) {
                 if (model.getSelectedClass() != null) {
-
-                    // annoying hack to get round OWLPropViz compatibility
-                    if (view instanceof ConfigurableOWLVizView){
-                        ConfigurableOWLVizView configView = (ConfigurableOWLVizView)view;
-                        if (configView.getOptions().isTrackerMode()){
-                            getGraphComponent().getVisualisedObjectManager().hideAll();
-                            getGraphComponent().getVisualisedObjectManager().showObject(model.getSelectedClass(),
-                                                                                        configView.getOptions().getTrackerRadius(),
-                                                                                        OWLClass.class);
-                        }
+                    if (isTracker()){
+                        getGraphComponent().getVisualisedObjectManager().hideAll();
+                        getGraphComponent().getVisualisedObjectManager().showObject(model.getSelectedClass(),
+                                                                                    getTrackerRadius(),
+                                                                                    OWLClass.class);
                     }
                     getGraphComponent().getGraphSelectionModel().setSelectedObject(model.getSelectedClass());
                 }
@@ -191,6 +186,25 @@ public class OWLVizGraphPanel extends JPanel {
             }
         });
     }
+
+
+    private boolean isTracker() {
+        // annoying hack to get round OWLPropViz compatibility
+        if (view instanceof ConfigurableOWLVizView){
+            return ((ConfigurableOWLVizView)view).getOptions().isTrackerMode();
+        }
+        return OWLVizPreferences.getInstance().isTrackingModeDefault();
+    }
+
+
+    private int getTrackerRadius() {
+        // annoying hack to get round OWLPropViz compatibility
+        if (view instanceof ConfigurableOWLVizView){
+            return ((ConfigurableOWLVizView)view).getOptions().getTrackerRadius();
+        }
+        return OWLVizPreferences.getInstance().getDefaultTrackerRadius();
+    }
+
 
     public void dispose() {
         view.getSelectionModel().removeSelectionListener(

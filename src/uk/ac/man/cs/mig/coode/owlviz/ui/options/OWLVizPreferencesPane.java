@@ -2,6 +2,7 @@ package uk.ac.man.cs.mig.coode.owlviz.ui.options;
 
 import org.protege.editor.core.ui.util.UIUtil;
 import org.protege.editor.owl.ui.preferences.OWLPreferencesPanel;
+import uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizPreferences;
 import uk.ac.man.cs.mig.util.graph.layout.dotlayoutengine.DotLayoutEngineProperties;
 
 import javax.swing.*;
@@ -64,13 +65,9 @@ public class OWLVizPreferencesPane extends OWLPreferencesPanel {
 
         tabPane = new JTabbedPane();
 
-        addOptions(new DotProcessPathPanel(), "Layout Options");
-//        addOptions(new LayoutDirectionOptionsPage(assertedGraphComponent.getController(),
-//                                                      inferredGraphComponent.getController()), "Layout Options");
-        addOptions(new LayoutSpacingPanel(), "Layout Options");
-        // optionsDialog.addOptions(new DisplayOptionsPage(), "Display
-        // Options");
-        // optionsDialog.addOptions(new UIOptionsPage(), "UI Options");
+        addOptions(new DotProcessPathPanel(), "General Options");
+        addOptions(new LayoutSpacingPanel(), "General Options");
+        addOptions(new ModeOptionsAdapter(), "General Options");
 
         add(tabPane, BorderLayout.NORTH);
     }
@@ -114,6 +111,31 @@ public class OWLVizPreferencesPane extends OWLPreferencesPanel {
             }
         }
         return null;
+    }
+
+    class ModeOptionsAdapter extends OWLPreferencesPanel {
+
+        public ModeOptionsPanel panel;
+
+        public void applyChanges() {
+            OWLVizPreferences.getInstance().setTrackingModeDefault(panel.isTrackerMode());
+            OWLVizPreferences.getInstance().setDefaultTrackerRadius(panel.getTrackerRadius());
+        }
+
+
+        public void initialise() throws Exception {
+            setLayout(new BorderLayout());
+            panel = new ModeOptionsPanel();
+            panel.setTrackerMode(OWLVizPreferences.getInstance().isTrackingModeDefault());
+            panel.setTrackerRadius(OWLVizPreferences.getInstance().getDefaultTrackerRadius());
+
+            add(panel, BorderLayout.NORTH);
+        }
+
+
+        public void dispose() throws Exception {
+            // do nothing
+        }
     }
 
     class DotProcessPathPanel extends OWLPreferencesPanel {

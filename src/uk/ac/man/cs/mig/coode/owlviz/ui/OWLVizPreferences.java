@@ -1,5 +1,7 @@
-package uk.ac.man.cs.mig.coode.owlviz.ui.options;
+package uk.ac.man.cs.mig.coode.owlviz.ui;
 
+import org.protege.editor.core.prefs.Preferences;
+import org.protege.editor.core.prefs.PreferencesManager;
 /*
 * Copyright (C) 2007, University of Manchester
 *
@@ -31,41 +33,45 @@ package uk.ac.man.cs.mig.coode.owlviz.ui.options;
  * Bio Health Informatics Group<br>
  * Date: Dec 10, 2008<br><br>
  */
-public class ModeOptionsPage extends OptionsPage {
+public class OWLVizPreferences {
 
-    private OWLVizViewOptions options;
+    private static OWLVizPreferences instance;
 
-    private ModeOptionsPanel panel;
+    private static final String KEY = "uk.ac.man.cs.mig.coode.owlviz";
 
+    private static final String TRACKING = "TRACKING";
 
-    public ModeOptionsPage(OWLVizViewOptions options) {
-        this.options = options;
-
-        panel = new ModeOptionsPanel();
-        panel.setTrackerMode(options.isTrackerMode());
-        panel.setTrackerRadius(options.getTrackerRadius());
-
-        add(panel);
-    }
+    private static final String RADIUS = "RADIUS";
 
 
-    public void updateInterface() {
-        panel.setTrackerMode(options.isTrackerMode());
-        panel.setTrackerRadius(options.getTrackerRadius());
-    }
-
-
-    public void validateOptions() {
-        // ??
-    }
-
-
-    public void applyOptions() {
-        if (options.isTrackerMode() != panel.isTrackerMode()){
-            options.setTrackerMode(panel.isTrackerMode());
+    public static synchronized OWLVizPreferences getInstance() {
+        if(instance == null) {
+            instance = new OWLVizPreferences();
         }
-        if (options.getTrackerRadius() != panel.getTrackerRadius()){
-            options.setTrackerRadius(panel.getTrackerRadius());
-        }
+        return instance;
+    }
+
+    private Preferences getPrefs() {
+        return PreferencesManager.getInstance().getApplicationPreferences(KEY);
+    }
+
+
+    public boolean isTrackingModeDefault() {
+        return getPrefs().getBoolean(TRACKING, true);
+    }
+
+
+    public void setTrackingModeDefault(boolean b) {
+        getPrefs().putBoolean(TRACKING, b);
+    }
+
+
+    public int getDefaultTrackerRadius() {
+        return getPrefs().getInt(RADIUS, 2);
+    }
+
+    
+    public void setDefaultTrackerRadius(int radius){
+        getPrefs().putInt(RADIUS, radius);
     }
 }

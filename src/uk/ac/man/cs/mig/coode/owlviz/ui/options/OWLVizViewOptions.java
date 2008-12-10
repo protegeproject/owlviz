@@ -1,5 +1,7 @@
 package uk.ac.man.cs.mig.coode.owlviz.ui.options;
 
+import uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizPreferences;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -22,16 +24,18 @@ public class OWLVizViewOptions {
 	private boolean displayDisjointClassIndicator = true;
 	private boolean displayIsALabels = false;
 	private double edgeBrightness = 0.5;
-    private boolean trackerMode = false;
+    private boolean trackerMode;
 
 	private ArrayList<OptionsChangedListener> listeners;
 
-    private int trackerRadius = 1;
+    private int trackerRadius;
 
 
     public OWLVizViewOptions() {
 		listeners = new ArrayList<OptionsChangedListener>();
-	}
+        trackerRadius = OWLVizPreferences.getInstance().getDefaultTrackerRadius();
+        trackerMode = OWLVizPreferences.getInstance().isTrackingModeDefault();
+    }
 
 
 //	public static synchronized OWLVizViewOptions getInstance() {
