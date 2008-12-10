@@ -118,41 +118,46 @@ public class OWLVizGraphPanel extends JPanel {
            * display the Protege Info View
            */
         graphComponent.getGraphView().addNodeClickedListener(new NodeClickedListener() {
-                    /**
-                     * Invoked when a <code>Node</code> has been clicked by
-                     * the mouse in the <code>GraphView</code>
-                     *
-                     * @param evt
-                     *            The event associated with this action.
-                     */
-                    public void nodeClicked(NodeClickedEvent evt) {
-                        if (evt.getMouseEvent().getClickCount() == 2) {
-                            Object selObj = graphComponent.getSelectedObject();
-                            if (selObj != null) {
-                                if (selObj instanceof OWLEntity) {
-                                    // view.showInstance((Instance) selObj);
-                                }
-                            }
+            /**
+             * Invoked when a <code>Node</code> has been clicked by
+             * the mouse in the <code>GraphView</code>
+             *
+             * @param evt
+             *            The event associated with this action.
+             */
+            public void nodeClicked(NodeClickedEvent evt) {
+                if (evt.getMouseEvent().getClickCount() == 2) {
+                    Object selObj = graphComponent.getSelectedObject();
+                    if (selObj != null) {
+                        if (selObj instanceof OWLEntity) {
+                            // view.showInstance((Instance) selObj);
                         }
                     }
-                });
+                }
+            }
+        });
 
         graphComponent.addGraphSelectionModelListener(new GraphSelectionModelListener() {
-                    public void selectionChanged(GraphSelectionModelEvent event) {
-                        view.getSelectionModel().setSelectedClass(
-                                (OWLClass) event.getSource()
-                                        .getSelectedObject());
-                    }
-                });
+            public void selectionChanged(GraphSelectionModelEvent event) {
+                view.getSelectionModel().setSelectedClass(
+                        (OWLClass) event.getSource()
+                                .getSelectedObject());
+            }
+        });
 
         owlVizSelectionListener = new OWLVizSelectionListener() {
             public void selectionChanged(OWLVizSelectionModel model) {
                 if (model.getSelectedClass() != null) {
-                    if (view.getOptions().isTrackerMode()){
-                        getGraphComponent().getVisualisedObjectManager().hideAll();
-                        getGraphComponent().getVisualisedObjectManager().showObject(model.getSelectedClass(),
-                                                                                    view.getOptions().getTrackerRadius(),
-                                                                                    OWLClass.class);
+
+                    // annoying hack to get round OWLPropViz compatibility
+                    if (view instanceof ConfigurableOWLVizView){
+                        ConfigurableOWLVizView configView = (ConfigurableOWLVizView)view;
+                        if (configView.getOptions().isTrackerMode()){
+                            getGraphComponent().getVisualisedObjectManager().hideAll();
+                            getGraphComponent().getVisualisedObjectManager().showObject(model.getSelectedClass(),
+                                                                                        configView.getOptions().getTrackerRadius(),
+                                                                                        OWLClass.class);
+                        }
                     }
                     getGraphComponent().getGraphSelectionModel().setSelectedObject(model.getSelectedClass());
                 }

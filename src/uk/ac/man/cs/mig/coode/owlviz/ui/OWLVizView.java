@@ -39,7 +39,7 @@ import java.util.List;
  * www.cs.man.ac.uk/~horridgm<br>
  * <br>
  */
-public class OWLVizView extends AbstractOWLClassViewComponent implements DropTargetListener, OWLVizViewI {
+public class OWLVizView extends AbstractOWLClassViewComponent implements DropTargetListener, OWLVizViewI, ConfigurableOWLVizView {
 
     private static Logger logger = Logger.getLogger(OWLVizView.class);
 

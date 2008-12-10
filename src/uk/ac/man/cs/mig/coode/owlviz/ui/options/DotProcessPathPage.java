@@ -1,7 +1,6 @@
 package uk.ac.man.cs.mig.coode.owlviz.ui.options;
 
 import org.protege.editor.core.ui.util.UIUtil;
-import org.protege.editor.owl.ui.preferences.OWLPreferencesPanel;
 import uk.ac.man.cs.mig.util.graph.layout.dotlayoutengine.DotLayoutEngineProperties;
 
 import javax.swing.*;
@@ -11,7 +10,6 @@ import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
-
 /**
  * User: matthewhorridge<br>
  * The Univeristy Of Manchester<br>
@@ -20,28 +18,44 @@ import java.util.Set;
  * <p/>
  * matthew.horridge@cs.man.ac.uk<br>
  * www.cs.man.ac.uk/~horridgm<br><br>
+ *
+ * @deprecated
  */
-public class DotProcessPathPage extends OWLPreferencesPanel {
+public class DotProcessPathPage extends OptionsPage {
 
     private JTextField pathField;
 
-    public void initialise() throws Exception {
-        setLayout(new BorderLayout(12, 12));
-        setBorder(BorderFactory.createTitledBorder("Dot Application Path"));
-        add(createUI(), BorderLayout.NORTH);
-    }
-
-    public void dispose() throws Exception {
-        // do nothing
+    public DotProcessPathPage() {
+        setLayout(new BorderLayout());
+        add(createUI());
     }
 
 
     protected JComponent createUI() {
-        Box panel = new Box(BoxLayout.LINE_AXIS);
-
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        JLabel label = new JLabel("Path:");
+        gbc.insets = new Insets(6, 6, 6, 6);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+        gbc.weightx = 0;
+        gbc.weighty = 0;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.anchor = GridBagConstraints.NORTHWEST;
+        panel.add(label, gbc);
         pathField = new JTextField(15);
-        pathField.setText(DotLayoutEngineProperties.getInstance().getDotProcessPath());
-
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+        gbc.weightx = 100;
+        gbc.weighty = 0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.anchor = GridBagConstraints.NORTH;
+        panel.add(pathField, gbc);
         JButton browseButton = new JButton(new AbstractAction("Browse") {
             /**
              * Invoked when an action occurs.
@@ -50,11 +64,16 @@ public class DotProcessPathPage extends OWLPreferencesPanel {
                 browseForPath();
             }
         });
-
-        panel.add(new JLabel("Path:"));
-        panel.add(pathField);
-        panel.add(browseButton);
-
+        gbc.gridx = 2;
+        gbc.gridy = 0;
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+        gbc.weightx = 0;
+        gbc.weighty = 0;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.anchor = GridBagConstraints.NORTH;
+        panel.add(browseButton, gbc);
+        panel.setBorder(BorderFactory.createTitledBorder("Dot Application Path"));
         return panel;
     }
 
@@ -72,7 +91,16 @@ public class DotProcessPathPage extends OWLPreferencesPanel {
     }
 
 
-    public void applyChanges() {
+    public void updateInterface() {
+        pathField.setText(DotLayoutEngineProperties.getInstance().getDotProcessPath());
+    }
+
+
+    public void validateOptions() {
+    }
+
+
+    public void applyOptions() {
         DotLayoutEngineProperties.getInstance().setDotProcessPath(pathField.getText());
     }
 }

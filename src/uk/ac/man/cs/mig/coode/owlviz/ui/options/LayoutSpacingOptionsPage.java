@@ -1,6 +1,6 @@
 package uk.ac.man.cs.mig.coode.owlviz.ui.options;
 
-import org.protege.editor.owl.ui.preferences.OWLPreferencesPanel;
+import uk.ac.man.cs.mig.util.graph.layout.dotlayoutengine.DotGraphLayoutEngine;
 import uk.ac.man.cs.mig.util.graph.layout.dotlayoutengine.DotLayoutEngineProperties;
 
 import javax.swing.*;
@@ -14,24 +14,25 @@ import java.awt.*;
  * <p/>
  * matthew.horridge@cs.man.ac.uk<br>
  * www.cs.man.ac.uk/~horridgm<br><br>
+ *
+ * @deprecated
  */
-public class LayoutSpacingOptionsPage extends OWLPreferencesPanel {
+public class LayoutSpacingOptionsPage extends OptionsPage {
 
+	DotGraphLayoutEngine assertedLayoutEngine;
+	DotGraphLayoutEngine inferredLayoutEngine;
 
 	JSpinner rankSpacing;
 	JSpinner siblingSpacing;
 
 
-	public void initialise() {
+	public LayoutSpacingOptionsPage(DotGraphLayoutEngine assertedLayoutEngine,
+	                                DotGraphLayoutEngine inferredLayoutEngine) {
+		this.assertedLayoutEngine = assertedLayoutEngine;
+		this.inferredLayoutEngine = inferredLayoutEngine;
 		setLayout(new BorderLayout(12, 12));
 		add(createUI());
-
-        DotLayoutEngineProperties dotLayoutEngineProperties = DotLayoutEngineProperties.getInstance();
-        Double dRankSpacing = new Double(dotLayoutEngineProperties.getRankSpacing());
-        Double dSiblingSpacing = new Double(dotLayoutEngineProperties.getSiblingSpacing());
-        rankSpacing.setValue(dRankSpacing);
-        siblingSpacing.setValue(dSiblingSpacing);
-    }
+	}
 
 
 	protected JComponent createUI() {
@@ -74,17 +75,24 @@ public class LayoutSpacingOptionsPage extends OWLPreferencesPanel {
 	}
 
 
-	public void applyChanges() {
+	public void updateInterface() {
+		DotLayoutEngineProperties dotLayoutEngineProperties = DotLayoutEngineProperties.getInstance();
+		Double dRankSpacing = new Double(dotLayoutEngineProperties.getRankSpacing());
+		Double dSiblingSpacing = new Double(dotLayoutEngineProperties.getSiblingSpacing());
+		rankSpacing.setValue(dRankSpacing);
+		siblingSpacing.setValue(dSiblingSpacing);
+	}
+
+
+	public void validateOptions() {
+	}
+
+
+	public void applyOptions() {
 		Double dRankSpacing = (Double) rankSpacing.getValue();
 		Double dSiblingSpacing = (Double) siblingSpacing.getValue();
 		DotLayoutEngineProperties dotLayoutEngineProperties = DotLayoutEngineProperties.getInstance();
 		dotLayoutEngineProperties.setRankSpacing(dRankSpacing.doubleValue());
 		dotLayoutEngineProperties.setSiblingSpacing(dSiblingSpacing.doubleValue());
 	}
-
-
-    public void dispose() throws Exception {
-        // do nothing
-    }
 }
-
