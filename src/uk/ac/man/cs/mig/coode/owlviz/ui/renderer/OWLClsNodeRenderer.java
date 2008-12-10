@@ -8,7 +8,6 @@ import org.semanticweb.owl.model.OWLEntity;
 import org.semanticweb.owl.model.OWLOntology;
 import org.semanticweb.owl.model.OWLRuntimeException;
 import uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizIcons;
-import uk.ac.man.cs.mig.coode.owlviz.ui.options.OWLVizOptions;
 import uk.ac.man.cs.mig.util.graph.controller.Controller;
 import uk.ac.man.cs.mig.util.graph.controller.VisualisedObjectManager;
 import uk.ac.man.cs.mig.util.graph.graph.Node;
@@ -60,7 +59,7 @@ public class OWLClsNodeRenderer implements NodeRenderer {
     public static final String HAS_NAME = "\u220B";
     public static final String ENUM_NAME = "{ }";
 
-    OWLVizOptions options = OWLVizOptions.getInstance();
+//    OWLVizViewOptions options = OWLVizViewOptions.getInstance();
 
     // Colors
 
@@ -244,24 +243,24 @@ public class OWLClsNodeRenderer implements NodeRenderer {
             if (drawDetail == true) {
                 drawArrows(g2, sh, userObject);
                 Object selObj = controller.getGraphSelectionModel().getSelectedObject();
-                if (options.isDisplayDisjointClassIndicator() == true && selObj != null) {
-                    if (selObj.equals(userObject) == false) {
-                        if (selObj instanceof OWLClass && userObject instanceof OWLClass) {
-                            int disjointStatus = areClassesDisjoint((OWLClass) userObject, (OWLClass) selObj);
-                            if (disjointStatus != NOT_DISJOINT) {
-                                //   g2.setColor(Color.MAGENTA);
-
-                                Rectangle rect = sh.getBounds();
-
-                                //   g2.drawString("D", rect.x, rect.y);
-
-                                disjointClassIcon.paintIcon(null, g2, rect.x, rect.y);
-
-                                //g2.draw(rect);
-                            }
-                        }
-                    }
-                }
+//                if (options.isDisplayDisjointClassIndicator() == true && selObj != null) {
+//                    if (selObj.equals(userObject) == false) {
+//                        if (selObj instanceof OWLClass && userObject instanceof OWLClass) {
+//                            int disjointStatus = areClassesDisjoint((OWLClass) userObject, (OWLClass) selObj);
+//                            if (disjointStatus != NOT_DISJOINT) {
+//                                //   g2.setColor(Color.MAGENTA);
+//
+//                                Rectangle rect = sh.getBounds();
+//
+//                                //   g2.drawString("D", rect.x, rect.y);
+//
+//                                disjointClassIcon.paintIcon(null, g2, rect.x, rect.y);
+//
+//                                //g2.draw(rect);
+//                            }
+//                        }
+//                    }
+//                }
 
                 // Draw text
 

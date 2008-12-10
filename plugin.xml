@@ -19,6 +19,7 @@
         <category value="@org.protege.classcategory"/>
     </extension>
 
+
     <extension point="org.protege.editor.core.application.ViewComponent" id="OWLVizViewImports">
         <label       value="OWLViz Imports Graph"/>
         <class       value="uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizImportsViewComponent"/>
@@ -26,5 +27,11 @@
         <category    value="@org.protege.ontologycategory"/>
     </extension>
 
+
+    <extension id="owlviz.prefs"
+               point="org.protege.editor.core.application.preferencespanel">
+        <label value="OWLViz"/>
+        <class value="uk.ac.man.cs.mig.coode.owlviz.ui.options.OWLVizPreferencesPane"/>
+    </extension>
 
 </plugin>

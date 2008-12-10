@@ -22,9 +22,13 @@ public class DisplayOptionsPage extends OptionsPage {
 	private JCheckBox displayIndividuals;
 	private JCheckBox displayIsALabels;
 
+    private OWLVizViewOptions options;
 
-	public DisplayOptionsPage() {
-		setLayout(new BorderLayout(12, 12));
+
+    public DisplayOptionsPage(OWLVizViewOptions options) {
+        this.options = options;
+
+        setLayout(new BorderLayout(12, 12));
 		add(createUI());
 		displayAnonymousClasses.setEnabled(false);
 		displayIndividuals.setEnabled(false);
@@ -80,7 +84,6 @@ public class DisplayOptionsPage extends OptionsPage {
 
 
 	public void updateInterface() {
-		OWLVizOptions options = OWLVizOptions.getInstance();
 		displayDisjointInfo.setSelected(options.isDisplayDisjointClassIndicator());
 		displayIndividuals.setSelected(options.isDisplayIndividuals());
 		displayAnonymousClasses.setSelected(options.isDisplayAnonymousClasses());
@@ -94,7 +97,6 @@ public class DisplayOptionsPage extends OptionsPage {
 
 
 	public void applyOptions() {
-		OWLVizOptions options = OWLVizOptions.getInstance();
 		options.setDisplayDisjointClassIndicator(displayDisjointInfo.isSelected());
 		options.setDisplayAnonymousClasses(displayAnonymousClasses.isSelected());
 		options.setGroupClassesByNameSpace(groupByNameSpace.isSelected());

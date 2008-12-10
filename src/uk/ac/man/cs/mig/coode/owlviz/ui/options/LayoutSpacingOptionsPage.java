@@ -1,6 +1,6 @@
 package uk.ac.man.cs.mig.coode.owlviz.ui.options;
 
-import uk.ac.man.cs.mig.util.graph.layout.dotlayoutengine.DotGraphLayoutEngine;
+import org.protege.editor.owl.ui.preferences.OWLPreferencesPanel;
 import uk.ac.man.cs.mig.util.graph.layout.dotlayoutengine.DotLayoutEngineProperties;
 
 import javax.swing.*;
@@ -15,22 +15,23 @@ import java.awt.*;
  * matthew.horridge@cs.man.ac.uk<br>
  * www.cs.man.ac.uk/~horridgm<br><br>
  */
-public class LayoutSpacingOptionsPage extends OptionsPage {
+public class LayoutSpacingOptionsPage extends OWLPreferencesPanel {
 
-	DotGraphLayoutEngine assertedLayoutEngine;
-	DotGraphLayoutEngine inferredLayoutEngine;
 
 	JSpinner rankSpacing;
 	JSpinner siblingSpacing;
 
 
-	public LayoutSpacingOptionsPage(DotGraphLayoutEngine assertedLayoutEngine,
-	                                DotGraphLayoutEngine inferredLayoutEngine) {
-		this.assertedLayoutEngine = assertedLayoutEngine;
-		this.inferredLayoutEngine = inferredLayoutEngine;
+	public void initialise() {
 		setLayout(new BorderLayout(12, 12));
 		add(createUI());
-	}
+
+        DotLayoutEngineProperties dotLayoutEngineProperties = DotLayoutEngineProperties.getInstance();
+        Double dRankSpacing = new Double(dotLayoutEngineProperties.getRankSpacing());
+        Double dSiblingSpacing = new Double(dotLayoutEngineProperties.getSiblingSpacing());
+        rankSpacing.setValue(dRankSpacing);
+        siblingSpacing.setValue(dSiblingSpacing);
+    }
 
 
 	protected JComponent createUI() {
@@ -73,25 +74,17 @@ public class LayoutSpacingOptionsPage extends OptionsPage {
 	}
 
 
-	public void updateInterface() {
-		DotLayoutEngineProperties dotLayoutEngineProperties = DotLayoutEngineProperties.getInstance();
-		Double dRankSpacing = new Double(dotLayoutEngineProperties.getRankSpacing());
-		Double dSiblingSpacing = new Double(dotLayoutEngineProperties.getSiblingSpacing());
-		rankSpacing.setValue(dRankSpacing);
-		siblingSpacing.setValue(dSiblingSpacing);
-	}
-
-
-	public void validateOptions() {
-	}
-
-
-	public void applyOptions() {
+	public void applyChanges() {
 		Double dRankSpacing = (Double) rankSpacing.getValue();
 		Double dSiblingSpacing = (Double) siblingSpacing.getValue();
 		DotLayoutEngineProperties dotLayoutEngineProperties = DotLayoutEngineProperties.getInstance();
 		dotLayoutEngineProperties.setRankSpacing(dRankSpacing.doubleValue());
 		dotLayoutEngineProperties.setSiblingSpacing(dSiblingSpacing.doubleValue());
 	}
+
+
+    public void dispose() throws Exception {
+        // do nothing
+    }
 }
 

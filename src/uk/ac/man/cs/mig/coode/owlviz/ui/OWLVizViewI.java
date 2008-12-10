@@ -1,8 +1,9 @@
 package uk.ac.man.cs.mig.coode.owlviz.ui;
 
-import java.util.Collection;
-
+import uk.ac.man.cs.mig.coode.owlviz.ui.options.OWLVizViewOptions;
 import uk.ac.man.cs.mig.util.graph.ui.GraphComponent;
+
+import java.util.Collection;
 
 public interface OWLVizViewI {
 
@@ -11,4 +12,6 @@ public interface OWLVizViewI {
 	public Collection<GraphComponent> getGraphComponents();
 	
 	public Collection<GraphComponent> getAllGraphComponents();
+
+    public OWLVizViewOptions getOptions();
 }

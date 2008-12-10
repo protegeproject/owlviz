@@ -1,7 +1,6 @@
 package uk.ac.man.cs.mig.coode.owlviz.model;
 
 import org.protege.editor.owl.model.OWLModelManager;
-import org.semanticweb.owl.model.OWLClass;
 
 /**
  * Author: Matthew Horridge<br>
@@ -14,10 +13,10 @@ import org.semanticweb.owl.model.OWLClass;
  */
 public class OWLClassGraphInferredModel extends AbstractOWLClassGraphModel {
 
-    private OWLClass nothing;
+//    private OWLClass nothing;
 
     public OWLClassGraphInferredModel(OWLModelManager owlModelManager) {
         super(owlModelManager, owlModelManager.getOWLHierarchyManager().getInferredOWLClassHierarchyProvider());
-        nothing = owlModelManager.getOWLOntologyManager().getOWLDataFactory().getOWLNothing();
+//        nothing = owlModelManager.getOWLOntologyManager().getOWLDataFactory().getOWLNothing();
     }
 }
