@@ -34,8 +34,14 @@
             </javac>
     </target>
 
+    <!-- =================================================================== -->
+    <!-- BND -->
+    <!-- =================================================================== -->
+    
+    <target name = "bnd"/> <!-- todo this file  could actually use a bnd target -->
+
     <!-- ===================================================================================== -->
-    <!-- JAR - create the distribution JAR file that goes in the JPF "plugins" directory -->
+    <!-- JAR - create the distribution JAR file that goes in the OSGi "plugins" directory -->
     <!-- ===================================================================================== -->
     <target name = "bundle" depends = "compile">
     
