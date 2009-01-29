@@ -40,26 +40,39 @@
     
     <target name = "bnd"/> <!-- todo this file  could actually use a bnd target -->
 
-    <!-- ===================================================================================== -->
-    <!-- JAR - create the distribution JAR file that goes in the OSGi "plugins" directory -->
-    <!-- ===================================================================================== -->
-    <target name = "bundle" depends = "compile">
-    
-            <copy todir = "${owlviz.classes}" file = "${owlviz.dir}/plugin.xml"/>
 
-            <copy todir = "${owlviz.classes}">
-                <fileset dir = "${owlviz.dir}/resources"/>
-            </copy>
-            
-            <!-- image files -->
-            <copy todir = "${owlviz.classes}/uk/ac/man/cs/mig/coode/owlviz/ui/image">
-                <fileset dir = "${src.dir}/uk/ac/man/cs/mig/coode/owlviz/ui/image"/>
-            </copy>
-
-        <jar basedir = "${owlviz.classes}" destfile = "${owlviz.jar}" manifest = "${owlviz.dir}/META-INF/MANIFEST.MF"/>
+    <target name="copy.resources" depends="init">
+      <copy todir = "${owlviz.classes}" file = "${owlviz.dir}/plugin.xml"/>
+      <copy todir = "${owlviz.classes}">
+        <fileset dir = "${owlviz.dir}/resources"/>
+      </copy>
+      <!-- image files -->
+      <copy todir = "${owlviz.classes}/uk/ac/man/cs/mig/coode/owlviz/ui/image">
+        <fileset dir = "${src.dir}/uk/ac/man/cs/mig/coode/owlviz/ui/image"/>
+      </copy>
     </target>
 
-        <target name = "junit"/>
+    <!-- ===================================================================================== -->
+    <!-- SRC.BUNDLE - create a bundle with sources for developers -->
+    <!-- ===================================================================================== -->
+    <target name="src.bundle" depends="copy.resources,compile">
+      <zip destfile="${owlviz.classes}/${owlviz.name}src.zip">
+        <fileset dir="${src.dir}"/>
+      </zip>
+      <antcall target="bundle"/>
+    </target>
+
+
+    <!-- ===================================================================================== -->
+    <!-- BUNDLE - create the distribution JAR file that goes in the OSGi "plugins" directory -->
+    <!-- ===================================================================================== -->
+    <target name = "bundle" depends = "compile,copy.resources">
+        <jar basedir = "${owlviz.classes}" 
+             destfile = "${owlviz.jar}" 
+             manifest = "${owlviz.dir}/META-INF/MANIFEST.MF"/>
+    </target>
+
+    <target name = "junit"/>
 
         
 </project>
