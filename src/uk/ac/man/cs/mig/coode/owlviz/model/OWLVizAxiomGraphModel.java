@@ -1,78 +1,11 @@
 package uk.ac.man.cs.mig.coode.owlviz.model;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-
-import org.semanticweb.owl.model.OWLAntiSymmetricObjectPropertyAxiom;
-import org.semanticweb.owl.model.OWLAxiom;
-import org.semanticweb.owl.model.OWLAxiomAnnotationAxiom;
-import org.semanticweb.owl.model.OWLAxiomVisitor;
-import org.semanticweb.owl.model.OWLClass;
-import org.semanticweb.owl.model.OWLClassAssertionAxiom;
-import org.semanticweb.owl.model.OWLDataAllRestriction;
-import org.semanticweb.owl.model.OWLDataExactCardinalityRestriction;
-import org.semanticweb.owl.model.OWLDataMaxCardinalityRestriction;
-import org.semanticweb.owl.model.OWLDataMinCardinalityRestriction;
-import org.semanticweb.owl.model.OWLDataPropertyAssertionAxiom;
-import org.semanticweb.owl.model.OWLDataPropertyDomainAxiom;
-import org.semanticweb.owl.model.OWLDataPropertyExpression;
-import org.semanticweb.owl.model.OWLDataPropertyRangeAxiom;
-import org.semanticweb.owl.model.OWLDataSomeRestriction;
-import org.semanticweb.owl.model.OWLDataSubPropertyAxiom;
-import org.semanticweb.owl.model.OWLDataValueRestriction;
-import org.semanticweb.owl.model.OWLDeclarationAxiom;
-import org.semanticweb.owl.model.OWLDescription;
-import org.semanticweb.owl.model.OWLDescriptionVisitor;
-import org.semanticweb.owl.model.OWLDifferentIndividualsAxiom;
-import org.semanticweb.owl.model.OWLDisjointClassesAxiom;
-import org.semanticweb.owl.model.OWLDisjointDataPropertiesAxiom;
-import org.semanticweb.owl.model.OWLDisjointObjectPropertiesAxiom;
-import org.semanticweb.owl.model.OWLDisjointUnionAxiom;
-import org.semanticweb.owl.model.OWLEntityAnnotationAxiom;
-import org.semanticweb.owl.model.OWLEquivalentClassesAxiom;
-import org.semanticweb.owl.model.OWLEquivalentDataPropertiesAxiom;
-import org.semanticweb.owl.model.OWLEquivalentObjectPropertiesAxiom;
-import org.semanticweb.owl.model.OWLFunctionalDataPropertyAxiom;
-import org.semanticweb.owl.model.OWLFunctionalObjectPropertyAxiom;
-import org.semanticweb.owl.model.OWLImportsDeclaration;
-import org.semanticweb.owl.model.OWLIndividual;
-import org.semanticweb.owl.model.OWLInverseFunctionalObjectPropertyAxiom;
-import org.semanticweb.owl.model.OWLInverseObjectPropertiesAxiom;
-import org.semanticweb.owl.model.OWLIrreflexiveObjectPropertyAxiom;
-import org.semanticweb.owl.model.OWLNegativeDataPropertyAssertionAxiom;
-import org.semanticweb.owl.model.OWLNegativeObjectPropertyAssertionAxiom;
-import org.semanticweb.owl.model.OWLObject;
-import org.semanticweb.owl.model.OWLObjectAllRestriction;
-import org.semanticweb.owl.model.OWLObjectComplementOf;
-import org.semanticweb.owl.model.OWLObjectExactCardinalityRestriction;
-import org.semanticweb.owl.model.OWLObjectIntersectionOf;
-import org.semanticweb.owl.model.OWLObjectMaxCardinalityRestriction;
-import org.semanticweb.owl.model.OWLObjectMinCardinalityRestriction;
-import org.semanticweb.owl.model.OWLObjectOneOf;
-import org.semanticweb.owl.model.OWLObjectPropertyAssertionAxiom;
-import org.semanticweb.owl.model.OWLObjectPropertyChainSubPropertyAxiom;
-import org.semanticweb.owl.model.OWLObjectPropertyDomainAxiom;
-import org.semanticweb.owl.model.OWLObjectPropertyExpression;
-import org.semanticweb.owl.model.OWLObjectPropertyRangeAxiom;
-import org.semanticweb.owl.model.OWLObjectSelfRestriction;
-import org.semanticweb.owl.model.OWLObjectSomeRestriction;
-import org.semanticweb.owl.model.OWLObjectSubPropertyAxiom;
-import org.semanticweb.owl.model.OWLObjectUnionOf;
-import org.semanticweb.owl.model.OWLObjectValueRestriction;
-import org.semanticweb.owl.model.OWLOntologyAnnotationAxiom;
-import org.semanticweb.owl.model.OWLReflexiveObjectPropertyAxiom;
-import org.semanticweb.owl.model.OWLSameIndividualsAxiom;
-import org.semanticweb.owl.model.OWLSubClassAxiom;
-import org.semanticweb.owl.model.OWLSymmetricObjectPropertyAxiom;
-import org.semanticweb.owl.model.OWLTransitiveObjectPropertyAxiom;
-import org.semanticweb.owl.model.SWRLRule;
-
+import org.semanticweb.owl.model.*;
+import org.semanticweb.owl.util.OWLAxiomVisitorAdapter;
 import uk.ac.man.cs.mig.util.graph.model.GraphModel;
 import uk.ac.man.cs.mig.util.graph.model.impl.AbstractGraphModel;
+
+import java.util.*;
 
 /**
  * Author: Matthew Horridge<br>
@@ -82,7 +15,7 @@ import uk.ac.man.cs.mig.util.graph.model.impl.AbstractGraphModel;
  * <br>
  */
 public class OWLVizAxiomGraphModel extends AbstractGraphModel implements
-		OWLAxiomVisitor, OWLDescriptionVisitor {
+		OWLAxiomVisitor, OWLClassExpressionVisitor {
 
 	private Set<OWLObject> nodes;
 
@@ -202,7 +135,7 @@ public class OWLVizAxiomGraphModel extends AbstractGraphModel implements
 			if (edgeObject instanceof OWLAxiom) {
 				((OWLAxiom) edgeObject).accept(edgeNameGenerator);
 			} else {
-				((OWLDescription) edgeObject).accept(edgeNameGenerator);
+				((OWLClassExpression) edgeObject).accept(edgeNameGenerator);
 			}
 			return edgeNameGenerator.direction;
 		}
@@ -215,8 +148,8 @@ public class OWLVizAxiomGraphModel extends AbstractGraphModel implements
 		OWLObject edgeObject = edgeMap.get(edge);
 		if (edgeObject != null) {
 			edgeNameGenerator.reset();
-			if (edgeObject instanceof OWLDescription) {
-				((OWLDescription) edgeObject).accept(edgeNameGenerator);
+			if (edgeObject instanceof OWLClassExpression) {
+				((OWLClassExpression) edgeObject).accept(edgeNameGenerator);
 			} else {
 				((OWLAxiom) edgeObject).accept(edgeNameGenerator);
 			}
@@ -245,15 +178,13 @@ public class OWLVizAxiomGraphModel extends AbstractGraphModel implements
 	//
 	// ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public void visit(OWLAntiSymmetricObjectPropertyAxiom axiom) {
+	public void visit(OWLAsymmetricObjectPropertyAxiom axiom) {
 	}
 
-	public void visit(OWLAxiomAnnotationAxiom axiom) {
-	}
 
 	public void visit(OWLClassAssertionAxiom axiom) {
-		addChildParent(axiom.getIndividual(), axiom.getDescription(), axiom);
-		axiom.getDescription().accept(this);
+		addChildParent(axiom.getIndividual(), axiom.getClassExpression(), axiom);
+		axiom.getClassExpression().accept(this);
 	}
 
 	public void visit(OWLDataPropertyAssertionAxiom axiom) {
@@ -267,7 +198,7 @@ public class OWLVizAxiomGraphModel extends AbstractGraphModel implements
 	public void visit(OWLDataPropertyRangeAxiom axiom) {
 	}
 
-	public void visit(OWLDataSubPropertyAxiom axiom) {
+	public void visit(OWLSubDataPropertyOfAxiom axiom) {
 		addChildParent(axiom.getSubProperty(), axiom.getSuperProperty(), axiom);
 	}
 
@@ -279,9 +210,9 @@ public class OWLVizAxiomGraphModel extends AbstractGraphModel implements
 	}
 
 	public void visit(OWLDisjointClassesAxiom axiom) {
-		Set<OWLDescription> added = new HashSet<OWLDescription>();
-		for (OWLDescription descA : axiom.getDescriptions()) {
-			for (OWLDescription descB : axiom.getDescriptions()) {
+		Set<OWLClassExpression> added = new HashSet<OWLClassExpression>();
+		for (OWLClassExpression descA : axiom.getClassExpressions()) {
+			for (OWLClassExpression descB : axiom.getClassExpressions()) {
 				if (!descA.equals(descB) && !added.contains(descA)
 						&& !added.contains(descB)) {
 					addChildParent(descA, descB, axiom);
@@ -317,14 +248,12 @@ public class OWLVizAxiomGraphModel extends AbstractGraphModel implements
 	public void visit(OWLDisjointUnionAxiom axiom) {
 	}
 
-	public void visit(OWLEntityAnnotationAxiom axiom) {
-	}
 
 	public void visit(OWLEquivalentClassesAxiom axiom) {
-		Set<OWLDescription> added = new HashSet<OWLDescription>();
-		for (OWLDescription descA : axiom.getDescriptions()) {
+		Set<OWLClassExpression> added = new HashSet<OWLClassExpression>();
+		for (OWLClassExpression descA : axiom.getClassExpressions()) {
 			descA.accept(this);
-			for (OWLDescription descB : axiom.getDescriptions()) {
+			for (OWLClassExpression descB : axiom.getClassExpressions()) {
 				if (!descA.equals(descB) && !added.contains(descA)
 						&& !added.contains(descB)) {
 					addChildParent(descA, descB, axiom);
@@ -365,7 +294,16 @@ public class OWLVizAxiomGraphModel extends AbstractGraphModel implements
 	public void visit(OWLInverseObjectPropertiesAxiom axiom) {
 	}
 
-	public void visit(OWLIrreflexiveObjectPropertyAxiom axiom) {
+
+    public void visit(OWLHasKeyAxiom owlHasKeyAxiom) {
+    }
+
+
+    public void visit(OWLDatatypeDefinition owlDatatypeDefinition) {
+    }
+
+
+    public void visit(OWLIrreflexiveObjectPropertyAxiom axiom) {
 	}
 
 	public void visit(OWLNegativeDataPropertyAssertionAxiom axiom) {
@@ -378,7 +316,7 @@ public class OWLVizAxiomGraphModel extends AbstractGraphModel implements
 		addChildParent(axiom.getSubject(), axiom.getObject(), axiom);
 	}
 
-	public void visit(OWLObjectPropertyChainSubPropertyAxiom axiom) {
+	public void visit(OWLSubPropertyChainOfAxiom axiom) {
 	}
 
 	public void visit(OWLObjectPropertyDomainAxiom axiom) {
@@ -388,20 +326,18 @@ public class OWLVizAxiomGraphModel extends AbstractGraphModel implements
 	public void visit(OWLObjectPropertyRangeAxiom axiom) {
 	}
 
-	public void visit(OWLObjectSubPropertyAxiom axiom) {
+	public void visit(OWLSubObjectPropertyOfAxiom axiom) {
 		addChildParent(axiom.getSubProperty(), axiom.getSuperProperty(), axiom);
 	}
 
-	public void visit(OWLOntologyAnnotationAxiom axiom) {
-	}
 
 	public void visit(OWLReflexiveObjectPropertyAxiom axiom) {
 	}
 
-	public void visit(OWLSameIndividualsAxiom axiom) {
+	public void visit(OWLSameIndividualAxiom axiom) {
 	}
 
-	public void visit(OWLSubClassAxiom axiom) {
+	public void visit(OWLSubClassOfAxiom axiom) {
 		addChildParent(axiom.getSubClass(), axiom.getSuperClass(), axiom);
 		axiom.getSubClass().accept(this);
 		axiom.getSuperClass().accept(this);
@@ -426,26 +362,26 @@ public class OWLVizAxiomGraphModel extends AbstractGraphModel implements
 
 	}
 
-	public void visit(OWLDataAllRestriction desc) {
+	public void visit(OWLDataAllValuesFrom desc) {
 
 	}
 
-	public void visit(OWLDataExactCardinalityRestriction desc) {
+	public void visit(OWLDataExactCardinality desc) {
 	}
 
-	public void visit(OWLDataMaxCardinalityRestriction desc) {
+	public void visit(OWLDataMaxCardinality desc) {
 	}
 
-	public void visit(OWLDataMinCardinalityRestriction desc) {
+	public void visit(OWLDataMinCardinality desc) {
 	}
 
-	public void visit(OWLDataSomeRestriction desc) {
+	public void visit(OWLDataSomeValuesFrom desc) {
 	}
 
-	public void visit(OWLDataValueRestriction desc) {
+	public void visit(OWLDataHasValue desc) {
 	}
 
-	public void visit(OWLObjectAllRestriction desc) {
+	public void visit(OWLObjectAllValuesFrom desc) {
 		addChildParent(desc, desc.getFiller(), desc);
 		desc.getFiller().accept(this);
 	}
@@ -455,21 +391,21 @@ public class OWLVizAxiomGraphModel extends AbstractGraphModel implements
 		desc.getOperand().accept(this);
 	}
 
-	public void visit(OWLObjectExactCardinalityRestriction desc) {
+	public void visit(OWLObjectExactCardinality desc) {
 
 	}
 
 	public void visit(OWLObjectIntersectionOf desc) {
-		for (OWLDescription op : desc.getOperands()) {
+		for (OWLClassExpression op : desc.getOperands()) {
 			addChildParent(desc, op, desc);
 			op.accept(this);
 		}
 	}
 
-	public void visit(OWLObjectMaxCardinalityRestriction desc) {
+	public void visit(OWLObjectMaxCardinality desc) {
 	}
 
-	public void visit(OWLObjectMinCardinalityRestriction desc) {
+	public void visit(OWLObjectMinCardinality desc) {
 		addChildParent(desc, desc.getFiller(), desc);
 		desc.getFiller().accept(this);
 	}
@@ -480,23 +416,40 @@ public class OWLVizAxiomGraphModel extends AbstractGraphModel implements
 		}
 	}
 
-	public void visit(OWLObjectSelfRestriction desc) {
+	public void visit(OWLObjectHasSelf desc) {
 	}
 
-	public void visit(OWLObjectSomeRestriction desc) {
+	public void visit(OWLObjectSomeValuesFrom desc) {
 		addChildParent(desc, desc.getFiller(), desc);
 	}
 
 	public void visit(OWLObjectUnionOf desc) {
-		for (OWLDescription op : desc.getOperands()) {
+		for (OWLClassExpression op : desc.getOperands()) {
 			addChildParent(desc, op, desc);
 		}
 	}
 
-	public void visit(OWLObjectValueRestriction desc) {
+	public void visit(OWLObjectHasValue desc) {
 	}
 
-	private class AxiomEdge {
+
+    public void visit(OWLAnnotationAssertionAxiom owlAnnotationAssertionAxiom) {
+    }
+
+
+    public void visit(OWLSubAnnotationPropertyOfAxiom owlSubAnnotationPropertyOfAxiom) {
+    }
+
+
+    public void visit(OWLAnnotationPropertyDomainAxiom owlAnnotationPropertyDomainAxiom) {
+    }
+
+
+    public void visit(OWLAnnotationPropertyRangeAxiom owlAnnotationPropertyRangeAxiom) {
+    }
+
+
+    private class AxiomEdge {
 
 		private Object child;
 
@@ -520,8 +473,7 @@ public class OWLVizAxiomGraphModel extends AbstractGraphModel implements
 		}
 	}
 
-	private class EdgeNameGenerator implements OWLAxiomVisitor,
-			OWLDescriptionVisitor {
+	private class EdgeNameGenerator extends OWLAxiomVisitorAdapter implements OWLClassExpressionVisitor {
 
 		private String edgeName;
 
@@ -532,7 +484,7 @@ public class OWLVizAxiomGraphModel extends AbstractGraphModel implements
 			direction = DIRECTION_BACK;
 		}
 
-		public void visit(OWLSubClassAxiom axiom) {
+		public void visit(OWLSubClassOfAxiom axiom) {
 			direction = GraphModel.DIRECTION_BACK;
 			edgeName = "is-a";
 		}
@@ -540,7 +492,7 @@ public class OWLVizAxiomGraphModel extends AbstractGraphModel implements
 		public void visit(OWLNegativeObjectPropertyAssertionAxiom axiom) {
 		}
 
-		public void visit(OWLAntiSymmetricObjectPropertyAxiom axiom) {
+		public void visit(OWLAsymmetricObjectPropertyAxiom axiom) {
 		}
 
 		public void visit(OWLReflexiveObjectPropertyAxiom axiom) {
@@ -552,12 +504,6 @@ public class OWLVizAxiomGraphModel extends AbstractGraphModel implements
 		}
 
 		public void visit(OWLDataPropertyDomainAxiom axiom) {
-		}
-
-		public void visit(OWLImportsDeclaration axiom) {
-		}
-
-		public void visit(OWLAxiomAnnotationAxiom axiom) {
 		}
 
 		public void visit(OWLObjectPropertyDomainAxiom axiom) {
@@ -587,19 +533,13 @@ public class OWLVizAxiomGraphModel extends AbstractGraphModel implements
 		public void visit(OWLFunctionalObjectPropertyAxiom axiom) {
 		}
 
-		public void visit(OWLObjectSubPropertyAxiom axiom) {
+		public void visit(OWLSubObjectPropertyOfAxiom axiom) {
 		}
 
 		public void visit(OWLDisjointUnionAxiom axiom) {
 		}
 
 		public void visit(OWLDeclarationAxiom axiom) {
-		}
-
-		public void visit(OWLEntityAnnotationAxiom axiom) {
-		}
-
-		public void visit(OWLOntologyAnnotationAxiom axiom) {
 		}
 
 		public void visit(OWLSymmetricObjectPropertyAxiom axiom) {
@@ -633,16 +573,16 @@ public class OWLVizAxiomGraphModel extends AbstractGraphModel implements
 		public void visit(OWLIrreflexiveObjectPropertyAxiom axiom) {
 		}
 
-		public void visit(OWLDataSubPropertyAxiom axiom) {
+		public void visit(OWLSubDataPropertyOfAxiom axiom) {
 		}
 
 		public void visit(OWLInverseFunctionalObjectPropertyAxiom axiom) {
 		}
 
-		public void visit(OWLSameIndividualsAxiom axiom) {
+		public void visit(OWLSameIndividualAxiom axiom) {
 		}
 
-		public void visit(OWLObjectPropertyChainSubPropertyAxiom axiom) {
+		public void visit(OWLSubPropertyChainOfAxiom axiom) {
 		}
 
 		public void visit(OWLInverseObjectPropertiesAxiom axiom) {
@@ -669,47 +609,47 @@ public class OWLVizAxiomGraphModel extends AbstractGraphModel implements
 			direction = GraphModel.DIRECTION_FORWARD;
 		}
 
-		public void visit(OWLObjectSomeRestriction desc) {
+		public void visit(OWLObjectSomeValuesFrom desc) {
 			edgeName = desc.getProperty().toString();
 		}
 
-		public void visit(OWLObjectAllRestriction desc) {
+		public void visit(OWLObjectAllValuesFrom desc) {
 		}
 
-		public void visit(OWLObjectValueRestriction desc) {
+		public void visit(OWLObjectHasValue desc) {
 		}
 
-		public void visit(OWLObjectMinCardinalityRestriction desc) {
+		public void visit(OWLObjectMinCardinality desc) {
 		}
 
-		public void visit(OWLObjectExactCardinalityRestriction desc) {
+		public void visit(OWLObjectExactCardinality desc) {
 		}
 
-		public void visit(OWLObjectMaxCardinalityRestriction desc) {
+		public void visit(OWLObjectMaxCardinality desc) {
 		}
 
-		public void visit(OWLObjectSelfRestriction desc) {
+		public void visit(OWLObjectHasSelf desc) {
 		}
 
 		public void visit(OWLObjectOneOf desc) {
 		}
 
-		public void visit(OWLDataSomeRestriction desc) {
+		public void visit(OWLDataSomeValuesFrom desc) {
 		}
 
-		public void visit(OWLDataAllRestriction desc) {
+		public void visit(OWLDataAllValuesFrom desc) {
 		}
 
-		public void visit(OWLDataValueRestriction desc) {
+		public void visit(OWLDataHasValue desc) {
 		}
 
-		public void visit(OWLDataMinCardinalityRestriction desc) {
+		public void visit(OWLDataMinCardinality desc) {
 		}
 
-		public void visit(OWLDataExactCardinalityRestriction desc) {
+		public void visit(OWLDataExactCardinality desc) {
 		}
 
-		public void visit(OWLDataMaxCardinalityRestriction desc) {
+		public void visit(OWLDataMaxCardinality desc) {
 		}
 	}
 }

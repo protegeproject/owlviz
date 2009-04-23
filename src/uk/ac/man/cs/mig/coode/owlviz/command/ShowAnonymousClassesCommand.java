@@ -1,12 +1,10 @@
 package uk.ac.man.cs.mig.coode.owlviz.command;
 
-import java.awt.event.ActionEvent;
-
-import javax.swing.AbstractAction;
-
-import org.semanticweb.owl.model.OWLDescription;
-
+import org.semanticweb.owl.model.OWLClassExpression;
 import uk.ac.man.cs.mig.util.graph.controller.Controller;
+
+import javax.swing.*;
+import java.awt.event.ActionEvent;
 
 /**
  * User: matthewhorridge<br>
@@ -34,8 +32,8 @@ public class ShowAnonymousClassesCommand extends AbstractAction {
     public void actionPerformed(ActionEvent e) {
         Object selObj = assertedController.getGraphSelectionModel().getSelectedObject();
         if(selObj != null) {
-            assertedController.getVisualisedObjectManager().showParents(selObj, 1, OWLDescription.class);
-            inferredController.getVisualisedObjectManager().showParents(selObj, 1, OWLDescription.class);
+            assertedController.getVisualisedObjectManager().showParents(selObj, 1, OWLClassExpression.class);
+            inferredController.getVisualisedObjectManager().showParents(selObj, 1, OWLClassExpression.class);
         }
     }
 }

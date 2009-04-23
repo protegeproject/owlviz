@@ -1,20 +1,17 @@
 package uk.ac.man.cs.mig.coode.owlviz.ui;
 
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.swing.JScrollPane;
-
-import org.protege.editor.owl.ui.view.AbstractOWLClassViewComponent;
+import org.protege.editor.owl.ui.view.cls.AbstractOWLClassViewComponent;
 import org.semanticweb.owl.model.OWLAxiom;
 import org.semanticweb.owl.model.OWLClass;
 import org.semanticweb.owl.model.OWLOntology;
-
 import uk.ac.man.cs.mig.coode.owlviz.model.OWLVizAxiomGraphModel;
 import uk.ac.man.cs.mig.util.graph.controller.Controller;
 import uk.ac.man.cs.mig.util.graph.controller.impl.DefaultController;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.HashSet;
+import java.util.Set;
 
 
 /**

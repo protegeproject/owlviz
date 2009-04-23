@@ -2,7 +2,7 @@ package uk.ac.man.cs.mig.coode.owlviz.ui;
 
 import org.apache.log4j.Logger;
 import org.protege.editor.owl.ui.transfer.OWLObjectDataFlavor;
-import org.protege.editor.owl.ui.view.AbstractOWLClassViewComponent;
+import org.protege.editor.owl.ui.view.cls.AbstractOWLClassViewComponent;
 import org.semanticweb.owl.model.OWLClass;
 import org.semanticweb.owl.model.OWLObject;
 import uk.ac.man.cs.mig.coode.owlviz.command.*;
