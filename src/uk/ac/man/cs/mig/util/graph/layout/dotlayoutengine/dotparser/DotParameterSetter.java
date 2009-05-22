@@ -326,9 +326,8 @@ public class DotParameterSetter
 
 		if(commaPos != -1)
 		{
-			int x = Integer.parseInt(data.substring(0, commaPos));
-
-			int y = Integer.parseInt(data.substring(commaPos + 1, data.length()));
+			int x = (int) Float.parseFloat(data.substring(0, commaPos));
+			int y = (int) Float.parseFloat(data.substring(commaPos + 1, data.length()));
 
 			p = new Point(x, y);
 		}

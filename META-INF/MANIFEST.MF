@@ -74,3 +74,4 @@ Require-Bundle: org.protege.common,
  org.protege.editor.owl,
  org.semanticweb.owl.owlapi
 Bundle-ClassPath: .
+Update-Url: http://protege.stanford.edu/plugins/protege4/owlviz-update.properties
