@@ -69,10 +69,11 @@ public class OWLVizImportsViewComponent extends AbstractOWLViewComponent {
     private void setupRenderers() {
         controller.setNodeLabelRenderer(new NodeLabelRenderer() {
             public String getLabel(Node node) {
-                    OWLOntology ont = (OWLOntology) node.getUserObject();
-                    String label = ont.getURI().toString();
-                    label = label.substring(label.lastIndexOf("/") + 1);
-                    return label;
+                OWLOntology ont = (OWLOntology) node.getUserObject();
+                // @@TODO what about anonymous ontologies?
+                String label = ont.getOntologyID().getOntologyIRI().toString();
+                label = label.substring(label.lastIndexOf("/") + 1);
+                return label;
 
             }
         });
@@ -88,7 +89,7 @@ public class OWLVizImportsViewComponent extends AbstractOWLViewComponent {
                 if (node.getUserObject().equals(getOWLModelManager().getActiveOntology())) {
                     return activeOntologyFillColor;
                 }
-                    return Color.WHITE;
+                return Color.WHITE;
             }
 
             protected Color getLineColor(Node node) {
