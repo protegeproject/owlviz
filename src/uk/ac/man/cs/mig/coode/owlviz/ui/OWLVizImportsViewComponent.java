@@ -71,7 +71,7 @@ public class OWLVizImportsViewComponent extends AbstractOWLViewComponent {
             public String getLabel(Node node) {
                 OWLOntology ont = (OWLOntology) node.getUserObject();
                 // @@TODO what about anonymous ontologies?
-                String label = ont.getOntologyID().getOntologyIRI().toString();
+                String label = ont.getOntologyID().getDefaultDocumentIRI().toString();
                 label = label.substring(label.lastIndexOf("/") + 1);
                 return label;
 
