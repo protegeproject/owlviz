@@ -285,8 +285,6 @@ public class OWLVizAxiomGraphModel extends AbstractGraphModel implements
 	public void visit(OWLFunctionalObjectPropertyAxiom axiom) {
 	}
 
-	public void visit(OWLImportsDeclaration axiom) {
-	}
 
 	public void visit(OWLInverseFunctionalObjectPropertyAxiom axiom) {
 	}
@@ -298,10 +296,8 @@ public class OWLVizAxiomGraphModel extends AbstractGraphModel implements
     public void visit(OWLHasKeyAxiom owlHasKeyAxiom) {
     }
 
-
-    public void visit(OWLDatatypeDefinition owlDatatypeDefinition) {
+    public void visit(OWLDatatypeDefinitionAxiom owlDatatypeDefinitionAxiom) {
     }
-
 
     public void visit(OWLIrreflexiveObjectPropertyAxiom axiom) {
 	}
