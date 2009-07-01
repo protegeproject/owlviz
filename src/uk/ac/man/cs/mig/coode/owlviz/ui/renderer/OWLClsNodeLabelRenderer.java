@@ -1,7 +1,7 @@
 package uk.ac.man.cs.mig.coode.owlviz.ui.renderer;
 
 import org.protege.editor.owl.model.OWLModelManager;
-import org.semanticweb.owl.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLEntity;
 import uk.ac.man.cs.mig.util.graph.graph.Node;
 import uk.ac.man.cs.mig.util.graph.renderer.NodeLabelRenderer;
 

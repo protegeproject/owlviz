@@ -1,9 +1,9 @@
 package uk.ac.man.cs.mig.coode.owlviz.ui;
 
 import org.protege.editor.owl.ui.view.cls.AbstractOWLClassViewComponent;
-import org.semanticweb.owl.model.OWLAxiom;
-import org.semanticweb.owl.model.OWLClass;
-import org.semanticweb.owl.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLOntology;
 import uk.ac.man.cs.mig.coode.owlviz.model.OWLVizAxiomGraphModel;
 import uk.ac.man.cs.mig.util.graph.controller.Controller;
 import uk.ac.man.cs.mig.util.graph.controller.impl.DefaultController;

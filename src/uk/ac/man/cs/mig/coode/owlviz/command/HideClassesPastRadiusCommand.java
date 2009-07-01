@@ -1,5 +1,7 @@
 package uk.ac.man.cs.mig.coode.owlviz.command;
 
+import org.protege.editor.owl.ui.view.OWLSelectionViewAction;
+import org.semanticweb.owlapi.model.OWLClass;
 import uk.ac.man.cs.mig.coode.owlviz.ui.ClassRadiusDialog;
 import uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizIcons;
 import uk.ac.man.cs.mig.util.graph.controller.Controller;
@@ -7,9 +9,6 @@ import uk.ac.man.cs.mig.util.okcanceldialog.OKCancelDialog;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
-
-import org.semanticweb.owl.model.OWLClass;
-import org.protege.editor.owl.ui.view.OWLSelectionViewAction;
 
 /**
  * User: matthewhorridge<br>

@@ -1,6 +1,6 @@
 package uk.ac.man.cs.mig.coode.owlviz.command;
 
-import org.semanticweb.owl.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLClassExpression;
 import uk.ac.man.cs.mig.util.graph.controller.Controller;
 
 import javax.swing.*;

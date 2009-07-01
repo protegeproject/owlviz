@@ -1,9 +1,9 @@
 package uk.ac.man.cs.mig.coode.owlviz.ui;
 
+import org.semanticweb.owlapi.model.OWLClass;
+
 import java.util.ArrayList;
 import java.util.Iterator;
-
-import org.semanticweb.owl.model.OWLClass;
 
 /**
  * User: matthewhorridge<br>

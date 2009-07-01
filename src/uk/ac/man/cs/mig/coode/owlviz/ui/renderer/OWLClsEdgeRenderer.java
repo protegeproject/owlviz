@@ -3,14 +3,14 @@ package uk.ac.man.cs.mig.coode.owlviz.ui.renderer;
 //import edu.stanford.smi.protegex.owl.model.OWLIndividual;
 //import edu.stanford.smi.protegex.owl.model.OWLNamedClass;
 //import edu.stanford.smi.protegex.owl.model.RDFSNamedClass;
+
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLIndividual;
 import uk.ac.man.cs.mig.util.graph.controller.Controller;
 import uk.ac.man.cs.mig.util.graph.graph.Edge;
 import uk.ac.man.cs.mig.util.graph.renderer.impl.DefaultEdgeRenderer;
 
 import java.awt.*;
-
-import org.semanticweb.owl.model.OWLClass;
-import org.semanticweb.owl.model.OWLIndividual;
 
 /**
  * User: matthewhorridge<br>

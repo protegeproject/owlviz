@@ -1,8 +1,8 @@
 package uk.ac.man.cs.mig.coode.owlviz.ui.popup;
 
-import javax.swing.*;
+import org.semanticweb.owlapi.model.OWLObject;
 
-import org.semanticweb.owl.model.OWLObject;
+import javax.swing.*;
 
 /**
  * User: matthewhorridge<br>

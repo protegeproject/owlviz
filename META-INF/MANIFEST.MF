@@ -72,6 +72,6 @@ Bundle-SymbolicName: org.coode.owlviz;singleton:=true
 Require-Bundle: org.protege.common,
  org.protege.editor.core.application,
  org.protege.editor.owl,
- org.semanticweb.owl.owlapi
+ org.semanticweb.owlapi.owlapi
 Bundle-ClassPath: .
 Update-Url: http://protege.stanford.edu/plugins/protege4/owlviz-update.properties

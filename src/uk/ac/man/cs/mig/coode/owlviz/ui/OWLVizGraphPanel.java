@@ -2,8 +2,8 @@ package uk.ac.man.cs.mig.coode.owlviz.ui;
 
 import org.protege.editor.owl.OWLEditorKit;
 import org.protege.editor.owl.model.OWLModelManager;
-import org.semanticweb.owl.model.OWLClass;
-import org.semanticweb.owl.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLEntity;
 import uk.ac.man.cs.mig.coode.owlviz.command.*;
 import uk.ac.man.cs.mig.coode.owlviz.ui.popup.OWLObjectPopupProvider;
 import uk.ac.man.cs.mig.coode.owlviz.ui.renderer.OWLClsEdgeRenderer;
