@@ -30,7 +30,7 @@ public class OWLVizAxiomGraphModel extends AbstractGraphModel implements
 	/**
 	 * This constructor initializes all maps and sets and invokes the method
 	 * addAndClearAxioms with the set of axioms as paramter.
-	 * 
+	 *
 	 * @param axioms
 	 *            The axioms to visualize
 	 */
@@ -47,7 +47,7 @@ public class OWLVizAxiomGraphModel extends AbstractGraphModel implements
 	 * This method clears all the map (invokes the clearMaps-method) at first.
 	 * Then it iterates over all axioms and invokes their accept-Method with
 	 * "this" as parameter.
-	 * 
+	 *
 	 * @param axioms
 	 *            The axioms to visualize
 	 */
@@ -71,7 +71,7 @@ public class OWLVizAxiomGraphModel extends AbstractGraphModel implements
 
 	/**
 	 * Return an edge object for the given parent and child
-	 * 
+	 *
 	 * @param parent
 	 *            the parent object
 	 * @param child
@@ -285,6 +285,8 @@ public class OWLVizAxiomGraphModel extends AbstractGraphModel implements
 	public void visit(OWLFunctionalObjectPropertyAxiom axiom) {
 	}
 
+	public void visit(OWLImportsDeclaration axiom) {
+	}
 
 	public void visit(OWLInverseFunctionalObjectPropertyAxiom axiom) {
 	}
@@ -296,8 +298,10 @@ public class OWLVizAxiomGraphModel extends AbstractGraphModel implements
     public void visit(OWLHasKeyAxiom owlHasKeyAxiom) {
     }
 
+
     public void visit(OWLDatatypeDefinitionAxiom owlDatatypeDefinitionAxiom) {
     }
+
 
     public void visit(OWLIrreflexiveObjectPropertyAxiom axiom) {
 	}

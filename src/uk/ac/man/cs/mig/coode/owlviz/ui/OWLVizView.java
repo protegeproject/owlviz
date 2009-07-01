@@ -217,7 +217,7 @@ public class OWLVizView extends AbstractOWLClassViewComponent implements DropTar
                         Object selObj = event.getSource().getSelectedObject();
                         if (selObj instanceof OWLClass) {
                             selectionModel.setSelectedClass((OWLClass) selObj);
-                            setSelectedEntity((OWLClass) selObj);
+                            setGlobalSelection((OWLClass) selObj);
                         }
                     }
                 });
