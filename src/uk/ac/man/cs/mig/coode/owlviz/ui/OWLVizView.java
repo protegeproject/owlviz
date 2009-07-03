@@ -268,8 +268,7 @@ public class OWLVizView extends AbstractOWLClassViewComponent implements DropTar
     }
 
     protected OptionsDialog setupOptionsDialog() {
-        Frame frame = null;
-        OptionsDialog optionsDialog = new OptionsDialog(frame);
+        OptionsDialog optionsDialog = new OptionsDialog((Frame)getWorkspace().getTopLevelAncestor());
         optionsDialog.addOptionsPage(new ModeOptionsPage(getOptions()), "Mode");
         optionsDialog.addOptionsPage(new LayoutDirectionOptionsPage(
                 assertedGraphComponent.getController(),
