@@ -1,12 +1,28 @@
 package uk.ac.man.cs.mig.coode.owlviz.ui.renderer;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Polygon;
+import java.awt.Rectangle;
+import java.awt.Shape;
+import java.awt.Stroke;
+import java.awt.geom.Rectangle2D;
+
+import javax.swing.Icon;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+
 import org.apache.log4j.Logger;
 import org.protege.editor.owl.model.OWLModelManager;
-import org.semanticweb.owlapi.inference.OWLReasonerException;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLRuntimeException;
+
 import uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizIcons;
 import uk.ac.man.cs.mig.util.graph.controller.Controller;
 import uk.ac.man.cs.mig.util.graph.controller.VisualisedObjectManager;
@@ -14,10 +30,6 @@ import uk.ac.man.cs.mig.util.graph.graph.Node;
 import uk.ac.man.cs.mig.util.graph.layout.GraphLayoutEngine;
 import uk.ac.man.cs.mig.util.graph.renderer.NodeLabelRenderer;
 import uk.ac.man.cs.mig.util.graph.renderer.NodeRenderer;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Rectangle2D;
 
 /**
  * User: matthewhorridge<br>
@@ -319,37 +331,27 @@ public class OWLClsNodeRenderer implements NodeRenderer {
 
 
     protected Color getLineColor(Object obj) {
-        try {
-            Color color = Color.GRAY;
-            if (obj instanceof OWLClass) {
-                    boolean consistent = owlModelManager.getReasoner().isSatisfiable((OWLClass) obj);
-                    if (!consistent) {
-                        color = clrInconsistentClsColor;
-                    }
-
+        Color color = Color.GRAY;
+        if (obj instanceof OWLClass) {
+            boolean consistent = owlModelManager.getReasoner().isSatisfiable((OWLClass) obj);
+            if (!consistent) {
+                color = clrInconsistentClsColor;
             }
-            return color;
+
         }
-        catch (OWLReasonerException e) {
-            throw new OWLRuntimeException(e);
-        }
+        return color;
     }
 
 
     protected Color getTextColor(Object obj) {
-        try {
-            Color color = Color.BLACK;
-            if (obj instanceof OWLClass) {
-                    boolean consistent = owlModelManager.getReasoner().isSatisfiable((OWLClass) obj);
-                    if (!consistent) {
-                        color = clrInconsistentClsColor;
-                    }
+        Color color = Color.BLACK;
+        if (obj instanceof OWLClass) {
+            boolean consistent = owlModelManager.getReasoner().isSatisfiable((OWLClass) obj);
+            if (!consistent) {
+                color = clrInconsistentClsColor;
             }
-            return color;
         }
-        catch (OWLReasonerException e) {
-            throw new OWLRuntimeException(e);
-        }
+        return color;
     }
 
 
