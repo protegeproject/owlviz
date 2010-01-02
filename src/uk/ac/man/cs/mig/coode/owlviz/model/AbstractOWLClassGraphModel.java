@@ -121,7 +121,7 @@ public class AbstractOWLClassGraphModel extends AbstractGraphModel {
     public boolean contains(Object obj) {
             if(obj instanceof OWLClass) {
                 for(OWLOntology ont : owlModelManager.getActiveOntologies()) {
-                    if(ont.containsClassReference(((OWLClass) obj).getIRI())) {
+                    if(ont.containsClassInSignature(((OWLClass) obj).getIRI())) {
                         return true;
                     }
                 }

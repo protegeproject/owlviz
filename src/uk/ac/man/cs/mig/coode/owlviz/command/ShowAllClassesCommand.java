@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 
 import org.protege.editor.owl.model.OWLModelManager;
 import org.protege.editor.owl.ui.view.OWLSelectionViewAction;
+import org.semanticweb.owlapi.model.OWLClass;
 
 import uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizIcons;
 import uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizViewI;
@@ -63,7 +64,7 @@ public class ShowAllClassesCommand extends OWLSelectionViewAction {
     }
 
     public Object[] getClses() {
-            Collection clses = model.getActiveOntology().getReferencedClasses();
+            Collection<OWLClass> clses = model.getActiveOntology().getClassesInSignature();
             return clses.toArray();
     }
 }
