@@ -66,7 +66,7 @@ Export-Package: uk.ac.man.cs.mig.coode.owlviz.apitest,
  uk.ac.man.cs.mig.util.popup,
  uk.ac.man.cs.mig.util.popup.test,
  uk.ac.man.cs.mig.util.wizard
-Bundle-Version: 4.1.0
+Bundle-Version: 4.1.1
 Bundle-Description: A plugin for visualizing owl ontologies.
 Bundle-SymbolicName: org.coode.owlviz;singleton:=true
 Require-Bundle: org.protege.common,
