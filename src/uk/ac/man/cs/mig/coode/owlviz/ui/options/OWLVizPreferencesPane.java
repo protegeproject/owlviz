@@ -182,7 +182,7 @@ public class OWLVizPreferencesPane extends OWLPreferencesPanel {
             exts.add("app");
             exts.add("exe");
             exts.add("bin");
-            File file = UIUtil.openFile(new JFrame(), "Please select the dot application", exts);
+            File file = UIUtil.openFile(new JFrame(), "Dot Application", "Please select the dot application", exts);
             if(file != null) {
                 pathField.setText(file.getPath());
             }
