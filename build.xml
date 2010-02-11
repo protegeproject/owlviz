@@ -40,7 +40,7 @@
 
    <target name = "init">
      <tstamp>
-       <format property="build.time" pattern="yyyy-MM-dd-hhmm"/>
+       <format property="build.time" pattern="yyyy_MM_dd_hhmm"/>
      </tstamp>
      <mkdir dir = "${build}"/>
      <mkdir dir = "${classes}"/>
