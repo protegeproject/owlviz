@@ -17,7 +17,12 @@ import java.awt.*;
  */
 public class WizardPage extends JComponent
 {
-	private String name;
+	/**
+     * 
+     */
+    private static final long serialVersionUID = -8075770826748240196L;
+
+    private String name;
 
     // Package
     Wizard wizard;

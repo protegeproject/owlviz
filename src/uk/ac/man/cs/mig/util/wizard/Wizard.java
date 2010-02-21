@@ -41,7 +41,12 @@ import javax.swing.border.EmptyBorder;
  */
 public class Wizard extends JDialog
 {
-	private ArrayList<WizardEventListener> listeners;
+	/**
+     * 
+     */
+    private static final long serialVersionUID = -1208634079248476430L;
+
+    private ArrayList<WizardEventListener> listeners;
 
 	private WizardPage [] pages; // An array containing the wizard pages
 	private JPanel pagePanel; // A panel (with a CardLayout) to hold the pages
@@ -214,7 +219,12 @@ public class Wizard extends JDialog
 
 		nextButton = new JButton(new AbstractAction(nextText)
 		{
-			public void actionPerformed(ActionEvent e)
+			/**
+             * 
+             */
+            private static final long serialVersionUID = 7418675241255095162L;
+
+            public void actionPerformed(ActionEvent e)
 			{
 				nextButtonPressed();
 			}
@@ -222,7 +232,12 @@ public class Wizard extends JDialog
 
 		prevButton = new JButton(new AbstractAction(prevText)
 		{
-			public void actionPerformed(ActionEvent e)
+			/**
+             * 
+             */
+            private static final long serialVersionUID = -834311803507939452L;
+
+            public void actionPerformed(ActionEvent e)
 			{
 				prevButtonPressed();
 			}
@@ -230,7 +245,12 @@ public class Wizard extends JDialog
 
 		cancelButton = new JButton(new AbstractAction(cancelText)
 		{
-			public void actionPerformed(ActionEvent e)
+			/**
+             * 
+             */
+            private static final long serialVersionUID = 3724379316615358996L;
+
+            public void actionPerformed(ActionEvent e)
 			{
 				cancelButtonPressed();
 			}

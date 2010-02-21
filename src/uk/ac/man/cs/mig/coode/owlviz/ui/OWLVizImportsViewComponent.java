@@ -38,6 +38,11 @@ import java.awt.event.HierarchyListener;
  */
 public class OWLVizImportsViewComponent extends AbstractOWLViewComponent {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -5980617789951116427L;
+
     private Controller controller;
 
     private OWLModelManagerListener owlModelManagerListener;
@@ -150,6 +155,11 @@ public class OWLVizImportsViewComponent extends AbstractOWLViewComponent {
     private void showPopupMenu(final NodeClickedEvent evt) {
         JPopupMenu popupMenu = new JPopupMenu();
         popupMenu.add(new AbstractAction("Set as active ontology") {
+            /**
+             * 
+             */
+            private static final long serialVersionUID = -4667228625396255625L;
+
             public void actionPerformed(ActionEvent e) {
                 OWLOntology ont = (OWLOntology) evt.getNode().getUserObject();
                 getOWLModelManager().setActiveOntology(ont);

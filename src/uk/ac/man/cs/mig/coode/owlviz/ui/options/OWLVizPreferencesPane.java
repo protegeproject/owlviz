@@ -45,6 +45,11 @@ import java.util.Set;
  */
 public class OWLVizPreferencesPane extends OWLPreferencesPanel {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -943293597478204971L;
+
     private java.util.List<OWLPreferencesPanel> optionPages = new ArrayList<OWLPreferencesPanel>();
 
     private JTabbedPane tabPane;
@@ -115,6 +120,10 @@ public class OWLVizPreferencesPane extends OWLPreferencesPanel {
 
     class ModeOptionsAdapter extends OWLPreferencesPanel {
 
+        /**
+         * 
+         */
+        private static final long serialVersionUID = -4017151973463168326L;
         public ModeOptionsPanel panel;
 
         public void applyChanges() {
@@ -140,6 +149,10 @@ public class OWLVizPreferencesPane extends OWLPreferencesPanel {
 
     class DotProcessPathPanel extends OWLPreferencesPanel {
 
+        /**
+         * 
+         */
+        private static final long serialVersionUID = -6685359718444062677L;
         private JTextField pathField;
 
         public void initialise() throws Exception {
@@ -160,6 +173,11 @@ public class OWLVizPreferencesPane extends OWLPreferencesPanel {
             pathField.setText(DotLayoutEngineProperties.getInstance().getDotProcessPath());
 
             JButton browseButton = new JButton(new AbstractAction("Browse") {
+                /**
+                 * 
+                 */
+                private static final long serialVersionUID = 6762941646097019849L;
+
                 /**
                  * Invoked when an action occurs.
                  */
@@ -196,6 +214,10 @@ public class OWLVizPreferencesPane extends OWLPreferencesPanel {
 
     class LayoutSpacingPanel extends OWLPreferencesPanel {
 
+        /**
+         * 
+         */
+        private static final long serialVersionUID = 4096048810803376513L;
         JSpinner rankSpacing;
         JSpinner siblingSpacing;
 

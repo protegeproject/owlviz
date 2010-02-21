@@ -35,6 +35,11 @@ import uk.ac.man.cs.mig.util.popup.PopupComponentListener;
  */
 public class PopupComponentTest extends JFrame
 {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 3963717704220489047L;
+
     private static Logger log = Logger.getLogger(PopupComponentTest.class);
 
 	private PopupComponent popup;
@@ -129,7 +134,12 @@ public class PopupComponentTest extends JFrame
 
 		menu.add(new AbstractAction("Set button component")
 		{
-			public void actionPerformed(ActionEvent e)
+			/**
+             * 
+             */
+            private static final long serialVersionUID = -999335719559335568L;
+
+            public void actionPerformed(ActionEvent e)
 			{
 				popup.setContent(button);
 			}
@@ -137,7 +147,12 @@ public class PopupComponentTest extends JFrame
 
 		menu.add(new AbstractAction("Set list component")
 		{
-			public void actionPerformed(ActionEvent e)
+			/**
+             * 
+             */
+            private static final long serialVersionUID = 1573045829861729839L;
+
+            public void actionPerformed(ActionEvent e)
 			{
 				popup.setContent(panl);
 			}

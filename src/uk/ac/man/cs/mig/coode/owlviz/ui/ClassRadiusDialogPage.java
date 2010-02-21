@@ -16,7 +16,11 @@ import java.awt.*;
  */
 public class ClassRadiusDialogPage extends JPanel {
 
-	private static final int MIN_VAL = 0;
+	/**
+     * 
+     */
+    private static final long serialVersionUID = -1546092672278277364L;
+    private static final int MIN_VAL = 0;
 	private static final int MAX_VAL = 10;
 	private static final int DEFAULT_VALUE = 3;
 

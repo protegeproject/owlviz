@@ -25,6 +25,10 @@ import uk.ac.man.cs.mig.util.graph.ui.GraphComponent;
  */
 public class ShowAllClassesCommand extends OWLSelectionViewAction {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 2462262315449283945L;
     private OWLModelManager model;
     private OWLVizViewI view;
     private static final int WARNING_LEVEL = 200;

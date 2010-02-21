@@ -20,7 +20,11 @@ import java.awt.event.KeyEvent;
  */
 public class OKCancelDialog extends JDialog
 {
-	JPanel holderPanel;
+	/**
+     * 
+     */
+    private static final long serialVersionUID = -3155387891462538221L;
+    JPanel holderPanel;
 	JButton approveButton;
 	JButton cancelButton;
 

@@ -29,7 +29,11 @@ import uk.ac.man.cs.mig.util.wizard.WizardPage;
  */
 public class SpecifyHierarchyPage extends WizardPage {
 
-	private OWLVizViewI view;
+	/**
+     * 
+     */
+    private static final long serialVersionUID = -4254044367084617650L;
+    private OWLVizViewI view;
 	private JList tabList;
 
 	public static final int ASSERTED_HIERARCHY = 0;
@@ -56,6 +60,11 @@ public class SpecifyHierarchyPage extends WizardPage {
         });
         tabList = new JList(sortedGraphs.toArray());
         tabList.setCellRenderer(new DefaultListCellRenderer(){
+            /**
+             * 
+             */
+            private static final long serialVersionUID = 7453039145852082071L;
+
             public Component getListCellRendererComponent(JList list, Object value, int index, boolean sel, boolean focused) {
                 return super.getListCellRendererComponent(list, ((GraphComponent)value).getName(), index, sel, focused);
             }

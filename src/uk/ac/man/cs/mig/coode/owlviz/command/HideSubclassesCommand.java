@@ -20,6 +20,10 @@ import uk.ac.man.cs.mig.util.graph.ui.GraphComponent;
  */
 public class HideSubclassesCommand extends OWLSelectionViewAction {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 4672410955147272764L;
     private OWLVizViewI view;
 
     public HideSubclassesCommand(OWLVizViewI view) {

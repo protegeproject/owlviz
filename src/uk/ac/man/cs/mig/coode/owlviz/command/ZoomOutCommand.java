@@ -22,6 +22,10 @@ import uk.ac.man.cs.mig.util.graph.ui.GraphComponent;
  */
 public class ZoomOutCommand extends DisposableAction {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -1561016730692070510L;
     private OWLVizViewI view;
 
     public ZoomOutCommand(OWLVizViewI view) {

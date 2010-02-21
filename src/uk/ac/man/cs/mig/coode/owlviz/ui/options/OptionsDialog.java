@@ -17,7 +17,11 @@ import java.util.ArrayList;
  */
 public class OptionsDialog extends OKCancelDialog {
 
-	private ArrayList<OptionsPage> optionPages;
+	/**
+     * 
+     */
+    private static final long serialVersionUID = -443612428041649367L;
+    private ArrayList<OptionsPage> optionPages;
 	private JTabbedPane tabPane;
 
 	public static final String DEFAULT_PAGE = "General Options";

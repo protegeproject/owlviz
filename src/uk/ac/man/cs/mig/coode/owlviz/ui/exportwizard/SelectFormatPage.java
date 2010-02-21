@@ -23,7 +23,12 @@ import java.awt.event.ActionListener;
  */
 public class SelectFormatPage extends WizardPage {
 
-	ExportFormat selectedFormat;
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 4849781834822854469L;
+
+    ExportFormat selectedFormat;
 
 	JComboBox comboBox;
 	JCheckBox antialiasedCheckBox;
@@ -145,6 +150,11 @@ public class SelectFormatPage extends WizardPage {
 		JComponent scalingPanel = new JPanel(new BorderLayout(14, 14));
 		scaledCheckBox = new JCheckBox(new AbstractAction("Scale export") {
 			/**
+             * 
+             */
+            private static final long serialVersionUID = -7815080042660552572L;
+
+            /**
 			 * Invoked when an action occurs.
 			 */
 			public void actionPerformed(ActionEvent e) {
@@ -284,7 +294,12 @@ public class SelectFormatPage extends WizardPage {
 	 */
 	private class ExportFormatRenderer extends DefaultListCellRenderer {
 
-		public Component getListCellRendererComponent(JList list,
+		/**
+         * 
+         */
+        private static final long serialVersionUID = -7269562763321289767L;
+
+        public Component getListCellRendererComponent(JList list,
 		                                              Object value,
 		                                              int index,
 		                                              boolean isSelected,

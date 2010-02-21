@@ -29,7 +29,12 @@ public class DefaultGraphView extends GraphView {
 //	private NodeRenderer nodeRen;
 //	private EdgeRenderer edgeRen;
 
-	private Stroke selStroke;
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 5353379644823080882L;
+
+    private Stroke selStroke;
 
 	private int zoomLevel = 100; // Zoom level (in percent)
 	private Color selectionColor = new Color(140, 140, 255);

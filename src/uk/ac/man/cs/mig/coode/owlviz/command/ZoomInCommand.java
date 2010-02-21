@@ -23,6 +23,10 @@ import uk.ac.man.cs.mig.util.graph.ui.GraphComponent;
  */
 public class ZoomInCommand extends DisposableAction {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -1416342286893975880L;
     private OWLVizViewI view;
 
     public ZoomInCommand(OWLVizViewI view) {

@@ -41,6 +41,11 @@ import java.util.List;
  */
 public class OWLVizView extends AbstractOWLClassViewComponent implements DropTargetListener, OWLVizViewI, ConfigurableOWLVizView {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -7785134782365129398L;
+
     private static Logger logger = Logger.getLogger(OWLVizView.class);
 
     private GraphComponent assertedGraphComponent;

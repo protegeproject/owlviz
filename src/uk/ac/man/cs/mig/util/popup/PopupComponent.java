@@ -17,6 +17,10 @@ import java.util.Iterator;
  */
 public class PopupComponent extends JComponent
 {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 3620321891933114176L;
     private boolean POPUP_IS_MODAL = true; // By default, the popup is modal
 	private boolean HIDE_ON_CLICK = true;   // Determines if a click outside of the popup should hide it
 	private boolean HIDE_ON_TIMER = false;  // Determines if the popup should hide after a given amount of time

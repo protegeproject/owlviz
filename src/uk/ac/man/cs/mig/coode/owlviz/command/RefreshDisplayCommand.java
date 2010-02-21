@@ -18,6 +18,11 @@ import java.awt.event.ActionEvent;
  */
 public class RefreshDisplayCommand extends AbstractAction {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -2815481104415097088L;
+
     private JTree inferredHierarchy;
 
     private OWLVizView view;

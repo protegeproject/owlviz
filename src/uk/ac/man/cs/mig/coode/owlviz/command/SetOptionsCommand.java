@@ -22,6 +22,11 @@ import uk.ac.man.cs.mig.util.okcanceldialog.OKCancelDialog;
  */
 public class SetOptionsCommand extends DisposableAction {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -4382394381357029549L;
+
     private OWLVizViewI view;
 
     private OptionsDialog optionsDialog;

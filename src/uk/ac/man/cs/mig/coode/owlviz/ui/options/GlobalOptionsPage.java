@@ -39,7 +39,17 @@ import java.awt.event.ActionEvent;
  */
 public class GlobalOptionsPage extends OptionsPage {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -7118513832753295095L;
+
     private Action openPrefs = new AbstractAction("Open preferences..."){
+            /**
+         * 
+         */
+        private static final long serialVersionUID = -4381561493594548830L;
+
             public void actionPerformed(ActionEvent event) {
                 PreferencesDialogPanel.showPreferencesDialog("OWLViz", eKit);
             }

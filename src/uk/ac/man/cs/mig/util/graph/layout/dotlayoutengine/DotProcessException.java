@@ -13,7 +13,12 @@ package uk.ac.man.cs.mig.util.graph.layout.dotlayoutengine;
  */
 public class DotProcessException extends Exception
 {
-	public DotProcessException(String message, Throwable cause)
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 4306920794735455784L;
+
+    public DotProcessException(String message, Throwable cause)
 	{
 		super(message, cause);
 	}

@@ -15,7 +15,12 @@ import java.awt.*;
  */
 public class ClassRadiusDialog extends OKCancelDialog {
 
-	ClassRadiusDialogPage radiusPage;
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 3308134791047919665L;
+
+    ClassRadiusDialogPage radiusPage;
 
 	public static final int SUPERS_AND_SUBS = 1;
 	public static final int SUPERS_ONLY = 2;

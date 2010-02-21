@@ -17,6 +17,11 @@ import java.awt.event.*;
  */
 public class DefaultThumbnailView extends ThumbnailView implements ThumbnailViewSourceListener
 {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -8613789722311809917L;
+
     private ThumbnailViewSource viewSrc;
 
     private Rectangle sourceViewBounds;

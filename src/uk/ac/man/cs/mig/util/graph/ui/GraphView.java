@@ -43,7 +43,11 @@ import uk.ac.man.cs.mig.util.graph.renderer.NodeRenderer;
  */
 public abstract class GraphView extends JPanel implements Zoomable, PropertyChangeListener {
 
-	protected Controller controller;
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 2481341666664953350L;
+    protected Controller controller;
 	protected MouseListener graphViewListener;
 	protected GraphSelectionModelListener selectionListener;
 	protected GraphGeneratorListener graphGenListener;

@@ -16,7 +16,11 @@ import java.awt.*;
  */
 public class DisplayOptionsPage extends OptionsPage {
 
-	private JCheckBox displayDisjointInfo;
+	/**
+     * 
+     */
+    private static final long serialVersionUID = -3598573214199342902L;
+    private JCheckBox displayDisjointInfo;
 	private JCheckBox groupByNameSpace;
 	private JCheckBox displayAnonymousClasses;
 	private JCheckBox displayIndividuals;

@@ -22,7 +22,11 @@ import java.io.File;
  */
 public class SpecifyFileNamePage extends WizardPage {
 
-	private JTextField pathNameField;
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 9039429372022547256L;
+    private JTextField pathNameField;
 	private JFileChooser chooser;
 	private FileFilter prevFileFilter;
 
@@ -54,6 +58,11 @@ public class SpecifyFileNamePage extends WizardPage {
 		entryPanel.add(pathNameField, BorderLayout.CENTER);
 		JButton browseButton = new JButton(new AbstractAction("Browse") {
 			/**
+             * 
+             */
+            private static final long serialVersionUID = 5129314412137596015L;
+
+            /**
 			 * Invoked when an action occurs.
 			 */
 			public void actionPerformed(ActionEvent e) {

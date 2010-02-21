@@ -14,4 +14,9 @@ import javax.swing.*;
  */
 public abstract class ThumbnailView extends JPanel
 {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -443881197617955527L;
 }

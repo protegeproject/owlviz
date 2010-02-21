@@ -22,6 +22,11 @@ import java.util.Set;
  */
 public class OWLVizAxiomView extends AbstractOWLClassViewComponent {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -2736965181564975528L;
+
     private Controller controller;
 
     private OWLVizAxiomGraphModel graphModel;

@@ -32,7 +32,11 @@ import uk.ac.man.cs.mig.util.wizard.WizardPage;
  */
 public class ExportCommand extends OWLSelectionViewAction {
 
-	private Wizard wizard;
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 8752470748480407232L;
+    private Wizard wizard;
 	private SelectFormatPage formatPage;
 	private SpecifyFileNamePage fileNamePage;
 	private SpecifyHierarchyPage hierarchyPage;

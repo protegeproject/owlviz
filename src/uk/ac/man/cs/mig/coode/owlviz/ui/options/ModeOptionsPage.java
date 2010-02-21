@@ -33,6 +33,11 @@ package uk.ac.man.cs.mig.coode.owlviz.ui.options;
  */
 public class ModeOptionsPage extends OptionsPage {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 791995908103193142L;
+
     private OWLVizViewOptions options;
 
     private ModeOptionsPanel panel;

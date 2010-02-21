@@ -21,6 +21,10 @@ import java.util.Iterator;
  */
 public class ShowSuperclassesCommand extends OWLSelectionViewAction {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -8090610690117210329L;
     private OWLVizViewI view;
 
     public ShowSuperclassesCommand(OWLVizViewI view) {

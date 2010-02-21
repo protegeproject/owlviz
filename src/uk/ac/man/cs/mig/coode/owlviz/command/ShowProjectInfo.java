@@ -16,6 +16,10 @@ import java.awt.event.ActionEvent;
  */
 public class ShowProjectInfo extends AbstractAction {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 8937192019421070298L;
     private OWLVizView view;
 
 

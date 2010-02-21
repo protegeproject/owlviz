@@ -17,7 +17,12 @@ import java.awt.*;
  */
 public class LayoutDirectionOptionsPage extends OptionsPage {
 
-	private Controller assertedController;
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 3883726222026156722L;
+
+    private Controller assertedController;
 
 	private Controller inferredController;
 
