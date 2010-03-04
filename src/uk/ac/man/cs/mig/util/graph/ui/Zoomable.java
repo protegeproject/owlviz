@@ -24,7 +24,6 @@ public interface Zoomable
 
 	/**
 	 * Gets the zoom level as a percentage.
-	 * @return
 	 */
 	public int getZoomLevel();
 

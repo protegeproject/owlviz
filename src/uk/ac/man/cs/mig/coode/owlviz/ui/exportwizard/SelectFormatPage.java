@@ -44,8 +44,6 @@ public class SelectFormatPage extends WizardPage {
 
 	/**
 	 * Creates the UI for the format page.
-	 *
-	 * @return
 	 */
 	protected JComponent createUI() {
 		JComponent component = new Box(BoxLayout.Y_AXIS);
