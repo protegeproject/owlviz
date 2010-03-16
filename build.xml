@@ -45,6 +45,8 @@
      <mkdir dir = "${build}"/>
      <mkdir dir = "${classes}"/>
      <mkdir dir = "${genlib}"/>
+     <property name="bundle.version"
+               value="${major.version}.${minor.version}.${micro.version}.${build.time}"/>
    </target>  
 
    <!-- ============================================================= -->
@@ -168,7 +170,7 @@
      <manifest file="${manifest}" 
                mode = "update">
         <attribute name="Built-By" value = "${user.name}"/>
-        <attribute name="Bundle-Version" value="${major.version}.${minor.version}.${micro.version}.${build.time}"/>
+        <attribute name="Bundle-Version" value="${bundle.version}"/>
      </manifest>
    </target>
 
