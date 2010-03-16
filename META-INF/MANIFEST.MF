@@ -4,8 +4,7 @@ Bundle-Name: Owlviz Plug-in
 Bundle-Category: protege
 Bundle-Vendor: The CO-ODE Group
 Bundle-DocURL: http://www.co-ode.org
-Import-Package: org.osgi.framework,
- org.apache.log4j,
+Import-Package: javax.imageio;resolution:=optional,
  javax.swing,
  javax.swing.border,
  javax.swing.colorchooser,
@@ -23,14 +22,16 @@ Import-Package: org.osgi.framework,
  javax.swing.text.rtf,
  javax.swing.tree,
  javax.swing.undo,
+ javax.xml.parsers,
+ org.apache.log4j,
+ org.osgi.framework,
  org.w3c.dom,
  org.w3c.dom.bootstrap,
  org.w3c.dom.events,
  org.w3c.dom.ls,
  org.xml.sax,
  org.xml.sax.ext,
- org.xml.sax.helpers,
- javax.xml.parsers
+ org.xml.sax.helpers
 Export-Package: uk.ac.man.cs.mig.coode.owlviz.apitest,
  uk.ac.man.cs.mig.coode.owlviz.command,
  uk.ac.man.cs.mig.coode.owlviz.export,
