@@ -5,6 +5,12 @@ Bundle-Category: protege
 Bundle-Vendor: The CO-ODE Group
 Bundle-DocURL: http://www.co-ode.org
 Import-Package: javax.imageio;resolution:=optional,
+ javax.imageio.event;resolution:=optional,
+ javax.imageio.metadata;resolution:=optional,
+ javax.imageio.plugins.bmp;resolution:=optional,
+ javax.imageio.plugins.jpeg;resolution:=optional;
+ javax.imageio.spi;resolution:=optional,
+ javax.imageio.stream;resolution:=optional,
  javax.swing,
  javax.swing.border,
  javax.swing.colorchooser,
