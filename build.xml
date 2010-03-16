@@ -172,7 +172,22 @@
      </manifest>
    </target>
 
-   <target name = "jar" depends = "compile, copy.resources">
+   <target name = "create.update.properties">
+       <property name="update.properties.file"
+                 location="${build}/owlviz-update.properties"/>
+       <echo file="${update.properties.file}" append="false">
+id=${plugin}
+version=${bundle.version}
+download=http://smi-protege.stanford.edu/protege4/plugins/4.1/${plugin}.jar
+name=OWLViz Plugin
+readme=http://smi-protege.stanford.edu/protege4/plugins/4.1/owlviz-readme.txt
+license=http://www.gnu.org/licenses/lgpl.html
+author=Matthew Horridge for the CO-ODE project
+       </echo>
+   </target>
+
+
+   <target name = "jar" depends = "compile, copy.resources, create.update.properties">
      <jar jarfile = "${build}/${plugin}.jar"
           basedir = "${classes}" 
           manifest = "${build}/manifest.mf"/>
