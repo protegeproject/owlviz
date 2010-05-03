@@ -37,7 +37,7 @@ public class OWLOntologyImportsGraphModel extends AbstractGraphModel {
     public void rebuild() {
             importMap.clear();
             for(OWLOntology ont : owlModelManager.getOntologies()) {
-                for(OWLOntology imp : ont.getImports()) {
+                for(OWLOntology imp : ont.getDirectImports()) {
                     getImportingOntologies(imp, true).add(ont);
                 }
             }
