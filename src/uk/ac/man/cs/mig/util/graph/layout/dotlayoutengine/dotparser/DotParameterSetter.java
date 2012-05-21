@@ -335,15 +335,11 @@ public class DotParameterSetter
 		return p;
 	}
 
-
-
-
 	/**
 	 * Parses a <code>String</code> that describes a <code>Rectangle</code>
 	 *
-	 * @param data The <code>String</code> in the format "x,y,w,h"
-	 * @return A rectangle that is located at (x, y), has a width w and
-	 *         a height h.
+	 * @param data A <code>String</code> in the format "x,y,w,h"
+	 * @return A rectangle that is located at (x, y), has a width w, and a height h.
 	 */
 	public Rectangle parseRect(String data)
 	{
@@ -356,30 +352,26 @@ public class DotParameterSetter
 
 		rect = new Rectangle();
 
-		rect.x = Integer.parseInt(data.substring(start, commaPos));
+		rect.x = (int) Double.parseDouble(data.substring(start, commaPos));
+		
+		start = commaPos + 1;
+
+		commaPos = data.indexOf(',', start);
+
+		rect.y = (int) Double.parseDouble(data.substring(start, commaPos));
 
 		start = commaPos + 1;
 
 		commaPos = data.indexOf(',', start);
 
-		rect.y = Integer.parseInt(data.substring(start, commaPos));
+		rect.width = (int) Double.parseDouble(data.substring(start, commaPos));
 
 		start = commaPos + 1;
 
-		commaPos = data.indexOf(',', start);
-
-		rect.width = Integer.parseInt(data.substring(start, commaPos));
-
-		start = commaPos + 1;
-
-		rect.height = Integer.parseInt(data.substring(start, data.length()));
-
+		rect.height = (int) Double.parseDouble(data.substring(start, data.length()));
 
 		return rect;
 	}
-
-
-
 
 	/**
 	 * An inner class that is used to key the names of two
