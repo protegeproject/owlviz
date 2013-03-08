@@ -75,19 +75,25 @@ public class DotGraphLayoutEngine implements GraphLayoutEngine
 		        File file = File.createTempFile("OWLVizScratch", null);
 
 		        file.deleteOnExit();
-
-		        log.debug("TRACE(DotGraphLayoutEngine): TempFile: " + file.getAbsolutePath());
+		        
+		        if (log.isDebugEnabled()) {
+		            log.debug("TRACE(DotGraphLayoutEngine): TempFile: " + file.getAbsolutePath());
+		        }
 
 	            FileOutputStream fos = new FileOutputStream(file);
-
-		        renderer.renderGraph(g, fos);
-
-		        fos.close();
+	            try {
+	                renderer.renderGraph(g, fos);
+	            }
+	            finally {
+	                fos.close();
+	            }
 
 				if(process.startProcess(file.getAbsolutePath()) == false)
 				{
 					return;
 				}
+				
+				logRendering(file);
 
 
           // Read outputrenderer from process and parse it
@@ -133,6 +139,31 @@ public class DotGraphLayoutEngine implements GraphLayoutEngine
 
 
 
+	}
+	
+	private void logRendering(File f) {
+	    if (log.isDebugEnabled()) {
+	        BufferedReader reader = null;
+	        try {
+	            StringBuffer sb = new StringBuffer();
+	            try {
+	                reader = new BufferedReader(new InputStreamReader(new FileInputStream(f)));
+	                for (String line = reader.readLine(); line != null; line = reader.readLine()) {
+	                    sb.append(line);
+	                    sb.append('\n');
+	                }
+	                log.debug(sb.toString());
+	            }
+	            finally {
+	                if (reader != null) {
+	                    reader.close();
+	                }
+	            }   
+	        }
+	        catch (IOException ioe) { 
+	            log.debug("Could not log contents of file" + f);
+	        }
+	    }
 	}
 
     /**
