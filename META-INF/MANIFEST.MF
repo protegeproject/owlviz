@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Owlviz Plug-in
+Bundle-Name: OWLViz
 Bundle-Category: protege
-Bundle-Vendor: The CO-ODE Group
-Bundle-DocURL: http://www.co-ode.org
+Bundle-Vendor: Stanford Center for Biomedical Informatics Research
+Bundle-DocURL: http://protegewiki.stanford.edu/wiki/OWLViz
 Import-Package: javax.imageio;resolution:=optional,
  javax.imageio.event;resolution:=optional,
  javax.imageio.metadata;resolution:=optional,
@@ -73,8 +73,8 @@ Export-Package: uk.ac.man.cs.mig.coode.owlviz.apitest,
  uk.ac.man.cs.mig.util.popup,
  uk.ac.man.cs.mig.util.popup.test,
  uk.ac.man.cs.mig.util.wizard
-Bundle-Version: 4.1.1
-Bundle-Description: A plugin for visualizing owl ontologies.
+Bundle-Version: 4.1.2
+Bundle-Description: A plug-in for visualizing OWL ontologies.
 Bundle-SymbolicName: org.coode.owlviz;singleton:=true
 Require-Bundle: org.protege.common,
  org.protege.editor.core.application,
