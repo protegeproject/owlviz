@@ -102,7 +102,7 @@ TOKEN: {<EQUALS: "=">}
 TOKEN: {<COMMA: ",">}
 TOKEN: {<EDGEOP: "->">}
 
-TOKEN: {<ID: ("\""(~["\""])*"\"") | (<ALPHANUM> (<ALPHANUM> | "_")*)>}
+TOKEN: {<ID: ("\""(~["\""])*"\"") | (<ALPHANUM> (<ALPHANUM> | "_" | ".")*)>}
 TOKEN: {<#ALPHA: ["a"-"z"] | ["A"-"Z"] | ["\u00A1"-"\uFFFF"]>}
 TOKEN: {<#NUM: ["0"-"9"]>}
 TOKEN: {<#ALPHANUM: <ALPHA>|<NUM>>}
