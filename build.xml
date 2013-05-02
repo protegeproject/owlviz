@@ -26,7 +26,7 @@
    <!-- 
         these properties probably don't need changing
         -->
-   <property name = "src"               location = "./src"/>  
+   <property name = "src"               location = "./src/main/java"/>  
    <property name = "build"             location = "./build"/>
    <property name = "bundle.dir"        location = "${build}"/>
    <property name = "classes"           location = "${build}/classes"/>
@@ -124,26 +124,22 @@
         viewconfig and the plugin.xml.  This will be sufficient in
         many cases. 
      -->
-   <target name="copy.resources" depends="build.manifest">
-     <copy todir="${classes}">
-       <fileset dir="${src}">
-         <include name="**/*"/>
-         <exclude name="**/*.java"/>
-         <exclude name="**/MANIFEST.MF"/>
-         <exclude name="**/manifest.mf"/>
-       </fileset>
-     </copy>
-     <copy todir="${classes}">
-       <fileset dir="." includes="*.xml">
-           <exclude name="build.xml"/>
-       </fileset>
-       <fileset dir="./resources"/>
-     </copy>
-   	 <!-- the manifest doesn't belong here but this is good for IDE's -->
-     <mkdir dir="${classes}/META-INF"/>  
-     <copy todir="${classes}/META-INF"   
-           file = "${manifest}"/>
-   </target>
+	<target name="copy.resources" depends="build.manifest">
+		<copy todir="${classes}">
+			<fileset dir="src/main/resources">
+				<include name="**/*"/>
+				<exclude name="**/*.java"/>
+				<exclude name="**/MANIFEST.MF"/>
+				<exclude name="**/manifest.mf"/>
+			</fileset>
+		</copy>
+		
+		<copy todir = "${classes}" file = "plugin.xml"/>
+		
+		<!-- the manifest doesn't belong here but this is good for IDE's -->
+		<mkdir dir="${classes}/META-INF"/>  
+		<copy todir="${classes}/META-INF" file = "${manifest}"/>
+	</target>
 
 
    <!-- 
