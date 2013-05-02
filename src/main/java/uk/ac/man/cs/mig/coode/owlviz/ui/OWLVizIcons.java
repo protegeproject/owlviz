@@ -41,7 +41,7 @@ public class OWLVizIcons {
 
 	public static final String UGLY_ICON = "Ugly.gif";
 
-	public static final String RELATIVE_PATH = "image/";
+	public static final String RELATIVE_PATH = "/";
 
 
 	/**
