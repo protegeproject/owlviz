@@ -13,7 +13,7 @@
 
    <property file="local.properties"/>
 
-   <property file="version.properties"/>
+   <property file="etc/version.properties"/>
 
    <!-- 
         This setting defines the name of the plugin.
