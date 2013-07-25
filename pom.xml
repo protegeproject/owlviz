@@ -10,16 +10,16 @@
 	</parent>
 	
 	<artifactId>org.coode.owlviz</artifactId>
-	<version>4.1.3-SNAPSHOT</version>
+	<version>4.1.3</version>
 	<packaging>bundle</packaging>
 
 	<name>OWLViz</name>
     <description>A plug-in for the Protege Desktop ontology editor that provides a graphical representation of the class hierarchies in an OWL ontology.</description>
 
 	<scm>
-		<connection>scm:svn:http://smi-protege.stanford.edu/repos/protege/protege4/plugins/org.coode.owlviz/trunk/</connection>
-		<developerConnection>scm:svn:https://smi-protege.stanford.edu/repos/protege/protege4/plugins/org.coode.owlviz/trunk/</developerConnection>
-		<url>http://smi-protege.stanford.edu/svn/protege4/plugins/org.coode.owlviz/</url>
+		<connection>scm:svn:http://smi-protege.stanford.edu/repos/protege/protege4/plugins/org.coode.owlviz/tags/org.coode.owlviz-4.1.3</connection>
+		<developerConnection>scm:svn:https://smi-protege.stanford.edu/repos/protege/protege4/plugins/org.coode.owlviz/tags/org.coode.owlviz-4.1.3</developerConnection>
+		<url>http://smi-protege.stanford.edu/svn/protege4/plugins/org.coode.owlviz/tags/org.coode.owlviz-4.1.3</url>
 	</scm>
 
 	<dependencies>
