@@ -4,9 +4,15 @@
 <h2>OWLViz</h2>
 
 <p>
-This plug-in is part of the standard desktop Prot&eacute;g&eacute; distribution and supports visualization of ontologies and their imports.
+This plug-in is part of the standard Prot&eacute;g&eacute; Desktop distribution and supports visualization of ontologies and their imports.
 
 <h3>Version info</h3>
+
+<h4>v4.1.3 25-Jul-2013</h4>
+<ul>
+<li>Fixed a bug that prevented the Graphviz dot process from executing on some Windows 7 64-bit machines.</li>
+<li>Updated the default paths to Graphviz for Windows and Mac.</li>
+</ul>
 
 <h4>v4.1.2 15-Mar-2013 Update</h4>
 <ul>

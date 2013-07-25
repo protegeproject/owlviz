@@ -52,7 +52,11 @@ public class DotProcess {
 		DotLayoutEngineProperties properties = DotLayoutEngineProperties.getInstance();
 
 		try {
-			process = r.exec(properties.getDotProcessPath() + " " + fileName + " -q -o " + fileName);
+			// This code doesn't work on some Windows 7 64-bit machines.
+			//process = r.exec(properties.getDotProcessPath() + " " + fileName + " -q -o " + fileName);
+			
+			String[] processPath = new String[]{properties.getDotProcessPath(), fileName, "-q", "-o", fileName};
+			process = r.exec(processPath);
 
 			try {
 				process.waitFor();
