@@ -3,19 +3,58 @@
 	<modelVersion>4.0.0</modelVersion>
 	
 	<parent>
-		<groupId>edu.stanford.protege</groupId>
-		<artifactId>protege-parent</artifactId>
-		<version>5.0.0-beta-03</version>
-		<relativePath>../protege-parent/pom.xml</relativePath>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
 	</parent>
 	
+	<groupId>edu.stanford.protege</groupId>
 	<artifactId>org.coode.owlviz</artifactId>
 	<version>4.1.4-SNAPSHOT</version>
 	<packaging>bundle</packaging>
 
 	<name>OWLViz</name>
     <description>A plug-in for the Protege Desktop ontology editor that provides a graphical representation of the class hierarchies in an OWL ontology.</description>
-
+    <url>http://protegewiki.stanford.edu/wiki/OWLViz</url>
+	<licenses>
+		<license>
+			<name>GNU Lesser General Public License</name>
+			<url>http://www.gnu.org/copyleft/lesser.html</url>
+		</license>
+	</licenses>
+	
+	<developers>
+		<developer>
+			<name>Matthew Horridge</name>
+			<email>matthew.horridge@stanford.edu</email>
+		</developer>
+		<developer>
+			<name>Timothy Redmond</name>
+			<email>tredmond@stanford.edu</email>
+		</developer>
+		<developer>
+			<name>Tania Tudorache</name>
+			<email>tudorache@stanford.edu</email>
+		</developer>
+		<developer>
+			<name>Jennifer Vendetti</name>
+			<email>vendetti@stanford.edu</email>
+		</developer>
+	</developers>
+	
+	<mailingLists>
+		<mailingList>
+			<name>p4-feedback</name>
+			<subscribe>http://mailman.stanford.edu/mailman/listinfo/p4-feedback</subscribe>
+			<unsubscribe>http://mailman.stanford.edu/mailman/listinfo/p4-feedback</unsubscribe>
+			<post>p4-feedback@lists.stanford.edu</post>
+			<archive>https://mailman.stanford.edu/pipermail/p4-feedback/</archive>
+			<otherArchives>
+				<otherArchive>http://protege-ontology-editor-knowledge-acquisition-system.136.n4.nabble.com/Protege-OWL-4-x-Support-f21363.html</otherArchive>
+			</otherArchives>
+		</mailingList>
+	</mailingLists>
+	
 	<scm>
 		<connection>scm:svn:http://smi-protege.stanford.edu/repos/protege/protege4/plugins/org.coode.owlviz/trunk/</connection>
 		<developerConnection>scm:svn:https://smi-protege.stanford.edu/repos/protege/protege4/plugins/org.coode.owlviz/trunk/</developerConnection>
@@ -23,22 +62,16 @@
 	</scm>
 
 	<dependencies>
-        <dependency>
-			<groupId>edu.stanford.protege</groupId>
-			<artifactId>org.protege.common</artifactId>
-			<version>${project.parent.version}</version>
-        </dependency>
-        
 		<dependency>
 			<groupId>edu.stanford.protege</groupId>
 			<artifactId>org.protege.editor.core.application</artifactId>
-			<version>${project.parent.version}</version>
+			<version>4.3.0</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>edu.stanford.protege</groupId>
 			<artifactId>org.protege.editor.owl</artifactId>
-			<version>${project.parent.version}</version>
+			<version>4.3.0</version>
 		</dependency>
 	</dependencies>
 
@@ -56,9 +89,11 @@
 						<Bundle-SymbolicName>${project.artifactId};singleton:=true</Bundle-SymbolicName>
 						<Bundle-Vendor>The Protege Development Team</Bundle-Vendor>
 						<Import-Package>
-							org.eclipse.core.runtime;registry=split, 
-							org.protege.editor.owl.ui, 
 							org.apache.log4j.*;version="[1.2,2)",
+							org.eclipse.core.runtime;registry=split, 
+							org.protege.editor.core.*;version="4.3", <!-- equivalent to [4.3,infinity) -->
+							org.protege.editor.owl.*;version="4.3",
+							org.protege.editor.owl.ui;version="4.3",
 							*
 						</Import-Package>
 						<Include-Resource>plugin.xml, {maven-resources}</Include-Resource>
@@ -74,6 +109,14 @@
                 </executions>
               </configuration>
             </plugin>
+            
+			<plugin>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<version>2.9</version>
+				<configuration>
+					<pde>true</pde>
+				</configuration>
+			</plugin>
         </plugins>
 	</build>
 </project>
