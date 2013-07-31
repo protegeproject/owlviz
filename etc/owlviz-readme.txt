@@ -8,6 +8,11 @@ This plug-in is part of the standard Prot&eacute;g&eacute; Desktop distribution 
 
 <h3>Version info</h3>
 
+<h4>v4.1.4 30-Jul-2013</h4>
+<ul>
+<li>Updates to the OWLViz Maven POM file.</li>
+</ul>
+
 <h4>v4.1.3 25-Jul-2013</h4>
 <ul>
 <li>Fixed a bug that prevented the Graphviz dot process from executing on some Windows 7 64-bit machines.</li>
