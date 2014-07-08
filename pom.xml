@@ -65,13 +65,13 @@
         <dependency>
             <groupId>edu.stanford.protege</groupId>
             <artifactId>org.protege.editor.core.application</artifactId>
-            <version>4.3.0</version>
+            <version>5.0.0-beta-15</version>
         </dependency>
         
         <dependency>
             <groupId>edu.stanford.protege</groupId>
             <artifactId>org.protege.editor.owl</artifactId>
-            <version>4.3.0</version>
+            <version>5.0.0-beta-15</version>
         </dependency>
     </dependencies>
 
