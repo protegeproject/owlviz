@@ -11,7 +11,7 @@ package uk.ac.man.cs.mig.util.graph.layout.dotlayoutengine;
  * matthew.horridge@cs.man.ac.uk<br>
  * www.cs.man.ac.uk/~horridgm<br><br>
  */
-public class DotProcessException extends Exception
+public class DotProcessException extends RuntimeException
 {
 	/**
      * 

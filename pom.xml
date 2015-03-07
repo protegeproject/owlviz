@@ -106,9 +106,9 @@
                         <Import-Package>
                             org.apache.log4j.*;version="[1.2,2)",
                             org.eclipse.core.runtime;registry=split,
-                            org.protege.editor.core.*;version="4.3", <!-- equivalent to [4.3,infinity) -->
-                            org.protege.editor.owl.*;version="4.3",
-                            org.protege.editor.owl.ui;version="4.3",
+                            org.protege.editor.core.*;version="5.0.0", <!-- equivalent to [4.3,infinity) -->
+                            org.protege.editor.owl.*;version="5.0.0",
+                            org.protege.editor.owl.ui;version="5.0.0",
                             *
                         </Import-Package>
                         <Include-Resource>plugin.xml, {maven-resources}</Include-Resource>
