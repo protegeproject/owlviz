@@ -23,6 +23,7 @@ import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLOntology;
 
+import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizIcons;
 import uk.ac.man.cs.mig.util.graph.controller.Controller;
 import uk.ac.man.cs.mig.util.graph.controller.VisualisedObjectManager;
@@ -100,7 +101,8 @@ public class OWLClsNodeRenderer implements NodeRenderer {
 
     Color clrText = Color.BLACK;
     Color clrTextNonEditable = Color.GRAY;
-    Color clrInconsistentClsColor = Color.RED;
+
+    private final Color unsatisfiableClassColor = Color.RED;
 
     private Color clrConsistentAndChangedColor = Color.BLUE;
 
@@ -316,7 +318,6 @@ public class OWLClsNodeRenderer implements NodeRenderer {
 
 
     protected Color getFillColor(Object obj) {
-        Color color = Color.GRAY;
         if (obj instanceof OWLClass) {
             OWLClass cls = (OWLClass) obj;
             for (OWLOntology ont : owlModelManager.getActiveOntologies()) {
@@ -326,32 +327,37 @@ public class OWLClsNodeRenderer implements NodeRenderer {
             }
             return this.clrPrimitiveClsFillNonEditable;
         }
-        return color;
+        return Color.GRAY;
     }
 
 
     protected Color getLineColor(Object obj) {
-        Color color = Color.GRAY;
         if (obj instanceof OWLClass) {
-            boolean consistent = owlModelManager.getReasoner().isSatisfiable((OWLClass) obj);
-            if (!consistent) {
-                color = clrInconsistentClsColor;
+            if (getReasoner().isConsistent()) {
+                boolean sat = getReasoner().isSatisfiable((OWLClass) obj);
+                if (!sat) {
+                    return unsatisfiableClassColor;
+                }
             }
-
         }
-        return color;
+        return Color.GRAY;
+    }
+
+    private OWLReasoner getReasoner() {
+        return owlModelManager.getReasoner();
     }
 
 
     protected Color getTextColor(Object obj) {
-        Color color = Color.BLACK;
         if (obj instanceof OWLClass) {
-            boolean consistent = owlModelManager.getReasoner().isSatisfiable((OWLClass) obj);
-            if (!consistent) {
-                color = clrInconsistentClsColor;
+            if (getReasoner().isConsistent()) {
+                boolean sat = getReasoner().isSatisfiable((OWLClass) obj);
+                if (!sat) {
+                    return unsatisfiableClassColor;
+                }
             }
         }
-        return color;
+        return Color.BLACK;
     }
 
 
