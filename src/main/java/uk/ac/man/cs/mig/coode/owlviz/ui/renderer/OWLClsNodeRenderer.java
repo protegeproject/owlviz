@@ -1,6 +1,5 @@
 package uk.ac.man.cs.mig.coode.owlviz.ui.renderer;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -10,10 +9,8 @@ import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.Shape;
-import java.awt.Stroke;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.Icon;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -24,7 +21,6 @@ import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLOntology;
 
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
-import uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizIcons;
 import uk.ac.man.cs.mig.util.graph.controller.Controller;
 import uk.ac.man.cs.mig.util.graph.controller.VisualisedObjectManager;
 import uk.ac.man.cs.mig.util.graph.graph.Node;
@@ -45,81 +41,37 @@ public class OWLClsNodeRenderer implements NodeRenderer {
 
     private static final Logger logger = Logger.getLogger(OWLClsNodeRenderer.class);
 
-
-    private NodeLabelRenderer labelRenderer;
-
-    private static Color fillColor;
-    private static Color lineColor;
-    private static Controller controller;
-    private VisualisedObjectManager visualisedObjectManager;
-    private Polygon leftArrow = new Polygon();
-    private Polygon rightArrow = new Polygon();
-    private FontMetrics fontMetrics;
     private static final int ARROW_SIZE = 5;
+
     private static final int HORIZONTAL_PADDING = ARROW_SIZE * 2 + 10;
+
     private static final int VERTICAL_PADDING = 15;
-    private Font labelFont;
+
+    private static final Color PRIMITIVE_CLASS_FILL = new Color(255, 255, 204);
+
+    private static final Color DEFINED_CLASS_FILL = new Color(255, 200, 128);
+
+    private static final Color UNSATISFIABLE_CLASS_COLOR = Color.RED;
+
+
+    private final Polygon leftArrow = new Polygon();
+
+    private final Polygon rightArrow = new Polygon();
+
+
+
+    private final Controller controller;
+
+    private final VisualisedObjectManager visualisedObjectManager;
+
+    private final FontMetrics fontMetrics;
+
+    private final Font labelFont;
+
     private int layoutDirection = GraphLayoutEngine.LAYOUT_LEFT_TO_RIGHT;
 
-    public static final String SOMECLS_NAME = "\u2203";
-    public static final String ALLCLS_NAME = "\u2200";
-    public static final String MINCARDI_NAME = "\u2264";
-    public static final String MAXCARDI_NAME = "\u2265";
-    public static final String CARDI_NAME = "=";
-    public static final String INTERSECTION_NAME = "\u2293";
-    public static final String UNION_NAME = "\u2294";
-    public static final String COMPLEMENT_NAME = "\u00AC";
-    public static final String HAS_NAME = "\u220B";
-    public static final String ENUM_NAME = "{ }";
 
-//    OWLVizViewOptions options = OWLVizViewOptions.getInstance();
-
-    // Colors
-
-    private static final double NON_EDITABLE_FACTOR = 1.5;
-
-    Color clrMetaClsFill = new Color(140, 255, 120);
-    Color clrMetaClsOutline = Color.GRAY;
-    Color clrMetaClsFillNonEditable = new Color(182, 252, 131);
-
-    Color clrPrimitiveClsFill = new Color(255, 255, 153);
-    Color clrPrimitiveClsOutline = Color.GRAY;
-    Color clrPrimitiveClsFillNonEditable = new Color(255, 255, 204);
-
-    Color clrDefinedClsFill = new Color(255, 200, 128);
-    Color clrDefinedClsOutline = Color.GRAY;
-    Color clrDefinedClsFillNonEditable = clrDefinedClsFill.brighter();
-
-    Color clrLogicalClsFill = new Color(236, 210, 185);
-    Color clrLogicalClsOutline = Color.GRAY;
-
-    Color clrEnumClsFill = new Color(255, 204, 255);
-    Color clrEnumClsOutline = Color.GRAY;
-
-    Color clrHasRestrictionFill = new Color(255, 192, 152);
-    Color clrHasRestrictionOutline = Color.GRAY;
-
-    Color clrText = Color.BLACK;
-    Color clrTextNonEditable = Color.GRAY;
-
-    private final Color unsatisfiableClassColor = Color.RED;
-
-    private Color clrConsistentAndChangedColor = Color.BLUE;
-
-    private Icon disjointClassIcon;
-
-    Stroke probeClassStroke = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 2.0f,
-                                              new float[]{2.0f, 2.0f}, 2.0f);
-
-    Color clrInstance = new Color(255, 204, 255);
-
-    private static final int NOT_DISJOINT = 0;
-    private static final int DIRECTLY_DISJOINT = 1;
-    private static final int INHERITED_DIRECT_DISJOINT = 2;
-    private static final int INHERITED_INDIRECT_DISJOINT = 3;
-
-
-    private OWLModelManager owlModelManager;
+    private final OWLModelManager owlModelManager;
 
     public OWLClsNodeRenderer(Controller controller,
                               VisualisedObjectManager manager,
@@ -132,9 +84,8 @@ public class OWLClsNodeRenderer implements NodeRenderer {
         if (labelRenderer == null) {
             throw new NullPointerException("NodeLabelRenderer must not be null");
         }
-        visualisedObjectManager = manager;
         this.controller = controller;
-        disjointClassIcon = OWLVizIcons.getIcon(OWLVizIcons.DISJOINT_CLASS_INDICATOR_ICON);
+        visualisedObjectManager = manager;
         JPanel pan = new JPanel();
         Font font = pan.getFont();
         labelFont = font.deriveFont(10.0f);
@@ -145,12 +96,6 @@ public class OWLClsNodeRenderer implements NodeRenderer {
         if (fontMetrics == null) {
             logger.warn("Font metrics is NULL!");
         }
-        if (visualisedObjectManager == null) {
-            throw new NullPointerException("DefaultNode renderer constructed before" + "VisualisedObjectManager");
-        }
-        this.labelRenderer = labelRenderer;
-        leftArrow = new Polygon();
-        rightArrow = new Polygon();
         setupArrows();
     }
 
@@ -254,29 +199,9 @@ public class OWLClsNodeRenderer implements NodeRenderer {
 
             // Draw expansion arrows
 
-            if (drawDetail == true) {
+            if (drawDetail) {
                 drawArrows(g2, sh, userObject);
-                Object selObj = controller.getGraphSelectionModel().getSelectedObject();
-//                if (options.isDisplayDisjointClassIndicator() == true && selObj != null) {
-//                    if (selObj.equals(userObject) == false) {
-//                        if (selObj instanceof OWLClass && userObject instanceof OWLClass) {
-//                            int disjointStatus = areClassesDisjoint((OWLClass) userObject, (OWLClass) selObj);
-//                            if (disjointStatus != NOT_DISJOINT) {
-//                                //   g2.setColor(Color.MAGENTA);
-//
-//                                Rectangle rect = sh.getBounds();
-//
-//                                //   g2.drawString("D", rect.x, rect.y);
-//
-//                                disjointClassIcon.paintIcon(null, g2, rect.x, rect.y);
-//
-//                                //g2.draw(rect);
-//                            }
-//                        }
-//                    }
-//                }
 
-                // Draw text
 
                 Point pos = node.getPosition();
                 String label = " ";
@@ -322,10 +247,10 @@ public class OWLClsNodeRenderer implements NodeRenderer {
             OWLClass cls = (OWLClass) obj;
             for (OWLOntology ont : owlModelManager.getActiveOntologies()) {
                 if ((cls.isDefined(ont))) {
-                    return this.clrDefinedClsFill;
+                    return DEFINED_CLASS_FILL;
                 }
             }
-            return this.clrPrimitiveClsFillNonEditable;
+            return PRIMITIVE_CLASS_FILL;
         }
         return Color.GRAY;
     }
@@ -336,7 +261,7 @@ public class OWLClsNodeRenderer implements NodeRenderer {
             if (getReasoner().isConsistent()) {
                 boolean sat = getReasoner().isSatisfiable((OWLClass) obj);
                 if (!sat) {
-                    return unsatisfiableClassColor;
+                    return UNSATISFIABLE_CLASS_COLOR;
                 }
             }
         }
@@ -353,74 +278,10 @@ public class OWLClsNodeRenderer implements NodeRenderer {
             if (getReasoner().isConsistent()) {
                 boolean sat = getReasoner().isSatisfiable((OWLClass) obj);
                 if (!sat) {
-                    return unsatisfiableClassColor;
+                    return UNSATISFIABLE_CLASS_COLOR;
                 }
             }
         }
         return Color.BLACK;
     }
-
-
-    /**
-     * Determines if a class is disjoint from another class
-     *
-     * @param cls1 The class to which we want to know if another class is disjoint
-     * @param cls2 The class we want to test is disjoint to <code>cls1</code>
-     * @return <code>true</code> if <code>cls2</code>  is disjoint to <code>cls1</code> ,
-     *         <code>false</code> if <code>cls2</code>  is not disjoint to <code>cls1</code>.
-     */
-    protected int areClassesDisjoint(OWLClass cls1,
-                                     OWLClass cls2) {
-//        boolean ret = false;
-//        Collection disjointClses;
-//        Iterator disjointClsesIt;
-//
-//        // First Check to see if the classes are explicitly disjoint
-//
-//        disjointClses = cls1.getDisjointClasses();
-//        if(disjointClses.contains(cls2)) {
-//            return DIRECTLY_DISJOINT;
-//        }
-//
-//
-//        // Next check to see if one of cls1's disjoint classes is a super class of cls2
-//
-//        Collection cls2Supers = cls2.getSuperclasses();
-//        disjointClsesIt = disjointClses.iterator();
-//        while(disjointClsesIt.hasNext()) {
-//            if(cls2Supers.contains(disjointClsesIt.next())) {
-//                return INHERITED_DIRECT_DISJOINT;
-//            }
-//        }
-//
-//        // Next check the parents of cls1 to see if any disjoints are specified.
-//
-//        Collection cls1Supers = cls1.getSuperclasses(true);
-//        Iterator superClsIt = cls1Supers.iterator();
-//        while(superClsIt.hasNext()) // Iterate through super clses
-//        {
-//            Object obj = superClsIt.next();
-//            if(obj instanceof OWLNamedClass) // If a superclass is a named class then it might have disjoints specified
-//            {
-//                OWLNamedClass namedCls = (OWLNamedClass) obj;
-//                disjointClses = namedCls.getDisjointClasses();
-//                disjointClsesIt = disjointClses.iterator();
-//                while(disjointClsesIt.hasNext()) // Go through the disjoints
-//                {
-//                    Object disjointObj = disjointClsesIt.next();
-//                    if(disjointObj instanceof OWLNamedClass) {
-//                        OWLNamedClass disNamedCls = (OWLNamedClass) disjointObj;
-//                        if(disNamedCls.equals(cls2)) {
-//                            return INHERITED_INDIRECT_DISJOINT;
-//                        }
-//                        else if(cls2Supers.contains(disNamedCls)) {
-//                            return INHERITED_INDIRECT_DISJOINT;
-//                        }
-//                    }
-//                }
-//            }
-//        }
-        return NOT_DISJOINT;
-    }
-
 }
