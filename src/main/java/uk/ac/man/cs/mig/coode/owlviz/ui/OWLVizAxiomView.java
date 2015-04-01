@@ -1,17 +1,21 @@
 package uk.ac.man.cs.mig.coode.owlviz.ui;
 
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.swing.JScrollPane;
+
 import org.protege.editor.owl.ui.view.cls.AbstractOWLClassViewComponent;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.parameters.Imports;
+
 import uk.ac.man.cs.mig.coode.owlviz.model.OWLVizAxiomGraphModel;
 import uk.ac.man.cs.mig.util.graph.controller.Controller;
 import uk.ac.man.cs.mig.util.graph.controller.impl.DefaultController;
-
-import javax.swing.*;
-import java.awt.*;
-import java.util.HashSet;
-import java.util.Set;
 
 
 /**
@@ -48,7 +52,7 @@ public class OWLVizAxiomView extends AbstractOWLClassViewComponent {
         Set<OWLAxiom> axioms = new HashSet<OWLAxiom>();
         if(cls != null) {
             for(OWLOntology ont : getOWLModelManager().getActiveOntologies()) {
-                axioms.addAll(ont.getAxioms(cls));
+                axioms.addAll(ont.getAxioms(cls, Imports.EXCLUDED));
             }
         }
         graphModel = new OWLVizAxiomGraphModel(axioms);

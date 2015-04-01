@@ -18,9 +18,9 @@ import org.apache.log4j.Logger;
 import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLEntity;
-import org.semanticweb.owlapi.model.OWLOntology;
-
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
+import org.semanticweb.owlapi.search.EntitySearcher;
+
 import uk.ac.man.cs.mig.util.graph.controller.Controller;
 import uk.ac.man.cs.mig.util.graph.controller.VisualisedObjectManager;
 import uk.ac.man.cs.mig.util.graph.graph.Node;
@@ -245,10 +245,8 @@ public class OWLClsNodeRenderer implements NodeRenderer {
     protected Color getFillColor(Object obj) {
         if (obj instanceof OWLClass) {
             OWLClass cls = (OWLClass) obj;
-            for (OWLOntology ont : owlModelManager.getActiveOntologies()) {
-                if ((cls.isDefined(ont))) {
-                    return DEFINED_CLASS_FILL;
-                }
+            if ((EntitySearcher.isDefined(cls, owlModelManager.getActiveOntologies()))) {
+                return DEFINED_CLASS_FILL;
             }
             return PRIMITIVE_CLASS_FILL;
         }
