@@ -1,12 +1,20 @@
 package uk.ac.man.cs.mig.coode.owlviz.model;
 
-import org.apache.log4j.Logger;
 import org.protege.editor.owl.model.OWLModelManager;
+
 import org.semanticweb.owlapi.model.OWLOntology;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+
 import uk.ac.man.cs.mig.util.graph.model.GraphModel;
 import uk.ac.man.cs.mig.util.graph.model.impl.AbstractGraphModel;
-
-import java.util.*;
 
 
 /**
@@ -20,7 +28,7 @@ import java.util.*;
  */
 public class OWLOntologyImportsGraphModel extends AbstractGraphModel {
 
-    private static final Logger logger = Logger.getLogger(OWLOntologyImportsGraphModel.class);
+    private static final Logger logger = LoggerFactory.getLogger(OWLOntologyImportsGraphModel.class);
 
 
 

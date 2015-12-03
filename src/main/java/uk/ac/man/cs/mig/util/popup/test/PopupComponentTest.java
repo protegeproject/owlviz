@@ -1,6 +1,9 @@
 package uk.ac.man.cs.mig.util.popup.test;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -16,8 +19,6 @@ import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
-
-import org.apache.log4j.Logger;
 
 import uk.ac.man.cs.mig.util.popup.PopupComponent;
 import uk.ac.man.cs.mig.util.popup.PopupComponentEvent;
@@ -40,7 +41,7 @@ public class PopupComponentTest extends JFrame
      */
     private static final long serialVersionUID = 3963717704220489047L;
 
-    private static Logger log = Logger.getLogger(PopupComponentTest.class);
+    private static Logger log = LoggerFactory.getLogger(PopupComponentTest.class);
 
 	private PopupComponent popup;
 

@@ -1,5 +1,14 @@
 package uk.ac.man.cs.mig.coode.owlviz.ui.renderer;
 
+import org.protege.editor.owl.model.OWLModelManager;
+
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.reasoner.OWLReasoner;
+import org.semanticweb.owlapi.search.EntitySearcher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -13,13 +22,6 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-
-import org.apache.log4j.Logger;
-import org.protege.editor.owl.model.OWLModelManager;
-import org.semanticweb.owlapi.model.OWLClass;
-import org.semanticweb.owlapi.model.OWLEntity;
-import org.semanticweb.owlapi.reasoner.OWLReasoner;
-import org.semanticweb.owlapi.search.EntitySearcher;
 
 import uk.ac.man.cs.mig.util.graph.controller.Controller;
 import uk.ac.man.cs.mig.util.graph.controller.VisualisedObjectManager;
@@ -39,7 +41,7 @@ import uk.ac.man.cs.mig.util.graph.renderer.NodeRenderer;
  */
 public class OWLClsNodeRenderer implements NodeRenderer {
 
-    private static final Logger logger = Logger.getLogger(OWLClsNodeRenderer.class);
+    private static final Logger logger = LoggerFactory.getLogger(OWLClsNodeRenderer.class);
 
     private static final int ARROW_SIZE = 5;
 

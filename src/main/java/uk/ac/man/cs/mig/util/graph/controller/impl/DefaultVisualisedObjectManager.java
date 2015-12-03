@@ -1,13 +1,14 @@
 package uk.ac.man.cs.mig.util.graph.controller.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
-import org.apache.log4j.Logger;
 
 import uk.ac.man.cs.mig.util.graph.controller.VisualisedObjectManager;
 import uk.ac.man.cs.mig.util.graph.event.GraphModelEvent;
@@ -28,7 +29,7 @@ import uk.ac.man.cs.mig.util.graph.model.GraphModel;
  */
 public class DefaultVisualisedObjectManager implements VisualisedObjectManager
 {
-    private static Logger log = Logger.getLogger(DefaultVisualisedObjectManager.class);
+    private static Logger log = LoggerFactory.getLogger(DefaultVisualisedObjectManager.class);
 
 	private GraphModel model;
 	private VisualisedObjectCache visualisedObjects;
@@ -723,7 +724,7 @@ public class DefaultVisualisedObjectManager implements VisualisedObjectManager
 		{
 			log.debug("TRACE(DefaultVisualisedObjectManager) firing object added event");
 
-			log.debug(evt.getObjects());
+			log.debug(evt.getObjects().toString());
 		}
 
 		for(int i = 0; i < listeners.size(); i++)
@@ -746,7 +747,7 @@ public class DefaultVisualisedObjectManager implements VisualisedObjectManager
 		{
 			log.debug("TRACE(DefaultVisualisedObjectManager) firing object removed event.");
 
-			log.debug(evt.getObjects());
+			log.debug(evt.getObjects().toString());
 		}
 
 		for(int i = 0; i < listeners.size(); i++)
@@ -769,7 +770,7 @@ public class DefaultVisualisedObjectManager implements VisualisedObjectManager
 		{
 			log.debug("TRACE(DefaultVisualisedObjectManager) firing object changed event");
 
-			log.debug(evt.getObjects());
+			log.debug(evt.getObjects().toString());
 		}
 
 		for(int i = 0; i < listeners.size(); i++)
@@ -798,7 +799,7 @@ public class DefaultVisualisedObjectManager implements VisualisedObjectManager
 		{
 			log.debug("TRACE(DefaultVisualisedObjectManager) firing parent object added event");
 
-			log.debug(evt.getObjects());
+			log.debug(evt.getObjects().toString());
 		}
 
 		for(int i = 0; i < listeners.size(); i++)
@@ -827,7 +828,7 @@ public class DefaultVisualisedObjectManager implements VisualisedObjectManager
 		{
 			log.debug("TRACE(DefaultVisualisedObjectManager) firing parent object removed event");
 
-			log.debug(evt.getObjects());
+			log.debug(evt.getObjects().toString());
 		}
 
 		for(int i = 0; i < listeners.size(); i++)
@@ -855,7 +856,7 @@ public class DefaultVisualisedObjectManager implements VisualisedObjectManager
 		{
 			log.debug("TRACE(DefaultVisualisedObjectManager) firing child object added event");
 
-			log.debug(evt.getObjects());
+			log.debug(evt.getObjects().toString());
 		}
 
 		for(int i = 0; i < listeners.size(); i++)
@@ -883,7 +884,7 @@ public class DefaultVisualisedObjectManager implements VisualisedObjectManager
 		{
 			log.debug("TRACE(DefaultVisualisedObjectManager) firing child object removed event");
 
-			log.debug(evt.getObjects());
+			log.debug(evt.getObjects().toString());
 		}
 
 		for(int i = 0; i < listeners.size(); i++)

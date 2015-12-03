@@ -1,5 +1,8 @@
 package uk.ac.man.cs.mig.util.graph.renderer.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -15,8 +18,6 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-
-import org.apache.log4j.Logger;
 
 import uk.ac.man.cs.mig.util.graph.controller.Controller;
 import uk.ac.man.cs.mig.util.graph.controller.VisualisedObjectManager;
@@ -36,7 +37,7 @@ import uk.ac.man.cs.mig.util.graph.renderer.NodeRenderer;
  */
 public class DefaultNodeRenderer implements NodeRenderer
 {
-    private static Logger log = Logger.getLogger(DefaultNodeRenderer.class);
+    private static Logger log = LoggerFactory.getLogger(DefaultNodeRenderer.class);
 //	private NodeLabelRenderer labelRenderer;
 
 	private static Color fillColor;

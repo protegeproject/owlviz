@@ -1,13 +1,11 @@
 package uk.ac.man.cs.mig.util.graph.layout.dotlayoutengine;
 
-import java.io.IOException;
-
-import javax.swing.JOptionPane;
-
-import org.apache.log4j.Logger;
-import org.protege.editor.core.ProtegeApplication;
-import org.protege.editor.core.ui.error.ErrorLog;
 import org.protege.editor.core.ui.error.ErrorLogPanel;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
 
 /**
  * User: matthewhorridge<br>
@@ -21,7 +19,7 @@ import org.protege.editor.core.ui.error.ErrorLogPanel;
  * A wrapper for a native dot process.
  */
 public class DotProcess {
-    private static Logger log = Logger.getLogger(DotProcess.class);
+    private static Logger log = LoggerFactory.getLogger(DotProcess.class);
 
     private Process process;
 
@@ -73,14 +71,13 @@ public class DotProcess {
         } catch (IOException ioEx) {
             String errMsg = "An error related to DOT has occurred. " + "This error was probably because OWLViz could not" + " find the DOT application.  Please ensure that the" + " path to the DOT application is set properly";
 
-            String dlgErrMsg = "<html><body>A DOT error has occurred.<br>" +
-                    "This is probably because OWLViz could not find the DOT application.<br>" +
-                    "OWLViz requires that Graphviz (http://www.graphviz.org/) is installed<br>" +
-                    " and the path to the DOT application is set properly (in options).</body></html>";
+//            String dlgErrMsg = "<html><body>A DOT error has occurred.<br>" +
+//                    "This is probably because OWLViz could not find the DOT application.<br>" +
+//                    "OWLViz requires that Graphviz (http://www.graphviz.org/) is installed<br>" +
+//                    " and the path to the DOT application is set properly (in options).</body></html>";
 
             log.error(errMsg);
-            // We originally displayed a dialog here, but this was really irritating.
-            ProtegeApplication.getErrorLog().logError(new DotProcessException(errMsg, ioEx));
+            ErrorLogPanel.showErrorDialog(new DotProcessException(errMsg, ioEx));
             return false;
         }
     }

@@ -1,6 +1,16 @@
 package uk.ac.man.cs.mig.util.graph.layout.dotlayoutengine;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 import uk.ac.man.cs.mig.util.graph.graph.Graph;
 import uk.ac.man.cs.mig.util.graph.layout.GraphLayoutEngine;
 import uk.ac.man.cs.mig.util.graph.layout.dotlayoutengine.dotparser.DotParameterSetter;
@@ -10,8 +20,6 @@ import uk.ac.man.cs.mig.util.graph.outputrenderer.GraphOutputRenderer;
 import uk.ac.man.cs.mig.util.graph.outputrenderer.impl.DotOutputGraphRenderer;
 import uk.ac.man.cs.mig.util.graph.renderer.impl.DefaultEdgeLabelRenderer;
 import uk.ac.man.cs.mig.util.graph.renderer.impl.DefaultNodeLabelRenderer;
-
-import java.io.*;
 
 /**
  * User: matthewhorridge<br>
@@ -25,7 +33,7 @@ import java.io.*;
  */
 public class DotGraphLayoutEngine implements GraphLayoutEngine
 {
-    private static Logger log = Logger.getLogger(DotGraphLayoutEngine.class);
+    private static Logger log = LoggerFactory.getLogger(DotGraphLayoutEngine.class);
 	private GraphOutputRenderer renderer;
 
     private int layoutDirection = LAYOUT_LEFT_TO_RIGHT;

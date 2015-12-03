@@ -1,14 +1,54 @@
 package uk.ac.man.cs.mig.coode.owlviz.ui;
 
-import org.apache.log4j.Logger;
 import org.protege.editor.owl.ui.transfer.OWLObjectDataFlavor;
 import org.protege.editor.owl.ui.view.cls.AbstractOWLClassViewComponent;
+
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLObject;
-import uk.ac.man.cs.mig.coode.owlviz.command.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.awt.BorderLayout;
+import java.awt.Frame;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetDragEvent;
+import java.awt.dnd.DropTargetDropEvent;
+import java.awt.dnd.DropTargetEvent;
+import java.awt.dnd.DropTargetListener;
+import java.awt.event.ContainerEvent;
+import java.awt.event.ContainerListener;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import javax.swing.JTabbedPane;
+import javax.swing.SwingUtilities;
+
+import uk.ac.man.cs.mig.coode.owlviz.command.ExportCommand;
+import uk.ac.man.cs.mig.coode.owlviz.command.HideAllClassesCommand;
+import uk.ac.man.cs.mig.coode.owlviz.command.HideClassCommand;
+import uk.ac.man.cs.mig.coode.owlviz.command.HideClassesPastRadiusCommand;
+import uk.ac.man.cs.mig.coode.owlviz.command.HideSubclassesCommand;
+import uk.ac.man.cs.mig.coode.owlviz.command.SetOptionsCommand;
+import uk.ac.man.cs.mig.coode.owlviz.command.ShowAllClassesCommand;
+import uk.ac.man.cs.mig.coode.owlviz.command.ShowClassCommand;
+import uk.ac.man.cs.mig.coode.owlviz.command.ShowSubclassesCommand;
+import uk.ac.man.cs.mig.coode.owlviz.command.ShowSuperclassesCommand;
+import uk.ac.man.cs.mig.coode.owlviz.command.ZoomInCommand;
+import uk.ac.man.cs.mig.coode.owlviz.command.ZoomOutCommand;
 import uk.ac.man.cs.mig.coode.owlviz.model.OWLClassGraphAssertedModel;
 import uk.ac.man.cs.mig.coode.owlviz.model.OWLClassGraphInferredModel;
-import uk.ac.man.cs.mig.coode.owlviz.ui.options.*;
+import uk.ac.man.cs.mig.coode.owlviz.ui.options.GlobalOptionsPage;
+import uk.ac.man.cs.mig.coode.owlviz.ui.options.LayoutDirectionOptionsPage;
+import uk.ac.man.cs.mig.coode.owlviz.ui.options.ModeOptionsPage;
+import uk.ac.man.cs.mig.coode.owlviz.ui.options.OWLVizViewOptions;
+import uk.ac.man.cs.mig.coode.owlviz.ui.options.OptionsDialog;
 import uk.ac.man.cs.mig.util.graph.controller.Controller;
 import uk.ac.man.cs.mig.util.graph.event.GraphSelectionModelEvent;
 import uk.ac.man.cs.mig.util.graph.event.GraphSelectionModelListener;
@@ -18,16 +58,6 @@ import uk.ac.man.cs.mig.util.graph.export.ExportFormatManager;
 import uk.ac.man.cs.mig.util.graph.export.impl.JPEGExportFormat;
 import uk.ac.man.cs.mig.util.graph.export.impl.PNGExportFormat;
 import uk.ac.man.cs.mig.util.graph.ui.GraphComponent;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.awt.dnd.*;
-import java.awt.event.ContainerEvent;
-import java.awt.event.ContainerListener;
-import java.io.IOException;
-import java.util.*;
-import java.util.List;
 
 /**
  * User: matthewhorridge<br>
@@ -41,12 +71,9 @@ import java.util.List;
  */
 public class OWLVizView extends AbstractOWLClassViewComponent implements DropTargetListener, OWLVizViewI, ConfigurableOWLVizView {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -7785134782365129398L;
 
-    private static Logger logger = Logger.getLogger(OWLVizView.class);
+    private static Logger logger = LoggerFactory.getLogger(OWLVizView.class);
 
     private GraphComponent assertedGraphComponent;
     private GraphComponent inferredGraphComponent;

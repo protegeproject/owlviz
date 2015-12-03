@@ -1,5 +1,8 @@
 package uk.ac.man.cs.mig.util.graph.export.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -10,8 +13,6 @@ import java.util.Iterator;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageWriter;
 import javax.imageio.stream.ImageOutputStream;
-
-import org.apache.log4j.Logger;
 
 import uk.ac.man.cs.mig.util.graph.controller.Controller;
 import uk.ac.man.cs.mig.util.graph.export.ExportFormat;
@@ -26,7 +27,7 @@ import uk.ac.man.cs.mig.util.graph.export.ExportFormat;
  * www.cs.man.ac.uk/~horridgm<br><br>
  */
 public abstract class AbstractRasterFormat implements ExportFormat {
-    private static Logger log = Logger.getLogger(AbstractRasterFormat.class);
+    private static Logger log = LoggerFactory.getLogger(AbstractRasterFormat.class);
 
 	private String format;
 	private boolean antialiased = true;

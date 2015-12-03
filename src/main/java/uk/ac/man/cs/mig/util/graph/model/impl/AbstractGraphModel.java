@@ -1,9 +1,10 @@
 package uk.ac.man.cs.mig.util.graph.model.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.Iterator;
-
-import org.apache.log4j.Logger;
 
 import uk.ac.man.cs.mig.util.graph.event.GraphModelEvent;
 import uk.ac.man.cs.mig.util.graph.event.GraphModelListener;
@@ -25,7 +26,7 @@ import uk.ac.man.cs.mig.util.graph.model.GraphModel;
  */
 public abstract class AbstractGraphModel implements GraphModel
 {
-    private static Logger log = Logger.getLogger(AbstractGraphModel.class);
+    private static Logger log = LoggerFactory.getLogger(AbstractGraphModel.class);
 
 	protected ArrayList<GraphModelListener> listeners;
 

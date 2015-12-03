@@ -1,13 +1,14 @@
 package uk.ac.man.cs.mig.util.graph.controller.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.awt.Dimension;
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
-import org.apache.log4j.Logger;
 
 import uk.ac.man.cs.mig.util.graph.controller.Controller;
 import uk.ac.man.cs.mig.util.graph.controller.GraphGenerator;
@@ -32,14 +33,11 @@ import uk.ac.man.cs.mig.util.graph.renderer.NodeRenderer;
  * Date: Jan 13, 2004<br><br>
  *
  * matthew.horridge@cs.visualisedObjectManager.ac.uk<br>
- * www.cs.visualisedObjectManager.ac.uk/~horridgm<br><br>
- *
- *
- *
+ * www.cs.visualisedObjectManager.ac.uk/~horridgm
  */
 public class DefaultGraphGenerator implements GraphGenerator
 {
-    private static Logger log = Logger.getLogger(DefaultGraphGenerator.class);
+    private static Logger log = LoggerFactory.getLogger(DefaultGraphGenerator.class);
 
 	private Graph graph; // The graph that we generate
 	private VisualisedObjectManager visualisedObjectManager; // The manager that the graph is generated for

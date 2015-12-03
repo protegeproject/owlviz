@@ -1,12 +1,17 @@
 package uk.ac.man.cs.mig.coode.owlviz.ui.popup;
 
-import org.apache.log4j.Logger;
 import org.protege.editor.owl.OWLEditorKit;
+
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+
+import javax.swing.JComponent;
+import javax.swing.JPanel;
 
 /**
  * User: matthewhorridge<br>
@@ -19,7 +24,7 @@ import java.awt.*;
  */
 public class ConditionsPopupPage extends OWLObjectPopupPage {
 
-    private static final Logger logger = Logger.getLogger(ConditionsPopupPage.class);
+    private static final Logger logger = LoggerFactory.getLogger(ConditionsPopupPage.class);
 
 
 //    private OWLClassDescriptionTable table;

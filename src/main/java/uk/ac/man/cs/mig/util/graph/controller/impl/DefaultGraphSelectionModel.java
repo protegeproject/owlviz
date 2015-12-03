@@ -1,9 +1,10 @@
 package uk.ac.man.cs.mig.util.graph.controller.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.Iterator;
-
-import org.apache.log4j.Logger;
 
 import uk.ac.man.cs.mig.util.graph.controller.GraphSelectionModel;
 import uk.ac.man.cs.mig.util.graph.event.GraphSelectionModelEvent;
@@ -21,7 +22,7 @@ import uk.ac.man.cs.mig.util.graph.event.GraphSelectionModelListener;
  */
 public class DefaultGraphSelectionModel implements GraphSelectionModel
 {
-    private static Logger log = Logger.getLogger(DefaultGraphSelectionModel.class);
+    private static Logger log = LoggerFactory.getLogger(DefaultGraphSelectionModel.class);
 
 	private Object selObj;
 

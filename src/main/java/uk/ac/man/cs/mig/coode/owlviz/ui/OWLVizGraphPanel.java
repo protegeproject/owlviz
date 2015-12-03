@@ -2,9 +2,25 @@ package uk.ac.man.cs.mig.coode.owlviz.ui;
 
 import org.protege.editor.owl.OWLEditorKit;
 import org.protege.editor.owl.model.OWLModelManager;
+
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLEntity;
-import uk.ac.man.cs.mig.coode.owlviz.command.*;
+
+import java.awt.BorderLayout;
+import java.awt.Frame;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.SwingUtilities;
+
+import uk.ac.man.cs.mig.coode.owlviz.command.HideAllClassesCommand;
+import uk.ac.man.cs.mig.coode.owlviz.command.HideClassCommand;
+import uk.ac.man.cs.mig.coode.owlviz.command.HideSubclassesCommand;
+import uk.ac.man.cs.mig.coode.owlviz.command.ShowClassCommand;
+import uk.ac.man.cs.mig.coode.owlviz.command.ShowSubclassesCommand;
+import uk.ac.man.cs.mig.coode.owlviz.command.ShowSuperclassesCommand;
 import uk.ac.man.cs.mig.coode.owlviz.ui.popup.OWLObjectPopupProvider;
 import uk.ac.man.cs.mig.coode.owlviz.ui.renderer.OWLClsEdgeRenderer;
 import uk.ac.man.cs.mig.coode.owlviz.ui.renderer.OWLClsNodeLabelRenderer;
@@ -15,11 +31,6 @@ import uk.ac.man.cs.mig.util.graph.event.NodeClickedEvent;
 import uk.ac.man.cs.mig.util.graph.event.NodeClickedListener;
 import uk.ac.man.cs.mig.util.graph.model.GraphModel;
 import uk.ac.man.cs.mig.util.graph.ui.GraphComponent;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 /**
  * User: matthewhorridge<br>

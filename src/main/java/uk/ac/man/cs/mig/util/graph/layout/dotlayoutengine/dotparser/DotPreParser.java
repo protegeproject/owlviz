@@ -1,8 +1,14 @@
 package uk.ac.man.cs.mig.util.graph.layout.dotlayoutengine.dotparser;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 
 /**
  * User: matthewhorridge<br>
@@ -15,7 +21,7 @@ import java.io.*;
  */
 public class DotPreParser
 {
-    private static Logger logger = Logger.getLogger(DotPreParser.class);
+    private static Logger logger = LoggerFactory.getLogger(DotPreParser.class);
 
     static String preParse(InputStream is) {
         try {
@@ -48,12 +54,12 @@ public class DotPreParser
             }
             catch(IOException e)
             {
-                logger.error(e);
+                logger.error(e.getMessage());
             }
             return sr.toString();
         }
         catch (UnsupportedEncodingException e) {
-            logger.error(e);
+            logger.error(e.getMessage());
         }
         return null;
     }
