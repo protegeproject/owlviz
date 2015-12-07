@@ -28,8 +28,10 @@ Troubleshooting
 
 ![DOT Error](http://protegewiki.stanford.edu/images/4/46/OwlViz-dot-error.jpg)
 
-If you got this error message, it means that OWLViz could not determine the location of GraphViz installation. Please install GraphViz first by following the instruction above. If you already installed GraphViz then open Protégé and go to **Preferences...** menu and select **OWLViz** tab.
+> "An error related to DOT has occurred. This error was probably because OWL Viz could not find the DOT application. Please ensure that the path to the DOT application is set properly"
 
-<img src="https://raw.githubusercontent.com/protegeproject/github-wiki-resources/master/owlviz/README/owlviz-pref.png" alt="OWLViz Preference" width="350px"/>
+If you got this error message, it means that OWLViz failed to locate GraphViz installation directory in your computer. To solve this problem please ensure GraphViz was installed properly in your computer, using the instruction above. If you have already installed GraphViz then open Protégé and go to **Preferences...** menu and select **OWLViz** tab.
 
-Add the correct path of your GraphViz installation in "Dot Application Path" field.
+<img src="https://raw.githubusercontent.com/protegeproject/github-wiki-resources/master/owlviz/README/owlviz-pref.png" alt="OWLViz Preference" width="450px"/>
+
+Then add the correct path of your GraphViz installation in "Dot Application Path" field.
