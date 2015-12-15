@@ -10,7 +10,7 @@
 
     <groupId>edu.stanford.protege</groupId>
     <artifactId>owlviz</artifactId>
-    <version>5.0.1-SNAPSHOT</version>
+    <version>5.0.1</version>
     <packaging>bundle</packaging>
 
     <properties>
@@ -78,7 +78,7 @@
         <connection>scm:git:git@github.com:protegeproject/owlviz.git</connection>
         <developerConnection>scm:git:git@github.com:protegeproject/owlviz.git</developerConnection>
         <url>https://github.com/protegeproject/owlviz</url>
-        <tag>HEAD</tag>
+        <tag>owlviz-5.0.1</tag>
     </scm>
 
     <dependencies>
