@@ -7,32 +7,30 @@ import org.coode.owlviz.util.graph.controller.GraphGenerator;
  * The Univeristy Of Manchester<br>
  * Medical Informatics Group<br>
  * Date: Jan 14, 2004<br><br>
- * 
+ * <p/>
  * matthew.horridge@cs.man.ac.uk<br>
  * www.cs.man.ac.uk/~horridgm<br><br>
- *
- * 
  */
-public class GraphGeneratorEvent
-{
-	private GraphGenerator source;
+public class GraphGeneratorEvent {
 
-	/**
-	 * Constructs a <code>GraphGeneratorEvent</code> with the specified
-	 * event source.
-	 * @param source The source of the event i.e. a <code>GraphGenerator</code>.
-	 */
-	public GraphGeneratorEvent(GraphGenerator source)
-	{
-		this.source = source;
-	}
+    private GraphGenerator source;
 
-	/**
-	 * Retrieves the source of the event.
-	 * @return The <code>GraphGenerator</code> that cause the event.
-	 */
-	public GraphGenerator getSource()
-	{
-		return source;
-	}
+    /**
+     * Constructs a <code>GraphGeneratorEvent</code> with the specified
+     * event source.
+     *
+     * @param source The source of the event i.e. a <code>GraphGenerator</code>.
+     */
+    public GraphGeneratorEvent(GraphGenerator source) {
+        this.source = source;
+    }
+
+    /**
+     * Retrieves the source of the event.
+     *
+     * @return The <code>GraphGenerator</code> that cause the event.
+     */
+    public GraphGenerator getSource() {
+        return source;
+    }
 }

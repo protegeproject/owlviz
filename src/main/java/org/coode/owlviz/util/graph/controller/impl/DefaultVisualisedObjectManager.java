@@ -10,11 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.beans.PropertyChangeEvent;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 /**
  * User: matthewhorridge<br>
@@ -829,6 +825,20 @@ public class DefaultVisualisedObjectManager implements VisualisedObjectManager {
 
     // Inner class to contain info about the objects being visualised.
 
+    /**
+     * This method gets called when a bound property is changed.
+     *
+     * @param evt A PropertyChangeEvent object describing the event source
+     *            and the property that has changed.
+     */
+
+    public void propertyChange(PropertyChangeEvent evt) {
+    }
+
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     private class VisualisedObjectWrapper {
 
         private Object obj;
@@ -925,8 +935,11 @@ public class DefaultVisualisedObjectManager implements VisualisedObjectManager {
     }
 
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Implementation of PropertyChangeListener
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * Inner class - The cache that holds the visualised objects and various
@@ -1372,22 +1385,5 @@ public class DefaultVisualisedObjectManager implements VisualisedObjectManager {
         public Collection getAllObjects() {
             return objects.keySet();
         }
-    }
-
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    //
-    // Implementation of PropertyChangeListener
-    //
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * This method gets called when a bound property is changed.
-     *
-     * @param evt A PropertyChangeEvent object describing the event source
-     *            and the property that has changed.
-     */
-
-    public void propertyChange(PropertyChangeEvent evt) {
     }
 }

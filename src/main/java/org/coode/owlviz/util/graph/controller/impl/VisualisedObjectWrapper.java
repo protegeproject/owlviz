@@ -1,51 +1,45 @@
 package org.coode.owlviz.util.graph.controller.impl;
 
 
-
 /**
  * User: matthewhorridge<br>
  * The Univeristy Of Manchester<br>
  * Medical Informatics Group<br>
  * Date: Jan 12, 2004<br><br>
- * 
+ * <p/>
  * matthew.horridge@cs.man.ac.uk<br>
  * www.cs.man.ac.uk/~horridgm<br><br>
- *
  */
-public class VisualisedObjectWrapper
-{
-	private Object obj;
-	private boolean allParentsVisible;
-	private boolean allChildrenVisible;
+public class VisualisedObjectWrapper {
 
-	public VisualisedObjectWrapper(Object obj)
-	{
-		this.obj = obj;
-	}
+    private Object obj;
 
-	public boolean isAllChildrenVisible()
-	{
-		return allChildrenVisible;
-	}
+    private boolean allParentsVisible;
 
-	public void setAllChildrenVisible(boolean allChildrenVisible)
-	{
-		this.allChildrenVisible = allChildrenVisible;
-	}
+    private boolean allChildrenVisible;
 
-	public boolean isAllParentsVisible()
-	{
-		return allParentsVisible;
-	}
+    public VisualisedObjectWrapper(Object obj) {
+        this.obj = obj;
+    }
 
-	public void setAllParentsVisible(boolean allParentsVisible)
-	{
-		this.allParentsVisible = allParentsVisible;
-	}
+    public boolean isAllChildrenVisible() {
+        return allChildrenVisible;
+    }
 
-	public Object getObject()
-	{
-		return obj;
-	}
+    public void setAllChildrenVisible(boolean allChildrenVisible) {
+        this.allChildrenVisible = allChildrenVisible;
+    }
+
+    public boolean isAllParentsVisible() {
+        return allParentsVisible;
+    }
+
+    public void setAllParentsVisible(boolean allParentsVisible) {
+        this.allParentsVisible = allParentsVisible;
+    }
+
+    public Object getObject() {
+        return obj;
+    }
 
 }

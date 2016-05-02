@@ -11,19 +11,18 @@ import org.coode.owlviz.util.graph.export.ExportFormat;
  * matthew.horridge@cs.man.ac.uk<br>
  * www.cs.man.ac.uk/~horridgm<br><br>
  */
-public abstract class AbstractVectorFormat implements ExportFormat
-{
+public abstract class AbstractVectorFormat implements ExportFormat {
+
     private double scale = 100.0;
 
     /**
      * Determines if the export is a raster format or not.
      *
      * @return <code>true</code> if the image is a raster format
-     *         such as png, jpeg, or <code>false</code> if the image is
-     *         not a raster format e.g. eps, svg.
+     * such as png, jpeg, or <code>false</code> if the image is
+     * not a raster format e.g. eps, svg.
      */
-    public boolean isRasterFormat()
-    {
+    public boolean isRasterFormat() {
         return false;
     }
 
@@ -32,11 +31,22 @@ public abstract class AbstractVectorFormat implements ExportFormat
      * antialiasing.
      *
      * @return <code>true</code> if the export format does
-     *         support antialiasing, or <code>false</code> if the
-     *         export format does not support antialiasing.
+     * support antialiasing, or <code>false</code> if the
+     * export format does not support antialiasing.
      */
-    public boolean supportsAntialiasing()
-    {
+    public boolean supportsAntialiasing() {
+        return false;
+    }
+
+    /**
+     * If the export supports antialiasing, this method
+     * ,ay be used to determine whether antialiasing
+     * will be applied.
+     *
+     * @return <code>true</code> if antialiasing is applied,
+     * <code>false</code> if antialiasing is not applied.
+     */
+    public boolean getAntialiased() {
         return false;
     }
 
@@ -49,22 +59,8 @@ public abstract class AbstractVectorFormat implements ExportFormat
      *          used, or <code>false</code> if antialiasing should not
      *          be used.
      */
-    public void setAntialiased(boolean b)
-    {
+    public void setAntialiased(boolean b) {
         // Don't do anything here
-    }
-
-    /**
-     * If the export supports antialiasing, this method
-     * ,ay be used to determine whether antialiasing
-     * will be applied.
-     *
-     * @return <code>true</code> if antialiasing is applied,
-     *         <code>false</code> if antialiasing is not applied.
-     */
-    public boolean getAntialiased()
-    {
-        return false;
     }
 
     /**
@@ -76,14 +72,25 @@ public abstract class AbstractVectorFormat implements ExportFormat
      * export scale.
      *
      * @return <code>true</code> if the export format supports
-     *         the notion of scaling, <code>false</code> if the export
-     *         format does not support scaling, or the scaling option
-     *         does not make sense.
+     * the notion of scaling, <code>false</code> if the export
+     * format does not support scaling, or the scaling option
+     * does not make sense.
      */
-    public boolean supportsScaledOutput()
-    {
+    public boolean supportsScaledOutput() {
         // Default to true
         return false;
+    }
+
+    /**
+     * If the export format supports scaling, this
+     * method can be used to obtain the scaling
+     * applied to the export.
+     *
+     * @return The scaling applied to the export.  100.0
+     * is equivalent to 100 percent.
+     */
+    public double getScale() {
+        return scale;
     }
 
     /**
@@ -95,22 +102,8 @@ public abstract class AbstractVectorFormat implements ExportFormat
      *                   the export should be scaled to.  100.0 equates to one
      *                   hundred percent i.e. original size.
      */
-    public void setScale(double percentage)
-    {
+    public void setScale(double percentage) {
         //scale = percentage;
-    }
-
-    /**
-     * If the export format supports scaling, this
-     * method can be used to obtain the scaling
-     * applied to the export.
-     *
-     * @return The scaling applied to the export.  100.0
-     *         is equivalent to 100 percent.
-     */
-    public double getScale()
-    {
-        return scale;
     }
 }
 

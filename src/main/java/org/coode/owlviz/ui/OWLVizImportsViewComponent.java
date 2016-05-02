@@ -1,21 +1,18 @@
 package org.coode.owlviz.ui;
 
+import org.coode.owlviz.model.OWLOntologyImportsGraphModel;
+import org.coode.owlviz.util.graph.controller.Controller;
+import org.coode.owlviz.util.graph.controller.impl.DefaultController;
+import org.coode.owlviz.util.graph.event.NodeClickedEvent;
+import org.coode.owlviz.util.graph.graph.Node;
+import org.coode.owlviz.util.graph.renderer.impl.DefaultNodeRenderer;
+import org.coode.owlviz.util.graph.ui.GraphView;
 import org.protege.editor.core.ui.util.ComponentFactory;
 import org.protege.editor.owl.model.OWLEditorKitOntologyShortFormProvider;
 import org.protege.editor.owl.model.event.EventType;
 import org.protege.editor.owl.model.event.OWLModelManagerListener;
 import org.protege.editor.owl.ui.renderer.OWLSystemColors;
 import org.protege.editor.owl.ui.view.AbstractOWLViewComponent;
-
-import org.coode.owlviz.model.OWLOntologyImportsGraphModel;
-import org.coode.owlviz.util.graph.controller.Controller;
-import org.coode.owlviz.util.graph.controller.impl.DefaultController;
-import org.coode.owlviz.util.graph.event.NodeClickedEvent;
-import org.coode.owlviz.util.graph.event.NodeClickedListener;
-import org.coode.owlviz.util.graph.graph.Node;
-import org.coode.owlviz.util.graph.renderer.NodeLabelRenderer;
-import org.coode.owlviz.util.graph.renderer.impl.DefaultNodeRenderer;
-import org.coode.owlviz.util.graph.ui.GraphView;
 import org.semanticweb.owlapi.model.OWLImportsDeclaration;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChangeListener;
@@ -55,7 +52,7 @@ public class OWLVizImportsViewComponent extends AbstractOWLViewComponent {
         controller.getVisualisedObjectManager().showObjects(getOWLModelManager().getOntologies().toArray());
         dirty = true;
         addHierarchyListener(e -> {
-            if(isShowing() && dirty) {
+            if (isShowing() && dirty) {
                 // Layout
                 rebuild();
             }
@@ -70,11 +67,13 @@ public class OWLVizImportsViewComponent extends AbstractOWLViewComponent {
         });
         controller.setNodeRenderer(new DefaultNodeRenderer(controller) {
 
+            public Color activeOntologiesLineColor = OWLSystemColors.getOWLOntologyColor();
+
             private Color lineColor = Color.LIGHT_GRAY;
 
             private Color activeOntologyFillColor = new Color(205, 220, 243);
 
-            public Color activeOntologiesLineColor = OWLSystemColors.getOWLOntologyColor();;
+            ;
 
             protected Color getFillColor(Node node) {
                 if (node.getUserObject().equals(getOWLModelManager().getActiveOntology())) {
@@ -84,7 +83,7 @@ public class OWLVizImportsViewComponent extends AbstractOWLViewComponent {
             }
 
             protected Color getLineColor(Node node) {
-                if (getOWLModelManager().getActiveOntologies().contains(node.getUserObject())){
+                if (getOWLModelManager().getActiveOntologies().contains(node.getUserObject())) {
                     return activeOntologiesLineColor;
                 }
                 return lineColor;
@@ -99,7 +98,7 @@ public class OWLVizImportsViewComponent extends AbstractOWLViewComponent {
                 // Show right click menu
                 showPopupMenu(evt);
             }
-            else if (evt.getMouseEvent().getClickCount() == 2){
+            else if (evt.getMouseEvent().getClickCount() == 2) {
                 OWLOntology ont = (OWLOntology) evt.getNode().getUserObject();
                 getOWLModelManager().setActiveOntology(ont);
             }
@@ -114,7 +113,7 @@ public class OWLVizImportsViewComponent extends AbstractOWLViewComponent {
 
         getOWLModelManager().addOntologyChangeListener(changeListener);
         getOWLModelManager().addListener(owlModelManagerListener = event -> {
-            if(event.isType(EventType.ACTIVE_ONTOLOGY_CHANGED) || event.isType(EventType.ONTOLOGY_RELOADED)) {
+            if (event.isType(EventType.ACTIVE_ONTOLOGY_CHANGED) || event.isType(EventType.ONTOLOGY_RELOADED)) {
                 rebuild();
             }
         });
@@ -122,7 +121,7 @@ public class OWLVizImportsViewComponent extends AbstractOWLViewComponent {
 
     private void rebuild() {
         // Only rebuild if we are showing
-        if(isShowing()) {
+        if (isShowing()) {
             ((OWLOntologyImportsGraphModel) controller.getGraphModel()).rebuild();
             controller.getVisualisedObjectManager().hideAll();
             controller.getVisualisedObjectManager().showObjects(getOWLModelManager().getOntologies().toArray());

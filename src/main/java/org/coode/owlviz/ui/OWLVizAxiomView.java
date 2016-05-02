@@ -1,21 +1,18 @@
 package org.coode.owlviz.ui;
 
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.swing.JScrollPane;
-
-import org.protege.editor.owl.ui.view.cls.AbstractOWLClassViewComponent;
-
 import org.coode.owlviz.model.OWLVizAxiomGraphModel;
 import org.coode.owlviz.util.graph.controller.Controller;
 import org.coode.owlviz.util.graph.controller.impl.DefaultController;
+import org.protege.editor.owl.ui.view.cls.AbstractOWLClassViewComponent;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.parameters.Imports;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.HashSet;
+import java.util.Set;
 
 
 /**
@@ -27,7 +24,7 @@ import org.semanticweb.owlapi.model.parameters.Imports;
 public class OWLVizAxiomView extends AbstractOWLClassViewComponent {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -2736965181564975528L;
 
@@ -50,8 +47,8 @@ public class OWLVizAxiomView extends AbstractOWLClassViewComponent {
 
     private void createGraphModel(OWLClass cls) {
         Set<OWLAxiom> axioms = new HashSet<OWLAxiom>();
-        if(cls != null) {
-            for(OWLOntology ont : getOWLModelManager().getActiveOntologies()) {
+        if (cls != null) {
+            for (OWLOntology ont : getOWLModelManager().getActiveOntologies()) {
                 axioms.addAll(ont.getAxioms(cls, Imports.EXCLUDED));
             }
         }

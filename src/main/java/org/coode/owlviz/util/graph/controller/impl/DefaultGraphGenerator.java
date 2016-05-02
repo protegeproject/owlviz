@@ -18,7 +18,7 @@ import org.coode.owlviz.util.graph.renderer.NodeRenderer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.Dimension;
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,627 +30,585 @@ import java.util.Map;
  * The Univeristy Of Manchester<br>
  * Medical Informatics Group<br>
  * Date: Jan 13, 2004<br><br>
- *
+ * <p/>
  * matthew.horridge@cs.visualisedObjectManager.ac.uk<br>
  * www.cs.visualisedObjectManager.ac.uk/~horridgm
  */
-public class DefaultGraphGenerator implements GraphGenerator
-{
+public class DefaultGraphGenerator implements GraphGenerator {
+
     private static Logger log = LoggerFactory.getLogger(DefaultGraphGenerator.class);
 
-	private Graph graph; // The graph that we generate
-	private VisualisedObjectManager visualisedObjectManager; // The manager that the graph is generated for
-	private VisualisedObjectManagerListener visualisedObjectManagerListener;
-	private GraphFactory graphFactory; // The factory responsible for generating the graph
-	private NodeFactory nodeFactory; // The factory responsible for generating nodes
-	private EdgeFactory edgeFactory; // The factory responsible for generating edges
-	private NodeRenderer nodeRenderer;
+    private Graph graph; // The graph that we generate
+
+    private VisualisedObjectManager visualisedObjectManager; // The manager that the graph is generated for
+
+    private VisualisedObjectManagerListener visualisedObjectManagerListener;
+
+    private GraphFactory graphFactory; // The factory responsible for generating the graph
+
+    private NodeFactory nodeFactory; // The factory responsible for generating nodes
+
+    private EdgeFactory edgeFactory; // The factory responsible for generating edges
+
+    private NodeRenderer nodeRenderer;
+
     private Controller controller;
 
     private boolean rebuildGraph = true; // A flag to indicate that the graph is out of date and
-	                                     // needs to be rebuilt
+    // needs to be rebuilt
 
-	private boolean recreateNodes = false;
+    private boolean recreateNodes = false;
 
 
-	private Map<Object, Node> nodeMap; // Maps objects to the nodes that represent the objects
+    private Map<Object, Node> nodeMap; // Maps objects to the nodes that represent the objects
 
-	private ArrayList listeners;
+    private ArrayList listeners;
 
 
-	private GraphGeneratorEvent graphChangedEvent;
+    private GraphGeneratorEvent graphChangedEvent;
 
 
-	public DefaultGraphGenerator(Controller controller,
-	                             VisualisedObjectManager visualisedObjectManager,
-	                             GraphFactory graphFactory,
-	                             NodeFactory nodeFactory,
-	                             EdgeFactory edgeFactory,
-	                             NodeRenderer nodeRenderer)
-	{
+    public DefaultGraphGenerator(Controller controller,
+                                 VisualisedObjectManager visualisedObjectManager,
+                                 GraphFactory graphFactory,
+                                 NodeFactory nodeFactory,
+                                 EdgeFactory edgeFactory,
+                                 NodeRenderer nodeRenderer) {
 
-		if(controller == null)
-		{
-			throw new NullPointerException("Controller must not be null");
-		}
+        if (controller == null) {
+            throw new NullPointerException("Controller must not be null");
+        }
 
-		if(visualisedObjectManager == null)
-		{
-			throw new NullPointerException("VisualisedObjectManager must not be null");
-		}
+        if (visualisedObjectManager == null) {
+            throw new NullPointerException("VisualisedObjectManager must not be null");
+        }
 
-		if(graphFactory == null)
-		{
-			throw new NullPointerException("GraphFactory must not be null");
-		}
+        if (graphFactory == null) {
+            throw new NullPointerException("GraphFactory must not be null");
+        }
 
-		if(nodeFactory == null)
-		{
-			throw new NullPointerException("NodeFactory must not be null");
-		}
+        if (nodeFactory == null) {
+            throw new NullPointerException("NodeFactory must not be null");
+        }
 
-		if(edgeFactory == null)
-		{
-			throw new NullPointerException("EdgeFactory must not be null");
-		}
+        if (edgeFactory == null) {
+            throw new NullPointerException("EdgeFactory must not be null");
+        }
 
-		if(nodeRenderer == null)
-		{
-			throw new NullPointerException("NodeRenderer must not be null");
-		}
+        if (nodeRenderer == null) {
+            throw new NullPointerException("NodeRenderer must not be null");
+        }
 
-		// Set up instance variables
-		this.controller = controller;
+        // Set up instance variables
+        this.controller = controller;
 
-		this.visualisedObjectManager = visualisedObjectManager;
+        this.visualisedObjectManager = visualisedObjectManager;
 
-		this.graphFactory = graphFactory;
+        this.graphFactory = graphFactory;
 
-		this.nodeFactory = nodeFactory;
+        this.nodeFactory = nodeFactory;
 
-		this.edgeFactory = edgeFactory;
+        this.edgeFactory = edgeFactory;
 
-		this.nodeRenderer = nodeRenderer;
+        this.nodeRenderer = nodeRenderer;
 
-		// Add a property change listener, then we will be notified of changes
-		// to any of the above instance variables
-		controller.addPropertyChangeListener(this);
+        // Add a property change listener, then we will be notified of changes
+        // to any of the above instance variables
+        controller.addPropertyChangeListener(this);
 
 
-		nodeMap = new HashMap<Object, Node>();
-		
-		listeners = new ArrayList();
+        nodeMap = new HashMap<Object, Node>();
 
-		graphChangedEvent = new GraphGeneratorEvent(this);
+        listeners = new ArrayList();
 
-		graph = graphFactory.createGraph();
+        graphChangedEvent = new GraphGeneratorEvent(this);
 
+        graph = graphFactory.createGraph();
 
 
-		//TODO: Reimplement listener
-		visualisedObjectManager.addVisualisedObjectManagerListener(visualisedObjectManagerListener = new VisualisedObjectManagerListener()
-		{
-			/**
-			 * Called when an object is added to the list of objects
-			 * being visualised.
-			 * @param evt A <code>VisualisedObjectManagerEvent</code> that isShown
-			 * information pertaining to the event.
-			 */
-			public void objectsAdded(VisualisedObjectManagerEvent evt)
-			{
-				ArrayList list = evt.getObjects();
+        //TODO: Reimplement listener
+        visualisedObjectManager.addVisualisedObjectManagerListener(visualisedObjectManagerListener = new VisualisedObjectManagerListener() {
+            /**
+             * Called when an object is added to the list of objects
+             * being visualised.
+             * @param evt A <code>VisualisedObjectManagerEvent</code> that isShown
+             * information pertaining to the event.
+             */
+            public void objectsAdded(VisualisedObjectManagerEvent evt) {
+                ArrayList list = evt.getObjects();
 
-				Node node;
+                Node node;
 
-				Dimension size = new Dimension();
+                Dimension size = new Dimension();
 
-			//	System.out.println("TRACE(DefaultGraphGenerator): objectsAdded");
+                //	System.out.println("TRACE(DefaultGraphGenerator): objectsAdded");
 
-				for(int i = 0; i < list.size(); i++)
-				{
-					node = addNode(list.get(i));
+                for (int i = 0; i < list.size(); i++) {
+                    node = addNode(list.get(i));
 
-					DefaultGraphGenerator.this.nodeRenderer.getPreferredSize(node, size);
+                    DefaultGraphGenerator.this.nodeRenderer.getPreferredSize(node, size);
 
-					node.setSize(size.width, size.height);
+                    node.setSize(size.width, size.height);
 
-					//System.out.println("TRACE(DefaultGraphGenerator): object: " + list.get(i));
-				}
+                    //System.out.println("TRACE(DefaultGraphGenerator): object: " + list.get(i));
+                }
 
-				for(int i = 0; i < list.size(); i++)
-				{
-					addChildEdges(list.get(i));
+                for (int i = 0; i < list.size(); i++) {
+                    addChildEdges(list.get(i));
 
-					addParentEdges(list.get(i));
-				}
+                    addParentEdges(list.get(i));
+                }
 
 
-				fireGraphChangedEvent();
-			}
+                fireGraphChangedEvent();
+            }
 
-			/**
-			 * Called when an object that was previously in the list of
-			 * objects being visualised was removed.
-			 * @param evt A <code>VisualisedObjectManagerEvent</code> that isShown
-			 * information pertaining to the event
-			 */
-			public void objectsRemoved(VisualisedObjectManagerEvent evt)
-			{
-				ArrayList list = evt.getObjects();
+            /**
+             * Called when an object that was previously in the list of
+             * objects being visualised was removed.
+             * @param evt A <code>VisualisedObjectManagerEvent</code> that isShown
+             * information pertaining to the event
+             */
+            public void objectsRemoved(VisualisedObjectManagerEvent evt) {
+                ArrayList list = evt.getObjects();
 
-				for(int i = 0; i < list.size(); i++)
-				{
-					removeNode(list.get(i));
-				}
+                for (int i = 0; i < list.size(); i++) {
+                    removeNode(list.get(i));
+                }
 
-				fireGraphChangedEvent();
-			}
+                fireGraphChangedEvent();
+            }
 
-			/**
-			 * Called when the state of an object that is in the list
-			 * of objects being visualised changes it's state (which
-			 * might affect the visual appearence of the object.
-			 * @param evt A <code>VisualisedObjectManagerEvent</code> that isShown
-			 * information pertaining to the event
-			 */
-			public void objectsChanged(VisualisedObjectManagerEvent evt)
-			{
-				ArrayList list = evt.getObjects();
+            /**
+             * Called when the state of an object that is in the list
+             * of objects being visualised changes it's state (which
+             * might affect the visual appearence of the object.
+             * @param evt A <code>VisualisedObjectManagerEvent</code> that isShown
+             * information pertaining to the event
+             */
+            public void objectsChanged(VisualisedObjectManagerEvent evt) {
+                ArrayList list = evt.getObjects();
 
-				Iterator it = list.iterator();
+                Iterator it = list.iterator();
 
-				Object obj;
+                Object obj;
 
-				Node node;
+                Node node;
 
-				Dimension size = new Dimension(), oldSize;
+                Dimension size = new Dimension(), oldSize;
 
-				while(it.hasNext())
-				{
-					obj = it.next();
+                while (it.hasNext()) {
+                    obj = it.next();
 
-					node = nodeMap.get(obj);
+                    node = nodeMap.get(obj);
 
-					oldSize = (Dimension)node.getSize().clone();
+                    oldSize = (Dimension) node.getSize().clone();
 
-					DefaultGraphGenerator.this.nodeRenderer.getPreferredSize(node, size);
+                    DefaultGraphGenerator.this.nodeRenderer.getPreferredSize(node, size);
 
-					if(oldSize.equals(size) == false)
-					{
-						node.setSize(size.width, size.height);
+                    if (oldSize.equals(size) == false) {
+                        node.setSize(size.width, size.height);
 
-						fireGraphChangedEvent();
-					}
-				}
+                        fireGraphChangedEvent();
+                    }
+                }
 
-				fireGraphChangedEvent();
+                fireGraphChangedEvent();
 
-			}
+            }
 
-			public void parentObjectAdded(VisualisedObjectManagerEvent evt)
-			{
-				Node parentNode, childNode;
+            public void parentObjectAdded(VisualisedObjectManagerEvent evt) {
+                Node parentNode, childNode;
 
-				parentNode = nodeMap.get(evt.getObjects().get(1));
+                parentNode = nodeMap.get(evt.getObjects().get(1));
 
-				childNode = nodeMap.get(evt.getObjects().get(0));
+                childNode = nodeMap.get(evt.getObjects().get(0));
 
 
-				int dir = DefaultGraphGenerator.this.controller.getGraphModel().getRelationshipDirection(parentNode.getUserObject(),
-				                                                              childNode.getUserObject());
+                int dir = DefaultGraphGenerator.this.controller.getGraphModel().getRelationshipDirection(parentNode.getUserObject(),
+                        childNode.getUserObject());
 
-				if(dir > -1) {
-				Edge edge = DefaultGraphGenerator.this.edgeFactory.createEdge(parentNode, childNode, dir);
+                if (dir > -1) {
+                    Edge edge = DefaultGraphGenerator.this.edgeFactory.createEdge(parentNode, childNode, dir);
 
-				graph.add(edge);
+                    graph.add(edge);
 
-				fireGraphChangedEvent();
-				}
-			}
+                    fireGraphChangedEvent();
+                }
+            }
 
-			public void parentObjectRemoved(VisualisedObjectManagerEvent evt)
-			{
-				Node tailNode, headNode;
+            public void parentObjectRemoved(VisualisedObjectManagerEvent evt) {
+                Node tailNode, headNode;
 
-				tailNode = nodeMap.get(evt.getObjects().get(1));
+                tailNode = nodeMap.get(evt.getObjects().get(1));
 
-				headNode = nodeMap.get(evt.getObjects().get(0));
+                headNode = nodeMap.get(evt.getObjects().get(0));
 
-				graph.remove(tailNode, headNode);
+                graph.remove(tailNode, headNode);
 
-				fireGraphChangedEvent();
-			}
+                fireGraphChangedEvent();
+            }
 
-			public void childObjectAdded(VisualisedObjectManagerEvent evt)
-			{
-				Node parentNode, childNode;
+            public void childObjectAdded(VisualisedObjectManagerEvent evt) {
+                Node parentNode, childNode;
 
-				parentNode = nodeMap.get(evt.getObjects().get(0));
+                parentNode = nodeMap.get(evt.getObjects().get(0));
 
-				childNode = nodeMap.get(evt.getObjects().get(1));
+                childNode = nodeMap.get(evt.getObjects().get(1));
 
-				int dir = DefaultGraphGenerator.this.controller.getGraphModel().getRelationshipDirection(parentNode.getUserObject(),
-								                                                              childNode.getUserObject());
+                int dir = DefaultGraphGenerator.this.controller.getGraphModel().getRelationshipDirection(parentNode.getUserObject(),
+                        childNode.getUserObject());
 
 
-				if(dir > -1) {
-				Edge edge = DefaultGraphGenerator.this.edgeFactory.createEdge(parentNode, childNode, dir);
+                if (dir > -1) {
+                    Edge edge = DefaultGraphGenerator.this.edgeFactory.createEdge(parentNode, childNode, dir);
 
-				graph.add(edge);
+                    graph.add(edge);
 
-				fireGraphChangedEvent();
-				}
-			}
+                    fireGraphChangedEvent();
+                }
+            }
 
-			public void childObjectRemoved(VisualisedObjectManagerEvent evt)
-			{
-				Node tailNode, headNode;
+            public void childObjectRemoved(VisualisedObjectManagerEvent evt) {
+                Node tailNode, headNode;
 
-				tailNode = nodeMap.get(evt.getObjects().get(0));
+                tailNode = nodeMap.get(evt.getObjects().get(0));
 
-				headNode = nodeMap.get(evt.getObjects().get(1));
+                headNode = nodeMap.get(evt.getObjects().get(1));
 
-				graph.remove(tailNode, headNode);
+                graph.remove(tailNode, headNode);
 
-				fireGraphChangedEvent();
-			}
-		});
+                fireGraphChangedEvent();
+            }
+        });
 
-	}
+    }
 
-	/**
-	 * Gets the <code>Graph</code> based upon the
-	 * visible objects in the <code>VisualisedObjectManager</code>.
-	 * @return A Graph representing visible objects.  Note that this
-	 * <code>Graph</code> may or may not be newly created.
-	 */
-	public Graph getGraph()
-	{
-		if(rebuildGraph == true)
-		{
-			generateGraph();
-		}
+    /**
+     * Gets the <code>Graph</code> based upon the
+     * visible objects in the <code>VisualisedObjectManager</code>.
+     *
+     * @return A Graph representing visible objects.  Note that this
+     * <code>Graph</code> may or may not be newly created.
+     */
+    public Graph getGraph() {
+        if (rebuildGraph == true) {
+            generateGraph();
+        }
 
-		return graph;
-	}
+        return graph;
+    }
 
-	/**
-	 * Retrieves the <code>VisualisedObjectManager</code>, which graphs
-	 * are based upon.
-	 * @return The <code>VisualisedObjectManager</code>
-	 */
-	public VisualisedObjectManager getVisualisedObjectManager()
-	{
-		return visualisedObjectManager;
-	}
+    /**
+     * Retrieves the <code>VisualisedObjectManager</code>, which graphs
+     * are based upon.
+     *
+     * @return The <code>VisualisedObjectManager</code>
+     */
+    public VisualisedObjectManager getVisualisedObjectManager() {
+        return visualisedObjectManager;
+    }
 
-	/**
-	 * Sets the <code>VisualisedObjectManager</code>, which the <code>GraphGenerator</code>
-	 * bases the <code>Graph</code> on.
-	 * @param manager The <code>VisualisedObjectManager</code> to use.
-	 */
-	public void setVisualisedObjectManager(VisualisedObjectManager manager)
-	{
-		this.visualisedObjectManager = manager;
+    /**
+     * Sets the <code>VisualisedObjectManager</code>, which the <code>GraphGenerator</code>
+     * bases the <code>Graph</code> on.
+     *
+     * @param manager The <code>VisualisedObjectManager</code> to use.
+     */
+    public void setVisualisedObjectManager(VisualisedObjectManager manager) {
+        this.visualisedObjectManager = manager;
 
-		invalidateGraph();
-	}
+        invalidateGraph();
+    }
 
-	/**
-	 * Regenrates the graph
-	 */
-	protected void generateGraph()
-	{
-		if(graph == null)
-		{
-			graph = graphFactory.createGraph();
-		}
-		else
-		{
-			graph.removeAll();
-		}
+    /**
+     * Regenrates the graph
+     */
+    protected void generateGraph() {
+        if (graph == null) {
+            graph = graphFactory.createGraph();
+        }
+        else {
+            graph.removeAll();
+        }
 
-		// Remove any nodes from the node map
-		// that should no longer be in the graph.
-		cleanNodeMap();
+        // Remove any nodes from the node map
+        // that should no longer be in the graph.
+        cleanNodeMap();
 
 
-		Iterator objIt;
+        Iterator objIt;
 
-		Object obj;
+        Object obj;
 
-		// Add the nodes to the graph
-		objIt = visualisedObjectManager.iterator();
+        // Add the nodes to the graph
+        objIt = visualisedObjectManager.iterator();
 
-		while(objIt.hasNext())
-		{
-			obj = objIt.next();
+        while (objIt.hasNext()) {
+            obj = objIt.next();
 
-			addNode(obj);
-		}
+            addNode(obj);
+        }
 
-		// Reset the flag (might not have been true anyway but...)
-		recreateNodes = false;
+        // Reset the flag (might not have been true anyway but...)
+        recreateNodes = false;
 
-		// Now create and add the edges to the graph
-		// Go through all the nodes, add add the child edges
-		// for each node
+        // Now create and add the edges to the graph
+        // Go through all the nodes, add add the child edges
+        // for each node
 
-		objIt = visualisedObjectManager.iterator();
+        objIt = visualisedObjectManager.iterator();
 
-		while(objIt.hasNext())
-		{
-			obj = objIt.next();
+        while (objIt.hasNext()) {
+            obj = objIt.next();
 
-			addChildEdges(obj);
+            addChildEdges(obj);
 
-			addParentEdges(obj);
-		}
+            addParentEdges(obj);
+        }
 
-		// Reset the flag
-		rebuildGraph = false;
-	}
+        // Reset the flag
+        rebuildGraph = false;
+    }
 
-	/**
-	 * Adds a <code>Node/code> to the graph that represents
-	 * the sepcified object.
-	 * @param obj The object to be represented as a <code>Node</code>.
-	 */
-	protected Node addNode(Object obj)
-	{
-		Node node = null;
+    /**
+     * Adds a <code>Node/code> to the graph that represents
+     * the sepcified object.
+     *
+     * @param obj The object to be represented as a <code>Node</code>.
+     */
+    protected Node addNode(Object obj) {
+        Node node = null;
 
-		if(recreateNodes == false)
-		{
-			node = nodeMap.get(obj);
-		}
+        if (recreateNodes == false) {
+            node = nodeMap.get(obj);
+        }
 
-		if(node == null)
-		{
-			// Create a Node for the object
-			node = nodeFactory.createNode(obj);
+        if (node == null) {
+            // Create a Node for the object
+            node = nodeFactory.createNode(obj);
 
-			// Map the object to the node
-			nodeMap.put(obj, node);
-		}
+            // Map the object to the node
+            nodeMap.put(obj, node);
+        }
 
-		// Add the node to the graph
-		graph.add(node);
+        // Add the node to the graph
+        graph.add(node);
 
-		return node;
-	}
+        return node;
+    }
 
-	protected void removeNode(Object obj)
-	{
-		graph.remove(nodeMap.get(obj));
+    protected void removeNode(Object obj) {
+        graph.remove(nodeMap.get(obj));
 
-		nodeMap.remove(obj);
-	}
+        nodeMap.remove(obj);
+    }
 
-	/**
-	 * Creates the <code>Edges</code> that link the <code>Node</code>
-	 * which represents the specified object to the <code>Nodes</code> that
-	 * represent the parents of the specified object. For the edge to be
-	 * added, both the headNode and tailNode must be alreay in the graph.
-	 * @param obj The object whose parent <code>Edges</code> should be created.
-	 */
-	protected void addParentEdges(Object obj)
-	{
-		// Get the parents
+    /**
+     * Creates the <code>Edges</code> that link the <code>Node</code>
+     * which represents the specified object to the <code>Nodes</code> that
+     * represent the parents of the specified object. For the edge to be
+     * added, both the headNode and tailNode must be alreay in the graph.
+     *
+     * @param obj The object whose parent <code>Edges</code> should be created.
+     */
+    protected void addParentEdges(Object obj) {
+        // Get the parents
 
-		Iterator parIt;
+        Iterator parIt;
 
-		Object par;
+        Object par;
 
-		Node node, parNode;
+        Node node, parNode;
 
-		Edge edge;
+        Edge edge;
 
-		GraphModel model = visualisedObjectManager.getGraphModel();
+        GraphModel model = visualisedObjectManager.getGraphModel();
 
-		parIt = model.getParents(obj);
+        parIt = model.getParents(obj);
 
-		node = nodeMap.get(obj);
+        node = nodeMap.get(obj);
 
-		while (parIt.hasNext())
-		{
-			par = parIt.next();
+        while (parIt.hasNext()) {
+            par = parIt.next();
 
-			parNode = nodeMap.get(par);
+            parNode = nodeMap.get(par);
 
-			if (parNode != null)
-			{
-				int dir = controller.getGraphModel().getRelationshipDirection(parNode.getUserObject(),
-				                                                              node.getUserObject());
-				if(dir > -1) {
-				edge = edgeFactory.createEdge(parNode, node, dir);
+            if (parNode != null) {
+                int dir = controller.getGraphModel().getRelationshipDirection(parNode.getUserObject(),
+                        node.getUserObject());
+                if (dir > -1) {
+                    edge = edgeFactory.createEdge(parNode, node, dir);
 
-				graph.add(edge);
-				}
-			}
-		}
-	}
+                    graph.add(edge);
+                }
+            }
+        }
+    }
 
-	/**
-	 * Creates the <code>Edges</code> that link the <code>Node</code>
-	 * which represents the specified object to the <code>Nodes</code> that
-	 * represent the children of the specified object.  For the edge to be
-	 * added, both the headNode and tailNode must be alreay in the graph.
-	 * @param obj The object whose parent <code>Edges</code> should be created.
-	 */
-	protected void addChildEdges(Object obj)
-	{
-		Iterator childIt;
+    /**
+     * Creates the <code>Edges</code> that link the <code>Node</code>
+     * which represents the specified object to the <code>Nodes</code> that
+     * represent the children of the specified object.  For the edge to be
+     * added, both the headNode and tailNode must be alreay in the graph.
+     *
+     * @param obj The object whose parent <code>Edges</code> should be created.
+     */
+    protected void addChildEdges(Object obj) {
+        Iterator childIt;
 
-		Object child;
+        Object child;
 
-		Node node, childNode;
+        Node node, childNode;
 
-		Edge edge;
+        Edge edge;
 
-		GraphModel model = visualisedObjectManager.getGraphModel();
+        GraphModel model = visualisedObjectManager.getGraphModel();
 
-		childIt = model.getChildren(obj);
+        childIt = model.getChildren(obj);
 
-		node = nodeMap.get(obj);
+        node = nodeMap.get(obj);
 
-		while(childIt.hasNext())
-		{
-			child = childIt.next();
+        while (childIt.hasNext()) {
+            child = childIt.next();
 
-			childNode = nodeMap.get(child);
+            childNode = nodeMap.get(child);
 
-			if(childNode != null)
-			{
-				int dir = controller.getGraphModel().getRelationshipDirection(node.getUserObject(),
-				                                                              childNode.getUserObject());
-				if(dir > -1) {
-				edge = edgeFactory.createEdge(node, childNode, dir);
+            if (childNode != null) {
+                int dir = controller.getGraphModel().getRelationshipDirection(node.getUserObject(),
+                        childNode.getUserObject());
+                if (dir > -1) {
+                    edge = edgeFactory.createEdge(node, childNode, dir);
 
-				graph.add(edge);
-				}
-			}
-		}
-	}
+                    graph.add(edge);
+                }
+            }
+        }
+    }
 
 
+    /**
+     * Removes any nodes in the nodeMap that represent
+     * objects that aren't in the list of objects held by the
+     * <code>VisualisedObjectManager</code>.
+     */
+    protected void cleanNodeMap() {
+        Iterator<Object> it = nodeMap.keySet().iterator();
 
-	/**
-	 * Removes any nodes in the nodeMap that represent
-	 * objects that aren't in the list of objects held by the
-	 * <code>VisualisedObjectManager</code>.
-	 */
-	protected void cleanNodeMap()
-	{
-		Iterator<Object> it = nodeMap.keySet().iterator();
+        Object obj;
 
-		Object obj;
+        while (it.hasNext()) {
+            obj = it.next();
 
-		while(it.hasNext())
-		{
-			obj = it.next();
+            if (visualisedObjectManager.isShown(obj) == false) {
+                nodeMap.remove(obj);
+            }
+        }
+    }
 
-			if(visualisedObjectManager.isShown(obj) == false)
-			{
-				nodeMap.remove(obj);
-			}
-		}
-	}
 
+    /**
+     * Causes the graph to be invalidated, which causes the graph
+     * to be rebuilt when asked for.
+     */
+    public void invalidateGraph() {
+        rebuildGraph = true;
 
+        doChangeBroadcast();
+    }
 
-	/**
-	 * Causes the graph to be invalidated, which causes the graph
-	 * to be rebuilt when asked for.
-	 */
-	public void invalidateGraph()
-	{
-		rebuildGraph = true;
+    /**
+     * Returns the <code>Node<code> that represents the given object.
+     *
+     * @param obj The object.
+     * @return The <code>Node</code> that represents the object, or
+     * <code>null</code> if the <code>Graph</code> does not contain
+     * a <code>Node</code> that represents the given object.
+     */
+    public Node getNodeForObject(Object obj) {
+        return nodeMap.get(obj);
+    }
 
-		doChangeBroadcast();
-	}
 
-	/**
-	 * Returns the <code>Node<code> that represents the given object.
-	 * @param obj The object.
-	 * @return The <code>Node</code> that represents the object, or
-	 * <code>null</code> if the <code>Graph</code> does not contain
-	 * a <code>Node</code> that represents the given object.
-	 */
-	public Node getNodeForObject(Object obj)
-	{
-		return nodeMap.get(obj);
-	}
+    /**
+     * Adds a listener that is informed of events generated by the
+     * <code>GraphGenerator</code>, such as a 'graph changed' event.
+     *
+     * @param lsnr The listener to be added.
+     */
+    public void addGraphGeneratorListener(GraphGeneratorListener lsnr) {
+        listeners.add(lsnr);
+    }
 
+    /**
+     * Removes a previously added <code>GraphGeneratedListener</code>
+     *
+     * @param lsnr The listener to be removed.
+     */
+    public void removeGraphGeneratorListener(GraphGeneratorListener lsnr) {
+        listeners.remove(lsnr);
+    }
 
-	/**
-	 * Adds a listener that is informed of events generated by the
-	 * <code>GraphGenerator</code>, such as a 'graph changed' event.
-	 * @param lsnr The listener to be added.
-	 */
-	public void addGraphGeneratorListener(GraphGeneratorListener lsnr)
-	{
-		listeners.add(lsnr);
-	}
+    /**
+     * Gets an <code>Iterator</code> that can be used to traverse the
+     * listeners.
+     *
+     * @return The <code>Iterator</code>, which can also be used to
+     * add and remove listeners.
+     */
+    public Iterator getGraphGeneratorListeners() {
+        return listeners.iterator();
+    }
 
-	/**
-	 * Removes a previously added <code>GraphGeneratedListener</code>
-	 * @param lsnr The listener to be removed.
-	 */
-	public void removeGraphGeneratorListener(GraphGeneratorListener lsnr)
-	{
-		listeners.remove(lsnr);
-	}
+    private void doChangeBroadcast() {
+        fireGraphChangedEvent();
+    }
 
-	/**
-	 * Gets an <code>Iterator</code> that can be used to traverse the
-	 * listeners.
-	 * @return The <code>Iterator</code>, which can also be used to
-	 * add and remove listeners.
-	 */
-	public Iterator getGraphGeneratorListeners()
-	{
-		return listeners.iterator();
-	}
+    protected void fireGraphChangedEvent() {
+        if (log.isDebugEnabled()) {
+            log.debug("TRACE(DefaultGraphGenerator) firing graph changed event");
+        }
 
-	private void doChangeBroadcast()
-	{
-		fireGraphChangedEvent();
-	}
+        for (int i = 0; i < listeners.size(); i++) {
+            ((GraphGeneratorListener) listeners.get(i)).graphChanged(graphChangedEvent);
+        }
+    }
 
-	protected void fireGraphChangedEvent()
-	{
-		if(log.isDebugEnabled())
-		{
-			log.debug("TRACE(DefaultGraphGenerator) firing graph changed event");
-		}
 
-		for(int i = 0; i < listeners.size(); i++)
-		{
-			((GraphGeneratorListener)listeners.get(i)).graphChanged(graphChangedEvent);
-		}
-	}
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Implementation of PropertyChangeListener
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * This method gets called when a bound property is changed.
+     *
+     * @param evt A PropertyChangeEvent object describing the event source
+     *            and the property that has changed.
+     */
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-	//
-	// Implementation of PropertyChangeListener
-	//
-	////////////////////////////////////////////////////////////////////////////////////////////////////
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals(Controller.GRAPH_FACTORY_PROPERTY)) {
+            graphFactory = (GraphFactory) evt.getNewValue();
+        }
+        else if (evt.getPropertyName().equals(Controller.NODE_FACTORY_PROPERTY)) {
+            nodeFactory = (NodeFactory) evt.getNewValue();
+        }
+        else if (evt.getPropertyName().equals(Controller.EDGE_FACTORY_PROPERTY)) {
+            edgeFactory = (EdgeFactory) evt.getNewValue();
+        }
+        else if (evt.getPropertyName().equals(Controller.VISUALISED_OBJECT_MANAGER_PROPERTY)) {
+            visualisedObjectManager.removeVisualisedObjectManagerListener(visualisedObjectManagerListener);
 
-	/**
-	 * This method gets called when a bound property is changed.
-	 * @param evt A PropertyChangeEvent object describing the event source
-	 *   	and the property that has changed.
-	 */
+            visualisedObjectManager = (VisualisedObjectManager) evt.getNewValue();
 
-	public void propertyChange(PropertyChangeEvent evt)
-	{
-		if(evt.getPropertyName().equals(Controller.GRAPH_FACTORY_PROPERTY))
-		{
-			graphFactory = (GraphFactory) evt.getNewValue();
-		}
-		else if(evt.getPropertyName().equals(Controller.NODE_FACTORY_PROPERTY))
-		{
-			nodeFactory = (NodeFactory)evt.getNewValue();
-		}
-		else if(evt.getPropertyName().equals(Controller.EDGE_FACTORY_PROPERTY))
-		{
-			edgeFactory = (EdgeFactory)evt.getNewValue();
-		}
-		else if(evt.getPropertyName().equals(Controller.VISUALISED_OBJECT_MANAGER_PROPERTY))
-		{
-			visualisedObjectManager.removeVisualisedObjectManagerListener(visualisedObjectManagerListener);
+            visualisedObjectManager.addVisualisedObjectManagerListener(visualisedObjectManagerListener);
 
-			visualisedObjectManager = (VisualisedObjectManager)evt.getNewValue();
+        }
+        else if (evt.getPropertyName().equals(Controller.NODE_RENDERER_PROPERTY)) {
+            nodeRenderer = (NodeRenderer) evt.getNewValue();
+        }
 
-			visualisedObjectManager.addVisualisedObjectManagerListener(visualisedObjectManagerListener);
-
-		}
-		else if(evt.getPropertyName().equals(Controller.NODE_RENDERER_PROPERTY))
-		{
-			nodeRenderer = (NodeRenderer)evt.getNewValue();
-		}
-
-	}
+    }
 }

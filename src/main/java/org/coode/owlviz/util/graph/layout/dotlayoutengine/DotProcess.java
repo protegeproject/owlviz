@@ -18,6 +18,7 @@ import java.io.IOException;
  * A wrapper for a native dot process.
  */
 public class DotProcess {
+
     private static final Logger log = LoggerFactory.getLogger(DotProcess.class);
 
     private Process process;
@@ -58,7 +59,7 @@ public class DotProcess {
             process.waitFor();
             return true;
         } catch (IOException ioEx) {
-           String errMsg = "An error related to DOT has occurred. " + "This error was probably because OWLViz could not"
+            String errMsg = "An error related to DOT has occurred. " + "This error was probably because OWLViz could not"
                     + " find the DOT application.  Please ensure that the"
                     + " path to the DOT application is set properly";
             log.error(errMsg, ioEx);

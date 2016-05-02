@@ -15,23 +15,23 @@ import java.awt.event.*;
  * Time: 7:21:24 PM
  * To change this template use File | Settings | File Templates.
  */
-public class DefaultThumbnailView extends ThumbnailView implements ThumbnailViewSourceListener
-{
+public class DefaultThumbnailView extends ThumbnailView implements ThumbnailViewSourceListener {
+
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -8613789722311809917L;
-
-    private ThumbnailViewSource viewSrc;
-
-    private Rectangle sourceViewBounds;
-    private double scale; // The magnitude of scaling for the thumbnailview (1.0 = 100%)
 
     // Mouse Drag Event Variables
     Point prevMousePos;
 
-    public DefaultThumbnailView(ThumbnailViewSource viewSrc)
-    {
+    private ThumbnailViewSource viewSrc;
+
+    private Rectangle sourceViewBounds;
+
+    private double scale; // The magnitude of scaling for the thumbnailview (1.0 = 100%)
+
+    public DefaultThumbnailView(ThumbnailViewSource viewSrc) {
         this.viewSrc = viewSrc;
 
         this.viewSrc.addThumbnailViewSourceListener(this);
@@ -41,39 +41,32 @@ public class DefaultThumbnailView extends ThumbnailView implements ThumbnailView
         setPreferredSize(new Dimension(150, 80)); // Some Random Size!
 
 
-        addComponentListener(new ComponentAdapter()
-        {
+        addComponentListener(new ComponentAdapter() {
             /**
              * Invoked when the component's size changes.
              */
-            public void componentResized(ComponentEvent e)
-            {
+            public void componentResized(ComponentEvent e) {
                 updateScale();
 
                 repaint();
             }
         });
 
-        addMouseMotionListener(new MouseMotionListener()
-        {
-            public void mouseDragged(MouseEvent e)
-            {
+        addMouseMotionListener(new MouseMotionListener() {
+            public void mouseDragged(MouseEvent e) {
                 processMouseDragged(e);
             }
 
-            public void mouseMoved(MouseEvent e)
-            {
+            public void mouseMoved(MouseEvent e) {
                 // Don't need to do anything here
             }
         });
 
-        addMouseListener(new MouseAdapter()
-        {
+        addMouseListener(new MouseAdapter() {
             /**
              * Invoked when a mouse button has been pressed on a component.
              */
-            public void mousePressed(MouseEvent e)
-            {
+            public void mousePressed(MouseEvent e) {
                 // Set the position of the mouse, incase a drag event is imminent.
                 prevMousePos = e.getPoint();
             }
@@ -82,11 +75,10 @@ public class DefaultThumbnailView extends ThumbnailView implements ThumbnailView
         updateScale();
     }
 
-    protected void paintComponent(Graphics g)
-    {
+    protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        Graphics2D g2 = (Graphics2D)g;
+        Graphics2D g2 = (Graphics2D) g;
 
         g2.scale(scale, scale);
 
@@ -101,8 +93,7 @@ public class DefaultThumbnailView extends ThumbnailView implements ThumbnailView
         g2.draw(viewSrc.getViewVisibleRect());
     }
 
-    protected void updateScale()
-    {
+    protected void updateScale() {
         double horiScale = getWidth() / viewSrc.getViewBounds().getWidth();
 
         double vertScale = getHeight() / viewSrc.getViewBounds().getHeight();
@@ -122,8 +113,7 @@ public class DefaultThumbnailView extends ThumbnailView implements ThumbnailView
      *
      * @param evt The associated <code>ThumbnailViewSourceEvent</code>
      */
-    public void sourceViewVisibleRectChanged(ThumbnailViewSourceEvent evt)
-    {
+    public void sourceViewVisibleRectChanged(ThumbnailViewSourceEvent evt) {
         repaint();
     }
 
@@ -133,8 +123,7 @@ public class DefaultThumbnailView extends ThumbnailView implements ThumbnailView
      *
      * @param evt The associated <code>ThumbnailViewSourceEvent</code>.
      */
-    public void sourceViewContentsChanged(ThumbnailViewSourceEvent evt)
-    {
+    public void sourceViewContentsChanged(ThumbnailViewSourceEvent evt) {
         updateScale();
 
         repaint();
@@ -146,8 +135,7 @@ public class DefaultThumbnailView extends ThumbnailView implements ThumbnailView
      *
      * @param evt The associated <code>ThumbnailViewSourceEvent</code>.
      */
-    public void sourceViewBoundsChanged(ThumbnailViewSourceEvent evt)
-    {
+    public void sourceViewBoundsChanged(ThumbnailViewSourceEvent evt) {
         sourceViewBounds.width = viewSrc.getViewBounds().width;
 
         sourceViewBounds.height = viewSrc.getViewBounds().height;
@@ -158,9 +146,7 @@ public class DefaultThumbnailView extends ThumbnailView implements ThumbnailView
     }
 
 
-
-    protected void processMouseDragged(MouseEvent e)
-    {
+    protected void processMouseDragged(MouseEvent e) {
         // Get the current mouse point
         Point curMousePos = e.getPoint();
 
@@ -171,9 +157,9 @@ public class DefaultThumbnailView extends ThumbnailView implements ThumbnailView
         prevMousePos = curMousePos;
 
         // Scale the vector to account for the thumbnail scaling
-        vector.width = (int)(vector.width * 1.0 / scale);
+        vector.width = (int) (vector.width * 1.0 / scale);
 
-        vector.height = (int)(vector.height * 1.0 / scale);
+        vector.height = (int) (vector.height * 1.0 / scale);
 
         viewSrc.scrollView(vector.width, vector.height);
 

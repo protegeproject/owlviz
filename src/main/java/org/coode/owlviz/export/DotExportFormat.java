@@ -1,14 +1,13 @@
 package org.coode.owlviz.export;
 
-import java.io.OutputStream;
-
-import org.protege.editor.owl.model.OWLModelManager;
-
 import org.coode.owlviz.ui.renderer.DotSubGraphOutputRenderer;
 import org.coode.owlviz.ui.renderer.OWLClsNodeLabelRenderer;
 import org.coode.owlviz.util.graph.controller.Controller;
 import org.coode.owlviz.util.graph.export.ExportFormat;
 import org.coode.owlviz.util.graph.renderer.impl.DefaultEdgeLabelRenderer;
+import org.protege.editor.owl.model.OWLModelManager;
+
+import java.io.OutputStream;
 
 /**
  * User: matthewhorridge<br>
@@ -22,7 +21,9 @@ import org.coode.owlviz.util.graph.renderer.impl.DefaultEdgeLabelRenderer;
 public class DotExportFormat implements ExportFormat {
 
     private static final String FORMAT_NAME = "DOT";
+
     private static final String FORMAT_FILE_EXTENSION = "dot";
+
     private static final String FORMAT_DESCRIPTION = "AT&T Graphviz DOT Format";
 
     private OWLModelManager model;
@@ -46,7 +47,7 @@ public class DotExportFormat implements ExportFormat {
         // Write out format
 
         DotSubGraphOutputRenderer renderer = new DotSubGraphOutputRenderer(model, new OWLClsNodeLabelRenderer(model),
-                                                                           new DefaultEdgeLabelRenderer());
+                new DefaultEdgeLabelRenderer());
         renderer.renderGraph(controller.getGraphGenerator().getGraph(), os);
     }
 
@@ -57,71 +58,11 @@ public class DotExportFormat implements ExportFormat {
      * will be applied.
      *
      * @return <code>true</code> if antialiasing is applied,
-     *         <code>false</code> if antialiasing is not applied.
+     * <code>false</code> if antialiasing is not applied.
      */
     public boolean getAntialiased() {
         return false;
     }
-
-
-    /**
-     * Gets a description of the export type, which is typically
-     * displayed in the user interface when selecting an export
-     * format.
-     *
-     * @return A description of the export type.
-     */
-    public String getFormatDescription() {
-        return "DOT (AT&T Dot Format)";
-    }
-
-
-    /**
-     * Gets the file extension for the export type.
-     *
-     * @return The export type file extensions (e.g. svg)
-     */
-    public String getFormatFileExtension() {
-        return "dot";
-    }
-
-
-    /**
-     * Gets the name of the export format.  This is
-     * typically displayed in the user interface when selecting
-     * an export format.
-     *
-     * @return The name of the export format (e.g. Scalable Vector Graphics)
-     */
-    public String getFormatName() {
-        return "DOT";
-    }
-
-
-    /**
-     * If the export format supports scaling, this
-     * method can be used to obtain the scaling
-     * applied to the export.
-     *
-     * @return The scaling applied to the export.  100.0
-     *         is equivalent to 100 percent.
-     */
-    public double getScale() {
-        return 100.0;
-    }
-
-
-    /**
-     * Determines if the export is a raster format or not.
-     *
-     * @return <code>true</code> if the image is a raster format
-     *         such as png, jpeg, or <code>false</code> if the image is
-     *         not a raster format e.g. eps, svg.
-     */
-    public boolean isRasterFormat() {
-        return false;
-    }
-
 
     /**
      * If the export is a raster format it may support
@@ -135,6 +76,48 @@ public class DotExportFormat implements ExportFormat {
     public void setAntialiased(boolean b) {
     }
 
+    /**
+     * Gets a description of the export type, which is typically
+     * displayed in the user interface when selecting an export
+     * format.
+     *
+     * @return A description of the export type.
+     */
+    public String getFormatDescription() {
+        return "DOT (AT&T Dot Format)";
+    }
+
+    /**
+     * Gets the file extension for the export type.
+     *
+     * @return The export type file extensions (e.g. svg)
+     */
+    public String getFormatFileExtension() {
+        return "dot";
+    }
+
+    /**
+     * Gets the name of the export format.  This is
+     * typically displayed in the user interface when selecting
+     * an export format.
+     *
+     * @return The name of the export format (e.g. Scalable Vector Graphics)
+     */
+    public String getFormatName() {
+        return "DOT";
+    }
+
+    /**
+     * If the export format supports scaling, this
+     * method can be used to obtain the scaling
+     * applied to the export.
+     *
+     * @return The scaling applied to the export.  100.0
+     * is equivalent to 100 percent.
+     */
+    public double getScale() {
+        return 100.0;
+    }
 
     /**
      * If the export format supports the notion of outputting
@@ -148,14 +131,24 @@ public class DotExportFormat implements ExportFormat {
     public void setScale(double percentage) {
     }
 
+    /**
+     * Determines if the export is a raster format or not.
+     *
+     * @return <code>true</code> if the image is a raster format
+     * such as png, jpeg, or <code>false</code> if the image is
+     * not a raster format e.g. eps, svg.
+     */
+    public boolean isRasterFormat() {
+        return false;
+    }
 
     /**
      * Determine whether or not the format supports
      * antialiasing.
      *
      * @return <code>true</code> if the export format does
-     *         support antialiasing, or <code>false</code> if the
-     *         export format does not support antialiasing.
+     * support antialiasing, or <code>false</code> if the
+     * export format does not support antialiasing.
      */
     public boolean supportsAntialiasing() {
         return false;
@@ -171,9 +164,9 @@ public class DotExportFormat implements ExportFormat {
      * export scale.
      *
      * @return <code>true</code> if the export format supports
-     *         the notion of scaling, <code>false</code> if the export
-     *         format does not support scaling, or the scaling option
-     *         does not make sense.
+     * the notion of scaling, <code>false</code> if the export
+     * format does not support scaling, or the scaling option
+     * does not make sense.
      */
     public boolean supportsScaledOutput() {
         return false;

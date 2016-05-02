@@ -1,13 +1,12 @@
 package org.coode.owlviz.command;
 
-import java.awt.event.ActionEvent;
-import java.util.Iterator;
-
-import org.protege.editor.owl.ui.view.OWLSelectionViewAction;
-
 import org.coode.owlviz.ui.OWLVizIcons;
 import org.coode.owlviz.ui.OWLVizViewI;
 import org.coode.owlviz.util.graph.ui.GraphComponent;
+import org.protege.editor.owl.ui.view.OWLSelectionViewAction;
+
+import java.awt.event.ActionEvent;
+import java.util.Iterator;
 
 /**
  * User: matthewhorridge<br>
@@ -21,9 +20,10 @@ import org.coode.owlviz.util.graph.ui.GraphComponent;
 public class HideAllClassesCommand extends OWLSelectionViewAction {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -1129349126344279656L;
+
     private OWLVizViewI view;
 
     public HideAllClassesCommand(OWLVizViewI view) {
@@ -43,7 +43,7 @@ public class HideAllClassesCommand extends OWLSelectionViewAction {
      * Invoked when an action occurs.
      */
     public void actionPerformed(ActionEvent e) {
-        for(Iterator it = view.getGraphComponents().iterator(); it.hasNext(); ) {
+        for (Iterator it = view.getGraphComponents().iterator(); it.hasNext(); ) {
             GraphComponent graphComponent = (GraphComponent) it.next();
             graphComponent.getVisualisedObjectManager().hideAll();
         }

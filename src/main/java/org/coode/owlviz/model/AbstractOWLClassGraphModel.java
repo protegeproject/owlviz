@@ -1,14 +1,13 @@
 package org.coode.owlviz.model;
 
+import org.coode.owlviz.util.graph.model.GraphModel;
+import org.coode.owlviz.util.graph.model.impl.AbstractGraphModel;
 import org.protege.editor.owl.model.OWLModelManager;
 import org.protege.editor.owl.model.event.EventType;
 import org.protege.editor.owl.model.event.OWLModelManagerChangeEvent;
 import org.protege.editor.owl.model.event.OWLModelManagerListener;
 import org.protege.editor.owl.model.hierarchy.OWLObjectHierarchyProvider;
 import org.protege.editor.owl.model.hierarchy.OWLObjectHierarchyProviderListener;
-
-import org.coode.owlviz.util.graph.model.GraphModel;
-import org.coode.owlviz.util.graph.model.impl.AbstractGraphModel;
 import org.semanticweb.owlapi.model.*;
 
 import java.util.*;
@@ -73,7 +72,7 @@ public class AbstractOWLClassGraphModel extends AbstractGraphModel {
         owlModelManager.addOntologyChangeListener(changeListener);
         owlModelManagerListener = new OWLModelManagerListener() {
             public void handleChange(OWLModelManagerChangeEvent event) {
-                if(event.isType(EventType.ACTIVE_ONTOLOGY_CHANGED) || event.isType(EventType.ONTOLOGY_RELOADED)) {
+                if (event.isType(EventType.ACTIVE_ONTOLOGY_CHANGED) || event.isType(EventType.ONTOLOGY_RELOADED)) {
                     // Clear
                     fireModelChangedEvent();
                 }
@@ -90,16 +89,16 @@ public class AbstractOWLClassGraphModel extends AbstractGraphModel {
 
     protected Set<OWLObject> getChildren(OWLObject obj) {
         Set<OWLObject> children = new HashSet<OWLObject>();
-            children.addAll(provider.getChildren(obj));
-            children.addAll(provider.getEquivalents(obj));
+        children.addAll(provider.getChildren(obj));
+        children.addAll(provider.getEquivalents(obj));
         return children;
     }
 
 
     protected Set<OWLObject> getParents(OWLObject obj) {
         Set<OWLObject> parents = new HashSet<OWLObject>();
-            parents.addAll(provider.getParents(obj));
-            parents.addAll(provider.getEquivalents(obj));
+        parents.addAll(provider.getParents(obj));
+        parents.addAll(provider.getEquivalents(obj));
         return parents;
     }
 
@@ -120,13 +119,13 @@ public class AbstractOWLClassGraphModel extends AbstractGraphModel {
     }
 
     public boolean contains(Object obj) {
-            if(obj instanceof OWLClass) {
-                for(OWLOntology ont : owlModelManager.getActiveOntologies()) {
-                    if(ont.containsClassInSignature(((OWLClass) obj).getIRI())) {
-                        return true;
-                    }
+        if (obj instanceof OWLClass) {
+            for (OWLOntology ont : owlModelManager.getActiveOntologies()) {
+                if (ont.containsClassInSignature(((OWLClass) obj).getIRI())) {
+                    return true;
                 }
             }
+        }
         return false;
     }
 

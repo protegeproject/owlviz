@@ -7,16 +7,14 @@ import javax.swing.*;
  * The Univeristy Of Manchester<br>
  * Medical Informatics Group<br>
  * Date: Jan 12, 2004<br><br>
- *
+ * <p/>
  * matthew.horridge@cs.man.ac.uk<br>
  * www.cs.man.ac.uk/~horridgm<br><br>
- *
  */
-public abstract class ThumbnailView extends JPanel
-{
+public abstract class ThumbnailView extends JPanel {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -443881197617955527L;
 }

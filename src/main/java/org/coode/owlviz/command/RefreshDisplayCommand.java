@@ -1,11 +1,10 @@
 package org.coode.owlviz.command;
 
-import javax.swing.*;
-
 import org.coode.owlviz.ui.OWLVizIcons;
 import org.coode.owlviz.ui.OWLVizView;
 import org.coode.owlviz.util.graph.ui.GraphComponent;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 
 /**
@@ -20,7 +19,7 @@ import java.awt.event.ActionEvent;
 public class RefreshDisplayCommand extends AbstractAction {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -2815481104415097088L;
 

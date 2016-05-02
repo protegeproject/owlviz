@@ -1,19 +1,11 @@
 package org.coode.owlviz.model;
 
-import org.protege.editor.owl.model.OWLModelManager;
-
 import org.coode.owlviz.util.graph.model.GraphModel;
 import org.coode.owlviz.util.graph.model.impl.AbstractGraphModel;
+import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.OWLOntology;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 
 /**
@@ -37,19 +29,19 @@ public class OWLOntologyImportsGraphModel extends AbstractGraphModel {
     }
 
     public void rebuild() {
-            importMap.clear();
-            for(OWLOntology ont : owlModelManager.getOntologies()) {
-                for(OWLOntology imp : ont.getDirectImports()) {
-                    getImportingOntologies(imp, true).add(ont);
-                }
+        importMap.clear();
+        for (OWLOntology ont : owlModelManager.getOntologies()) {
+            for (OWLOntology imp : ont.getDirectImports()) {
+                getImportingOntologies(imp, true).add(ont);
             }
+        }
     }
 
     private Set<OWLOntology> getImportingOntologies(OWLOntology ont, boolean add) {
         Set<OWLOntology> onts = importMap.get(ont);
-        if(onts == null) {
+        if (onts == null) {
             onts = new HashSet<OWLOntology>();
-            if(add) {
+            if (add) {
                 importMap.put(ont, onts);
             }
         }
@@ -65,11 +57,11 @@ public class OWLOntologyImportsGraphModel extends AbstractGraphModel {
     }
 
     public int getParentCount(Object obj) {
-            return ((OWLOntology) obj).getImportsDeclarations().size();
+        return ((OWLOntology) obj).getImportsDeclarations().size();
     }
 
     public Iterator getParents(Object obj) {
-            return ((OWLOntology) obj).getImportsDeclarations().iterator();
+        return ((OWLOntology) obj).getImportsDeclarations().iterator();
     }
 
     public boolean contains(Object obj) {

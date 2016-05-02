@@ -1,9 +1,8 @@
 package org.coode.owlviz.ui.options;
 
-import javax.swing.*;
-
 import org.coode.owlviz.ui.OWLVizPreferences;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -41,7 +40,7 @@ import java.awt.event.ActionListener;
 public class ModeOptionsPanel extends JPanel {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 7579720925137626641L;
 
@@ -51,7 +50,7 @@ public class ModeOptionsPanel extends JPanel {
 
     private JSpinner trackerRadiusSpinner;
 
-    ActionListener l = new ActionListener(){
+    ActionListener l = new ActionListener() {
         public void actionPerformed(ActionEvent event) {
             trackerRadiusSpinner.setEnabled(trackerMode.isSelected());
         }
@@ -94,24 +93,20 @@ public class ModeOptionsPanel extends JPanel {
 
     }
 
+    public boolean isTrackerMode() {
+        return trackerMode.isSelected();
+    }
 
     public void setTrackerMode(boolean tracker) {
         trackerMode.setSelected(tracker);
         configureMode.setSelected(!tracker);
     }
 
+    public int getTrackerRadius() {
+        return (Integer) trackerRadiusSpinner.getValue();
+    }
 
     public void setTrackerRadius(int trackerRadius) {
         trackerRadiusSpinner.setValue(trackerRadius);
-    }
-
-
-    public boolean isTrackerMode() {
-        return trackerMode.isSelected();
-    }
-
-
-    public int getTrackerRadius() {
-        return (Integer) trackerRadiusSpinner.getValue();
     }
 }

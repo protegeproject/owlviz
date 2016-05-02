@@ -1,9 +1,8 @@
 package org.coode.owlviz.ui.options;
 
-import javax.swing.*;
-
 import org.coode.owlviz.util.okcanceldialog.OKCancelDialog;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -18,69 +17,71 @@ import java.util.ArrayList;
  */
 public class OptionsDialog extends OKCancelDialog {
 
-	/**
-     * 
+    public static final String DEFAULT_PAGE = "General Options";
+
+    /**
+     *
      */
     private static final long serialVersionUID = -443612428041649367L;
+
     private ArrayList<OptionsPage> optionPages;
-	private JTabbedPane tabPane;
 
-	public static final String DEFAULT_PAGE = "General Options";
-
-
-	public OptionsDialog(Frame owner) {
-		super(owner, "Options", "OK", "Cancel");
-		optionPages = new ArrayList<OptionsPage>();
-		tabPane = new JTabbedPane();
-		setContent(tabPane);
-	}
+    private JTabbedPane tabPane;
 
 
-	public void addOptionsPage(OptionsPage page,
-	                           String tabName) {
-		// If the page does not exist, add it, and add the component
-		// to the page.
-
-		Component c = getTab(tabName);
-		if(c == null) {
-			// Create a new Page
-			Box box = new Box(BoxLayout.Y_AXIS);
-			box.add(page);
-			box.setBorder(BorderFactory.createEmptyBorder(12, 12, 12, 12));
-			tabPane.add(tabName, box);
-			optionPages.add(page);
-		}
-		else {
-			Box box = (Box) c;
-			box.add(Box.createVerticalStrut(7));
-			box.add(page);
-			optionPages.add(page);
-		}
-		pack();
-	}
+    public OptionsDialog(Frame owner) {
+        super(owner, "Options", "OK", "Cancel");
+        optionPages = new ArrayList<OptionsPage>();
+        tabPane = new JTabbedPane();
+        setContent(tabPane);
+    }
 
 
-	protected Component getTab(String name) {
-		for(int i = 0; i < tabPane.getTabCount(); i++) {
-			if(tabPane.getTitleAt(i).equals(name)) {
-				return tabPane.getComponentAt(i);
-			}
-		}
-		return null;
-	}
+    public void addOptionsPage(OptionsPage page,
+                               String tabName) {
+        // If the page does not exist, add it, and add the component
+        // to the page.
+
+        Component c = getTab(tabName);
+        if (c == null) {
+            // Create a new Page
+            Box box = new Box(BoxLayout.Y_AXIS);
+            box.add(page);
+            box.setBorder(BorderFactory.createEmptyBorder(12, 12, 12, 12));
+            tabPane.add(tabName, box);
+            optionPages.add(page);
+        }
+        else {
+            Box box = (Box) c;
+            box.add(Box.createVerticalStrut(7));
+            box.add(page);
+            optionPages.add(page);
+        }
+        pack();
+    }
 
 
-	public void applyOptions() {
-		for(int i = 0; i < optionPages.size(); i++) {
-			optionPages.get(i).applyOptions();
-		}
-	}
+    protected Component getTab(String name) {
+        for (int i = 0; i < tabPane.getTabCount(); i++) {
+            if (tabPane.getTitleAt(i).equals(name)) {
+                return tabPane.getComponentAt(i);
+            }
+        }
+        return null;
+    }
 
 
-	public void updateInterface() {
-		for(int i = 0; i < optionPages.size(); i++) {
-			optionPages.get(i).updateInterface();
-		}
-	}
+    public void applyOptions() {
+        for (int i = 0; i < optionPages.size(); i++) {
+            optionPages.get(i).applyOptions();
+        }
+    }
+
+
+    public void updateInterface() {
+        for (int i = 0; i < optionPages.size(); i++) {
+            optionPages.get(i).updateInterface();
+        }
+    }
 }
 

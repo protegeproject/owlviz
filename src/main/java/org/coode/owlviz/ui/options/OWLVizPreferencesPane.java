@@ -1,10 +1,9 @@
 package org.coode.owlviz.ui.options;
 
-import org.protege.editor.core.ui.util.UIUtil;
-import org.protege.editor.owl.ui.preferences.OWLPreferencesPanel;
-
 import org.coode.owlviz.ui.OWLVizPreferences;
 import org.coode.owlviz.util.graph.layout.dotlayoutengine.DotLayoutEngineProperties;
+import org.protege.editor.core.ui.util.UIUtil;
+import org.protege.editor.owl.ui.preferences.OWLPreferencesPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -46,18 +45,16 @@ import java.util.Set;
  */
 public class OWLVizPreferencesPane extends OWLPreferencesPanel {
 
+    public static final String DEFAULT_PAGE = "General Options";
+
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -943293597478204971L;
 
     private java.util.List<OWLPreferencesPanel> optionPages = new ArrayList<OWLPreferencesPanel>();
 
     private JTabbedPane tabPane;
-
-    public static final String DEFAULT_PAGE = "General Options";
-
-
 
     public void applyChanges() {
         for (OWLPreferencesPanel optionPage : optionPages) {
@@ -91,7 +88,7 @@ public class OWLVizPreferencesPane extends OWLPreferencesPanel {
         // to the page.
 
         Component c = getTab(tabName);
-        if(c == null) {
+        if (c == null) {
             // Create a new Page
             Box box = new Box(BoxLayout.Y_AXIS);
             box.add(page);
@@ -111,8 +108,8 @@ public class OWLVizPreferencesPane extends OWLPreferencesPanel {
 
 
     protected Component getTab(String name) {
-        for(int i = 0; i < tabPane.getTabCount(); i++) {
-            if(tabPane.getTitleAt(i).equals(name)) {
+        for (int i = 0; i < tabPane.getTabCount(); i++) {
+            if (tabPane.getTitleAt(i).equals(name)) {
                 return tabPane.getComponentAt(i);
             }
         }
@@ -122,9 +119,10 @@ public class OWLVizPreferencesPane extends OWLPreferencesPanel {
     class ModeOptionsAdapter extends OWLPreferencesPanel {
 
         /**
-         * 
+         *
          */
         private static final long serialVersionUID = -4017151973463168326L;
+
         public ModeOptionsPanel panel;
 
         public void applyChanges() {
@@ -151,9 +149,10 @@ public class OWLVizPreferencesPane extends OWLPreferencesPanel {
     class DotProcessPathPanel extends OWLPreferencesPanel {
 
         /**
-         * 
+         *
          */
         private static final long serialVersionUID = -6685359718444062677L;
+
         private JTextField pathField;
 
         public void initialise() throws Exception {
@@ -175,7 +174,7 @@ public class OWLVizPreferencesPane extends OWLPreferencesPanel {
 
             JButton browseButton = new JButton(new AbstractAction("Browse") {
                 /**
-                 * 
+                 *
                  */
                 private static final long serialVersionUID = 6762941646097019849L;
 
@@ -202,7 +201,7 @@ public class OWLVizPreferencesPane extends OWLPreferencesPanel {
             exts.add("exe");
             exts.add("bin");
             File file = UIUtil.openFile(new JFrame(), "Dot Application", "Please select the dot application", exts);
-            if(file != null) {
+            if (file != null) {
                 pathField.setText(file.getPath());
             }
         }
@@ -216,10 +215,12 @@ public class OWLVizPreferencesPane extends OWLPreferencesPanel {
     class LayoutSpacingPanel extends OWLPreferencesPanel {
 
         /**
-         * 
+         *
          */
         private static final long serialVersionUID = 4096048810803376513L;
+
         JSpinner rankSpacing;
+
         JSpinner siblingSpacing;
 
 

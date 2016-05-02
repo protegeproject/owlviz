@@ -1,11 +1,10 @@
 package org.coode.owlviz.command;
 
-import org.protege.editor.owl.ui.view.OWLSelectionViewAction;
-
 import org.coode.owlviz.ui.ClassRadiusDialog;
 import org.coode.owlviz.ui.OWLVizIcons;
 import org.coode.owlviz.util.graph.controller.Controller;
 import org.coode.owlviz.util.okcanceldialog.OKCancelDialog;
+import org.protege.editor.owl.ui.view.OWLSelectionViewAction;
 import org.semanticweb.owlapi.model.OWLClass;
 
 import javax.swing.*;
@@ -23,11 +22,14 @@ import java.awt.event.ActionEvent;
 public class HideClassesPastRadiusCommand extends OWLSelectionViewAction {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 8091430865811611828L;
+
     private Controller assertedController;
+
     private Controller inferredController;
+
     private ClassRadiusDialog dlg;
 
 
@@ -53,8 +55,8 @@ public class HideClassesPastRadiusCommand extends OWLSelectionViewAction {
      */
     public void actionPerformed(ActionEvent e) {
         Object selObj = assertedController.getGraphSelectionModel().getSelectedObject();
-        if(selObj != null) {
-            if(dlg.showDialog() == OKCancelDialog.OPTION_APPROVE) {
+        if (selObj != null) {
+            if (dlg.showDialog() == OKCancelDialog.OPTION_APPROVE) {
                 int classRadius = dlg.getClassRadius();
                 assertedController.getVisualisedObjectManager().hideObjects(selObj, classRadius, OWLClass.class);
                 inferredController.getVisualisedObjectManager().hideObjects(selObj, classRadius, OWLClass.class);

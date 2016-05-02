@@ -1,15 +1,14 @@
 package org.coode.owlviz.command;
 
-import java.awt.event.ActionEvent;
-import java.util.Iterator;
-
-import org.protege.editor.core.ui.view.DisposableAction;
-
 import org.coode.owlviz.ui.OWLVizIcons;
 import org.coode.owlviz.ui.OWLVizViewI;
 import org.coode.owlviz.ui.options.OptionsDialog;
 import org.coode.owlviz.util.graph.ui.GraphComponent;
 import org.coode.owlviz.util.okcanceldialog.OKCancelDialog;
+import org.protege.editor.core.ui.view.DisposableAction;
+
+import java.awt.event.ActionEvent;
+import java.util.Iterator;
 
 /**
  * User: matthewhorridge<br>
@@ -23,7 +22,7 @@ import org.coode.owlviz.util.okcanceldialog.OKCancelDialog;
 public class SetOptionsCommand extends DisposableAction {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -4382394381357029549L;
 
@@ -45,16 +44,14 @@ public class SetOptionsCommand extends DisposableAction {
     }
 
 
-
-
     /**
      * Invoked when an action occurs.
      */
     public void actionPerformed(ActionEvent e) {
         optionsDialog.updateInterface();
-        if(optionsDialog.showDialog() == OKCancelDialog.OPTION_APPROVE) {
+        if (optionsDialog.showDialog() == OKCancelDialog.OPTION_APPROVE) {
             optionsDialog.applyOptions();
-            for(Iterator it = view.getGraphComponents().iterator(); it.hasNext();) {
+            for (Iterator it = view.getGraphComponents().iterator(); it.hasNext(); ) {
                 GraphComponent graphComponent = (GraphComponent) it.next();
                 graphComponent.getController().getGraphGenerator().invalidateGraph();
             }

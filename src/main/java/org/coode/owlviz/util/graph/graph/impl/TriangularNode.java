@@ -9,107 +9,107 @@ import java.awt.*;
  * The Univeristy Of Manchester<br>
  * Medical Informatics Group<br>
  * Date: Jan 21, 2004<br><br>
- * 
+ * <p/>
  * matthew.horridge@cs.man.ac.uk<br>
  * www.cs.man.ac.uk/~horridgm<br><br>
- *
  */
-public class TriangularNode implements Node
-{
-	private Object userObject;
-	private Polygon triangle;
+public class TriangularNode implements Node {
 
-	private Point pos;
+    private Object userObject;
 
-	/**
-	 * Constructs a <code>Node</code> that represents the specified object.
-	 * @param userObject The object that the <code>Node</code> represents.
-	 */
-	public TriangularNode(Object userObject)
-	{
-		this.userObject = userObject;
+    private Polygon triangle;
 
-		triangle = new Polygon();
+    private Point pos;
 
-		pos = new Point();
-	}
+    /**
+     * Constructs a <code>Node</code> that represents the specified object.
+     *
+     * @param userObject The object that the <code>Node</code> represents.
+     */
+    public TriangularNode(Object userObject) {
+        this.userObject = userObject;
 
-	/**
-	 * Gets the userObject, previously set with <code>setUserObject(Object o)</code>
-	 * @return The userObject, or <code>null</code> if no object has been set.
-	 */
-	public Object getUserObject()
-	{
-		return userObject;
-	}
+        triangle = new Polygon();
 
-	/**
-	 * Sets the (x,y) position of the <code>Node</code>.
-	 * @param x The horizontal location.
-	 * @param y The vertical location.
-	 */
-	public void setPosition(int x, int y)
-	{
-		int w = getSize().width;
-		int h = getSize().height;
+        pos = new Point();
+    }
 
-		pos.x = x;
+    /**
+     * Gets the userObject, previously set with <code>setUserObject(Object o)</code>
+     *
+     * @return The userObject, or <code>null</code> if no object has been set.
+     */
+    public Object getUserObject() {
+        return userObject;
+    }
 
-		pos.y = y;
+    /**
+     * Sets the (x,y) position of the <code>Node</code>.
+     *
+     * @param x The horizontal location.
+     * @param y The vertical location.
+     */
+    public void setPosition(int x, int y) {
+        int w = getSize().width;
+        int h = getSize().height;
 
-		triangle.reset();
+        pos.x = x;
 
-		triangle.addPoint(x - w / 2, y + h / 4);
+        pos.y = y;
 
-		triangle.addPoint(x + w / 2, y + h / 4);
+        triangle.reset();
 
-		triangle.addPoint(x, y - h / 2);
-	}
+        triangle.addPoint(x - w / 2, y + h / 4);
 
-	/**
-	 * Gets the position of the <code>Node</code>.
-	 * @return A <code>Point</code> containing the x,y position of the <code>Node</code>.
-	 */
-	public Point getPosition()
-	{
-		return pos;
-	}
+        triangle.addPoint(x + w / 2, y + h / 4);
 
-	/**
-	 * Sets the <code>Node's</code> size.
-	 * @param width The width of the <code>Node</code>.
-	 * @param height The height of the <code>Node</code>.
-	 */
-	public void setSize(int width, int height)
-	{
-		int x = getPosition().x;
-		int y = getPosition().y;
+        triangle.addPoint(x, y - h / 2);
+    }
 
-		triangle.reset();
+    /**
+     * Gets the position of the <code>Node</code>.
+     *
+     * @return A <code>Point</code> containing the x,y position of the <code>Node</code>.
+     */
+    public Point getPosition() {
+        return pos;
+    }
 
-		triangle.addPoint(x - width / 2, y + height / 4);
+    /**
+     * Sets the <code>Node's</code> size.
+     *
+     * @param width  The width of the <code>Node</code>.
+     * @param height The height of the <code>Node</code>.
+     */
+    public void setSize(int width, int height) {
+        int x = getPosition().x;
+        int y = getPosition().y;
 
-		triangle.addPoint(x + width / 2, y + height / 4);
+        triangle.reset();
 
-		triangle.addPoint(x, y - height / 2);
-	}
+        triangle.addPoint(x - width / 2, y + height / 4);
 
-	/**
-	 * Gets the size of the <code>Node</code>.
-	 * @return A <code>Dimension</code> containing the width and height
-	 * of the <code>Node</code>.
-	 */
-	public Dimension getSize()
-	{
-		return triangle.getBounds().getSize();
-	}
+        triangle.addPoint(x + width / 2, y + height / 4);
 
-	/**
-	 * Returns the <code>Shape</code> of the <code>Node</code>.
-	 * @return The <code>Shape</code> of the <code>Node</code>.
-	 */
-	public Shape getShape()
-	{
-		return triangle;
-	}
+        triangle.addPoint(x, y - height / 2);
+    }
+
+    /**
+     * Gets the size of the <code>Node</code>.
+     *
+     * @return A <code>Dimension</code> containing the width and height
+     * of the <code>Node</code>.
+     */
+    public Dimension getSize() {
+        return triangle.getBounds().getSize();
+    }
+
+    /**
+     * Returns the <code>Shape</code> of the <code>Node</code>.
+     *
+     * @return The <code>Shape</code> of the <code>Node</code>.
+     */
+    public Shape getShape() {
+        return triangle;
+    }
 }

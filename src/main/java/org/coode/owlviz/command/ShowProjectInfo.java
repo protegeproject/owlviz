@@ -1,9 +1,8 @@
 package org.coode.owlviz.command;
 
-import javax.swing.*;
-
 import org.coode.owlviz.ui.OWLVizView;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 
 /**
@@ -18,9 +17,10 @@ import java.awt.event.ActionEvent;
 public class ShowProjectInfo extends AbstractAction {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 8937192019421070298L;
+
     private OWLVizView view;
 
 
@@ -35,7 +35,7 @@ public class ShowProjectInfo extends AbstractAction {
      */
     public void actionPerformed(ActionEvent e) {
         Object selObj = view.getSelectionModel().getSelectedClass();
-        if(selObj != null) {
+        if (selObj != null) {
 //            if(selObj instanceof Instance) {
 //                view.getProject().show((Instance) selObj);
 //            }

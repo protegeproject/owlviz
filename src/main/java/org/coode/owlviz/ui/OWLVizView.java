@@ -1,27 +1,9 @@
 package org.coode.owlviz.ui;
 
-import org.protege.editor.owl.ui.transfer.OWLObjectDataFlavor;
-import org.protege.editor.owl.ui.view.cls.AbstractOWLClassViewComponent;
-
-import org.coode.owlviz.command.ExportCommand;
-import org.coode.owlviz.command.HideAllClassesCommand;
-import org.coode.owlviz.command.HideClassCommand;
-import org.coode.owlviz.command.HideClassesPastRadiusCommand;
-import org.coode.owlviz.command.HideSubclassesCommand;
-import org.coode.owlviz.command.SetOptionsCommand;
-import org.coode.owlviz.command.ShowAllClassesCommand;
-import org.coode.owlviz.command.ShowClassCommand;
-import org.coode.owlviz.command.ShowSubclassesCommand;
-import org.coode.owlviz.command.ShowSuperclassesCommand;
-import org.coode.owlviz.command.ZoomInCommand;
-import org.coode.owlviz.command.ZoomOutCommand;
+import org.coode.owlviz.command.*;
 import org.coode.owlviz.model.OWLClassGraphAssertedModel;
 import org.coode.owlviz.model.OWLClassGraphInferredModel;
-import org.coode.owlviz.ui.options.GlobalOptionsPage;
-import org.coode.owlviz.ui.options.LayoutDirectionOptionsPage;
-import org.coode.owlviz.ui.options.ModeOptionsPage;
-import org.coode.owlviz.ui.options.OWLVizViewOptions;
-import org.coode.owlviz.ui.options.OptionsDialog;
+import org.coode.owlviz.ui.options.*;
 import org.coode.owlviz.util.graph.controller.Controller;
 import org.coode.owlviz.util.graph.event.GraphSelectionModelEvent;
 import org.coode.owlviz.util.graph.event.GraphSelectionModelListener;
@@ -31,32 +13,22 @@ import org.coode.owlviz.util.graph.export.ExportFormatManager;
 import org.coode.owlviz.util.graph.export.impl.JPEGExportFormat;
 import org.coode.owlviz.util.graph.export.impl.PNGExportFormat;
 import org.coode.owlviz.util.graph.ui.GraphComponent;
+import org.protege.editor.owl.ui.transfer.OWLObjectDataFlavor;
+import org.protege.editor.owl.ui.view.cls.AbstractOWLClassViewComponent;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.BorderLayout;
-import java.awt.Frame;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.datatransfer.UnsupportedFlavorException;
-import java.awt.dnd.DropTarget;
-import java.awt.dnd.DropTargetDragEvent;
-import java.awt.dnd.DropTargetDropEvent;
-import java.awt.dnd.DropTargetEvent;
-import java.awt.dnd.DropTargetListener;
+import java.awt.dnd.*;
 import java.awt.event.ContainerEvent;
 import java.awt.event.ContainerListener;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
-
-import javax.swing.JTabbedPane;
-import javax.swing.SwingUtilities;
 
 /**
  * User: matthewhorridge<br>
@@ -70,11 +42,14 @@ import javax.swing.SwingUtilities;
  */
 public class OWLVizView extends AbstractOWLClassViewComponent implements DropTargetListener, OWLVizViewI, ConfigurableOWLVizView {
 
+    public static final String DOT_PATH_PROPERTIES_KEY = "OWLViz.Dot.Path";
+
     private static final long serialVersionUID = -7785134782365129398L;
 
     private static Logger logger = LoggerFactory.getLogger(OWLVizView.class);
 
     private GraphComponent assertedGraphComponent;
+
     private GraphComponent inferredGraphComponent;
 
     private OWLVizSelectionModel selectionModel;
@@ -86,8 +61,6 @@ public class OWLVizView extends AbstractOWLClassViewComponent implements DropTar
     private Map<OWLVizGraphPanel, List<GraphComponent>> componentGroupMap;
 
     private HashSet<GraphComponent> graphComponents;
-
-    public static final String DOT_PATH_PROPERTIES_KEY = "OWLViz.Dot.Path";
 
     private OWLClassGraphInferredModel inferredGraphModel;
 
@@ -172,7 +145,7 @@ public class OWLVizView extends AbstractOWLClassViewComponent implements DropTar
         assertedGraphModel = new OWLClassGraphAssertedModel(
                 getOWLModelManager());
         OWLVizGraphPanel assertedPanel = new OWLVizGraphPanel("Asserted model",
-                                                              this, getOWLEditorKit(), assertedGraphModel);
+                this, getOWLEditorKit(), assertedGraphModel);
         assertedGraphComponent = assertedPanel.getGraphComponent();
         setupListeners(assertedGraphComponent);
         tabbedPane.add(assertedPanel.getName(), assertedPanel);
@@ -186,7 +159,7 @@ public class OWLVizView extends AbstractOWLClassViewComponent implements DropTar
         inferredGraphModel = new OWLClassGraphInferredModel(
                 getOWLModelManager());
         OWLVizGraphPanel inferredPanel = new OWLVizGraphPanel("Inferred model",
-                                                              this, getOWLEditorKit(), inferredGraphModel);
+                this, getOWLEditorKit(), inferredGraphModel);
         inferredGraphComponent = inferredPanel.getGraphComponent();
         tabbedPane.add(inferredPanel.getName(), inferredPanel);
         graphComponents.add(inferredGraphComponent);
@@ -201,12 +174,12 @@ public class OWLVizView extends AbstractOWLClassViewComponent implements DropTar
 
         // Create the toolbar
         createToolBar(assertedGraphComponent.getController(),
-                      assertedGraphComponent.getController());
+                assertedGraphComponent.getController());
     }
 
     protected void forceRepaint() {
         for (Iterator<GraphComponent> it = getGraphComponents().iterator(); it
-                .hasNext();) {
+                .hasNext(); ) {
             GraphComponent curGraphComponent = it.next();
             curGraphComponent.getGraphView().repaint();
         }
@@ -272,16 +245,16 @@ public class OWLVizView extends AbstractOWLClassViewComponent implements DropTar
     protected void createToolBar(Controller assertedController, Controller inferredController) {
 
         addAction(new ShowClassCommand(this, getOWLModelManager(),
-                                       (Frame) SwingUtilities.getAncestorOfClass(Frame.class, this)),
-                  "A", "A");
+                        (Frame) SwingUtilities.getAncestorOfClass(Frame.class, this)),
+                "A", "A");
         addAction(new ShowSubclassesCommand(this), "A", "B");
         addAction(new ShowSuperclassesCommand(this), "A", "C");
         addAction(new ShowAllClassesCommand(this, getOWLModelManager()), "A",
-                  "D");
+                "D");
         addAction(new HideClassCommand(this), "A", "E");
         addAction(new HideSubclassesCommand(this), "A", "F");
         addAction(new HideClassesPastRadiusCommand(assertedController,
-                                                   inferredController), "A", "G");
+                inferredController), "A", "G");
         addAction(new HideAllClassesCommand(this), "A", "H");
 
         addAction(new ZoomOutCommand(this), "B", "A");
@@ -299,7 +272,7 @@ public class OWLVizView extends AbstractOWLClassViewComponent implements DropTar
     }
 
     protected OptionsDialog setupOptionsDialog() {
-        OptionsDialog optionsDialog = new OptionsDialog((Frame)getWorkspace().getTopLevelAncestor());
+        OptionsDialog optionsDialog = new OptionsDialog((Frame) getWorkspace().getTopLevelAncestor());
         optionsDialog.addOptionsPage(new ModeOptionsPage(getOptions()), "Mode");
         optionsDialog.addOptionsPage(new LayoutDirectionOptionsPage(
                 assertedGraphComponent.getController(),
@@ -348,7 +321,7 @@ public class OWLVizView extends AbstractOWLClassViewComponent implements DropTar
             try {
                 List<OWLObject> objects = (List<OWLObject>) dtde
                         .getTransferable().getTransferData(
-                        OWLObjectDataFlavor.OWL_OBJECT_DATA_FLAVOR);
+                                OWLObjectDataFlavor.OWL_OBJECT_DATA_FLAVOR);
                 List<OWLClass> clses = new ArrayList<OWLClass>();
                 for (OWLObject obj : objects) {
                     if (obj instanceof OWLClass) {

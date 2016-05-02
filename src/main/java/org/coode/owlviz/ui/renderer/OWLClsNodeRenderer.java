@@ -1,13 +1,12 @@
 package org.coode.owlviz.ui.renderer;
 
-import org.protege.editor.owl.model.OWLModelManager;
-
 import org.coode.owlviz.util.graph.controller.Controller;
 import org.coode.owlviz.util.graph.controller.VisualisedObjectManager;
 import org.coode.owlviz.util.graph.graph.Node;
 import org.coode.owlviz.util.graph.layout.GraphLayoutEngine;
 import org.coode.owlviz.util.graph.renderer.NodeLabelRenderer;
 import org.coode.owlviz.util.graph.renderer.NodeRenderer;
+import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
@@ -15,19 +14,9 @@ import org.semanticweb.owlapi.search.EntitySearcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Polygon;
-import java.awt.Rectangle;
-import java.awt.Shape;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
-
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 /**
  * User: matthewhorridge<br>
@@ -60,7 +49,6 @@ public class OWLClsNodeRenderer implements NodeRenderer {
     private final Polygon rightArrow = new Polygon();
 
 
-
     private final Controller controller;
 
     private final VisualisedObjectManager visualisedObjectManager;
@@ -69,10 +57,9 @@ public class OWLClsNodeRenderer implements NodeRenderer {
 
     private final Font labelFont;
 
-    private int layoutDirection = GraphLayoutEngine.LAYOUT_LEFT_TO_RIGHT;
-
-
     private final OWLModelManager owlModelManager;
+
+    private int layoutDirection = GraphLayoutEngine.LAYOUT_LEFT_TO_RIGHT;
 
     public OWLClsNodeRenderer(Controller controller,
                               VisualisedObjectManager manager,
@@ -111,7 +98,8 @@ public class OWLClsNodeRenderer implements NodeRenderer {
             rightArrow.addPoint(-ARROW_SIZE, -ARROW_SIZE);
             rightArrow.addPoint(0, 0);
             rightArrow.addPoint(-ARROW_SIZE, ARROW_SIZE);
-        } else {
+        }
+        else {
             leftArrow.reset();
 
             // Up Arrow
@@ -147,7 +135,8 @@ public class OWLClsNodeRenderer implements NodeRenderer {
                 g2.fill(leftArrow);
                 g2.translate(-rect.x, -rect.y - rect.height / 2);
             }
-        } else {
+        }
+        else {
             if (visualisedObjectManager.getChildrenHiddenCount(userObject) > 0) {
                 Rectangle rect = nodeShape.getBounds();
                 g2.translate(rect.x + rect.width / 2, rect.y + rect.height);
@@ -232,10 +221,12 @@ public class OWLClsNodeRenderer implements NodeRenderer {
                 size.width = width + HORIZONTAL_PADDING;
                 size.height = height + VERTICAL_PADDING;
                 return size;
-            } else {
+            }
+            else {
                 return new Dimension(width, height);
             }
-        } else {
+        }
+        else {
             size.width = 20;
             size.height = 20;
             return size;

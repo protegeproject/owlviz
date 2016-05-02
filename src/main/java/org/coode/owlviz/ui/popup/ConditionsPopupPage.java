@@ -1,17 +1,13 @@
 package org.coode.owlviz.ui.popup;
 
 import org.protege.editor.owl.OWLEditorKit;
-
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-
-import javax.swing.JComponent;
-import javax.swing.JPanel;
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * User: matthewhorridge<br>
@@ -37,7 +33,7 @@ public class ConditionsPopupPage extends OWLObjectPopupPage {
 
 
     public JComponent getPageContent(OWLObject instance) {
-        if(instance instanceof OWLClass) {
+        if (instance instanceof OWLClass) {
             return createConditionsTableComponent((OWLClass) instance);
         }
         else {
@@ -49,12 +45,12 @@ public class ConditionsPopupPage extends OWLObjectPopupPage {
     private JComponent createConditionsTableComponent(OWLClass cls) {
 //        try {
 //            table.setOWLObject(cls);
-            JPanel panel = new JPanel(new BorderLayout());
+        JPanel panel = new JPanel(new BorderLayout());
 //            panel.add(table, BorderLayout.NORTH);
 //            Dimension prefSize = table.getPreferredSize();
 //            panel.setPreferredSize(new Dimension(450, prefSize.height + 20));
-            panel.setBackground(Color.WHITE);
-            return panel;
+        panel.setBackground(Color.WHITE);
+        return panel;
 //        } catch (OWLException e) {
 //            logger.error(e);
 //            return new JLabel("<Error! " + e.getClass().getSimpleName() + ": " + e.getMessage() + ">");

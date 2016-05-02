@@ -7,32 +7,31 @@ import org.coode.owlviz.util.graph.controller.GraphSelectionModel;
  * The Univeristy Of Manchester<br>
  * Medical Informatics Group<br>
  * Date: Jan 26, 2004<br><br>
- * 
+ * <p/>
  * matthew.horridge@cs.man.ac.uk<br>
  * www.cs.man.ac.uk/~horridgm<br><br>
- *
  */
-public class GraphSelectionModelEvent
-{
-	private GraphSelectionModel source;
+public class GraphSelectionModelEvent {
 
-	/**
-	 * Constructs a selection model event, using
-	 * the specified <code>GraphSelectionModel</code> as
-	 * the source for the event.
-	 * @param source The <code>GraphSelctionModel</code> that has generated the event.
-	 */
-	public GraphSelectionModelEvent(GraphSelectionModel source)
-	{
-		this.source = source;
-	}
+    private GraphSelectionModel source;
 
-	/**
-	 * Gets the source of the event.
-	 * @return The <code>GraphSelectionModel</code> that generated the event.
-	 */
-	public GraphSelectionModel getSource()
-	{
-		return source;
-	}
+    /**
+     * Constructs a selection model event, using
+     * the specified <code>GraphSelectionModel</code> as
+     * the source for the event.
+     *
+     * @param source The <code>GraphSelctionModel</code> that has generated the event.
+     */
+    public GraphSelectionModelEvent(GraphSelectionModel source) {
+        this.source = source;
+    }
+
+    /**
+     * Gets the source of the event.
+     *
+     * @return The <code>GraphSelectionModel</code> that generated the event.
+     */
+    public GraphSelectionModel getSource() {
+        return source;
+    }
 }

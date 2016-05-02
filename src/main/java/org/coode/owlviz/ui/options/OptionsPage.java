@@ -13,8 +13,8 @@ import javax.swing.*;
  */
 public abstract class OptionsPage extends JPanel {
 
-	/**
-     * 
+    /**
+     *
      */
     private static final long serialVersionUID = -5406390456655343423L;
 
@@ -22,8 +22,8 @@ public abstract class OptionsPage extends JPanel {
     public abstract void updateInterface();
 
 
-	public abstract void validateOptions();
+    public abstract void validateOptions();
 
 
-	public abstract void applyOptions();
+    public abstract void applyOptions();
 }

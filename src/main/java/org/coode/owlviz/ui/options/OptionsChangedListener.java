@@ -11,6 +11,6 @@ package org.coode.owlviz.ui.options;
  */
 public interface OptionsChangedListener {
 
-	public void optionsChanged();
+    public void optionsChanged();
 }
 

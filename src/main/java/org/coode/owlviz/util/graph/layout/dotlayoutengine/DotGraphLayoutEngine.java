@@ -1,6 +1,5 @@
 package org.coode.owlviz.util.graph.layout.dotlayoutengine;
 
-import org.coode.owlviz.util.graph.controller.Controller;
 import org.coode.owlviz.util.graph.graph.Graph;
 import org.coode.owlviz.util.graph.layout.GraphLayoutEngine;
 import org.coode.owlviz.util.graph.layout.dotlayoutengine.dotparser.DotParameterSetter;
@@ -9,18 +8,10 @@ import org.coode.owlviz.util.graph.layout.dotlayoutengine.dotparser.ParseExcepti
 import org.coode.owlviz.util.graph.outputrenderer.GraphOutputRenderer;
 import org.coode.owlviz.util.graph.outputrenderer.impl.DotOutputGraphRenderer;
 import org.coode.owlviz.util.graph.renderer.NodeLabelRenderer;
-import org.coode.owlviz.util.graph.renderer.impl.DefaultEdgeLabelRenderer;
-import org.coode.owlviz.util.graph.renderer.impl.DefaultNodeLabelRenderer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -37,11 +28,11 @@ public class DotGraphLayoutEngine implements GraphLayoutEngine {
 
     private static Logger log = LoggerFactory.getLogger(DotGraphLayoutEngine.class);
 
+    private final NodeLabelRenderer labelRenderer;
+
     private GraphOutputRenderer renderer;
 
     private int layoutDirection = LAYOUT_LEFT_TO_RIGHT;
-
-    private final NodeLabelRenderer labelRenderer;
 
     public DotGraphLayoutEngine(DotOutputGraphRenderer graphRenderer, NodeLabelRenderer labelRenderer) {
         renderer = checkNotNull(graphRenderer);
@@ -137,6 +128,16 @@ public class DotGraphLayoutEngine implements GraphLayoutEngine {
     }
 
     /**
+     * Gets the layout direction.
+     *
+     * @return The direction of the layout. <code>DotGraphLayoutEngine.LAYOUT_LEFT_TO_RIGHT</code> or
+     * <code>DotGraphLayoutEngine.LAYOUT_TOP_TO_BOTTOM</code>.
+     */
+    public int getLayoutDirection() {
+        return layoutDirection;
+    }
+
+    /**
      * Sets the direction of the layout.
      *
      * @param layoutDirection The layout direction. This should be one of
@@ -145,15 +146,5 @@ public class DotGraphLayoutEngine implements GraphLayoutEngine {
      */
     public void setLayoutDirection(int layoutDirection) {
         this.layoutDirection = layoutDirection;
-    }
-
-    /**
-     * Gets the layout direction.
-     *
-     * @return The direction of the layout. <code>DotGraphLayoutEngine.LAYOUT_LEFT_TO_RIGHT</code> or
-     * <code>DotGraphLayoutEngine.LAYOUT_TOP_TO_BOTTOM</code>.
-     */
-    public int getLayoutDirection() {
-        return layoutDirection;
     }
 }

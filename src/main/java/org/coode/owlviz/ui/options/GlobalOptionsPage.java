@@ -40,29 +40,29 @@ import java.awt.event.ActionEvent;
 public class GlobalOptionsPage extends OptionsPage {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -7118513832753295095L;
 
-    private Action openPrefs = new AbstractAction("Open preferences..."){
-            /**
-         * 
+    private OWLEditorKit eKit;
+
+    private Action openPrefs = new AbstractAction("Open preferences...") {
+        /**
+         *
          */
         private static final long serialVersionUID = -4381561493594548830L;
 
-            public void actionPerformed(ActionEvent event) {
-                PreferencesDialogPanel.showPreferencesDialog("OWLViz", eKit);
-            }
+        public void actionPerformed(ActionEvent event) {
+            PreferencesDialogPanel.showPreferencesDialog("OWLViz", eKit);
+        }
     };
-
-    private OWLEditorKit eKit;
 
 
     public GlobalOptionsPage(OWLEditorKit eKit) {
         this.eKit = eKit;
         setLayout(new BorderLayout(7, 7));
         final JLabel label = new JLabel("<html>OWLViz options that affect all OWLViz views" +
-                                        " <br>have been moved to Protege preferences.</html>");
+                " <br>have been moved to Protege preferences.</html>");
         add(label, BorderLayout.NORTH);
         add(new JButton(openPrefs), BorderLayout.SOUTH);
     }

@@ -1,30 +1,19 @@
 package org.coode.owlviz.util.graph.ui;
 
 import org.coode.owlviz.util.graph.controller.Controller;
-import org.coode.owlviz.util.graph.event.GraphGeneratorEvent;
-import org.coode.owlviz.util.graph.event.GraphGeneratorListener;
-import org.coode.owlviz.util.graph.event.GraphSelectionModelEvent;
-import org.coode.owlviz.util.graph.event.GraphSelectionModelListener;
-import org.coode.owlviz.util.graph.event.NodeClickedEvent;
-import org.coode.owlviz.util.graph.event.NodeClickedListener;
+import org.coode.owlviz.util.graph.event.*;
 import org.coode.owlviz.util.graph.graph.Graph;
 import org.coode.owlviz.util.graph.graph.Node;
 import org.coode.owlviz.util.graph.renderer.EdgeRenderer;
 import org.coode.owlviz.util.graph.renderer.NodeRenderer;
 
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.event.HierarchyEvent;
-import java.awt.event.HierarchyListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Iterator;
-
-import javax.swing.JPanel;
 
 /**
  * User: matthewhorridge<br>
@@ -46,292 +35,292 @@ public abstract class GraphView extends JPanel implements Zoomable, PropertyChan
 
     protected Controller controller;
 
-	protected MouseListener graphViewListener;
+    protected MouseListener graphViewListener;
 
-	protected GraphSelectionModelListener selectionListener;
+    protected GraphSelectionModelListener selectionListener;
 
-	protected GraphGeneratorListener graphGenListener;
+    protected GraphGeneratorListener graphGenListener;
 
-	protected ArrayList<NodeClickedListener> nodeClickedListeners;
+    protected ArrayList<NodeClickedListener> nodeClickedListeners;
 
-	private Graph graph;
+    private Graph graph;
 
-	private Object prevSelObj = null;
+    private Object prevSelObj = null;
 
-	private boolean updateGraph = true;
-
-
-	public GraphView(Controller controller) {
-		this.controller = controller;
-		if(controller.getGraphGenerator() == null) {
-			throw new NullPointerException("GraphGenerator must not be null");
-		}
-		if(controller.getGraphLayoutEngine() == null) {
-			throw new NullPointerException("GraphLayoutEngine must not be null");
-		}
-		controller.addPropertyChangeListener(this);
-		nodeClickedListeners = new ArrayList<NodeClickedListener>();
-		setupGraphViewListeners();
-	}
+    private boolean updateGraph = true;
 
 
-	private void setupGraphViewListeners() {
-		// Want to select nodes when they are clicked
-		addMouseListener(graphViewListener = new MouseAdapter() {
-			/**
-			 * Invoked when a mouse button has been pressed on a component.
-			 */
-			public void mousePressed(MouseEvent e) {
-				Graph g = controller.getGraphGenerator().getGraph();
-				Node[] nodes = g.getNodes();
-				int zoomLevel = getZoomLevel();
-				int xPos;
-				int yPos;
-				for(int i = 0; i < nodes.length; i++) {
-					xPos = (int) (e.getPoint().x * 100.0 / zoomLevel);
-					yPos = (int) (e.getPoint().y * 100.0 / zoomLevel);
-					if(nodes[i].getShape().contains(xPos, yPos)) {
-						prevSelObj = nodes[i].getUserObject();
-						controller.getGraphSelectionModel().setSelectedObject(prevSelObj);
-						break;
-					}
-				}
-			}
+    public GraphView(Controller controller) {
+        this.controller = controller;
+        if (controller.getGraphGenerator() == null) {
+            throw new NullPointerException("GraphGenerator must not be null");
+        }
+        if (controller.getGraphLayoutEngine() == null) {
+            throw new NullPointerException("GraphLayoutEngine must not be null");
+        }
+        controller.addPropertyChangeListener(this);
+        nodeClickedListeners = new ArrayList<NodeClickedListener>();
+        setupGraphViewListeners();
+    }
 
 
-			/**
-			 * Invoked when the mouse has been clicked on a component.
-			 */
-			public void mouseClicked(MouseEvent e) {
-				Graph g = controller.getGraphGenerator().getGraph();
-				Node[] nodes = g.getNodes();
-				int zoomLevel = getZoomLevel();
-				int xPos;
-				int yPos;
-				for(int i = 0; i < nodes.length; i++) {
-					xPos = (int) (e.getPoint().x * 100.0 / zoomLevel);
-					yPos = (int) (e.getPoint().y * 100.0 / zoomLevel);
-					if(nodes[i].getShape().contains(xPos, yPos)) {
-						fireNodeClickedEvent(nodes[i], e);
-						break;
-					}
-				}
-			}
-		});
-		controller.getGraphSelectionModel().addGraphSelectionModelListener(selectionListener = new GraphSelectionModelListener() {
-			public void selectionChanged(GraphSelectionModelEvent event) {
-				repaint();
-				if(controller.getGraphSelectionModel().getSelectedObject() != prevSelObj) {
-					prevSelObj = controller.getGraphSelectionModel().getSelectedObject();
-					scrollObjectToVisible(prevSelObj);
-				}
-			}
-		});
-		controller.getGraphGenerator().addGraphGeneratorListener(graphGenListener = new GraphGeneratorListener() {
-			/**
-			 * Called when the <code>Graph</code> has been modified.
-			 *
-			 * @param evt The <code>GraphGeneratorEvent</code> containing the
-			 *            event information.
-			 */
-			public void graphChanged(GraphGeneratorEvent evt) {
-				updateGraph = true;
-
-				// Laying out a graph can be time consuming, so only
-				// layout the graph if we need to - i.e. if the graph
-				// has changed and we are showing the graph.
-
-				if(isShowing() == true && updateGraph == true) {
-					revalidateGraph();
-				}
-			}
-		});
-		this.addHierarchyListener(new HierarchyListener() {
-			/**
-			 * Called when the hierarchy has been changed. To discern the actual
-			 * type of change, call <code>HierarchyEvent.getChangeFlags()</code>.
-			 *
-			 * @see java.awt.event.HierarchyEvent#getChangeFlags()
-			 */
-			public void hierarchyChanged(HierarchyEvent e) {
-				// We are now showing the graph.  Check to see if the
-				// graph has changed, if so, request the latest layout.
-				if(updateGraph == true) {
-					revalidateGraph();
-				}
-			}
-		});
-	}
+    private void setupGraphViewListeners() {
+        // Want to select nodes when they are clicked
+        addMouseListener(graphViewListener = new MouseAdapter() {
+            /**
+             * Invoked when a mouse button has been pressed on a component.
+             */
+            public void mousePressed(MouseEvent e) {
+                Graph g = controller.getGraphGenerator().getGraph();
+                Node[] nodes = g.getNodes();
+                int zoomLevel = getZoomLevel();
+                int xPos;
+                int yPos;
+                for (int i = 0; i < nodes.length; i++) {
+                    xPos = (int) (e.getPoint().x * 100.0 / zoomLevel);
+                    yPos = (int) (e.getPoint().y * 100.0 / zoomLevel);
+                    if (nodes[i].getShape().contains(xPos, yPos)) {
+                        prevSelObj = nodes[i].getUserObject();
+                        controller.getGraphSelectionModel().setSelectedObject(prevSelObj);
+                        break;
+                    }
+                }
+            }
 
 
-	/**
-	 * Adds a <code>NodeClickedListener</code> which is informed
-	 * when a node is clicked (pressed and released).
-	 *
-	 * @param lsnr The listener to be added.
-	 */
-	public void addNodeClickedListener(NodeClickedListener lsnr) {
-		nodeClickedListeners.add(lsnr);
-	}
+            /**
+             * Invoked when the mouse has been clicked on a component.
+             */
+            public void mouseClicked(MouseEvent e) {
+                Graph g = controller.getGraphGenerator().getGraph();
+                Node[] nodes = g.getNodes();
+                int zoomLevel = getZoomLevel();
+                int xPos;
+                int yPos;
+                for (int i = 0; i < nodes.length; i++) {
+                    xPos = (int) (e.getPoint().x * 100.0 / zoomLevel);
+                    yPos = (int) (e.getPoint().y * 100.0 / zoomLevel);
+                    if (nodes[i].getShape().contains(xPos, yPos)) {
+                        fireNodeClickedEvent(nodes[i], e);
+                        break;
+                    }
+                }
+            }
+        });
+        controller.getGraphSelectionModel().addGraphSelectionModelListener(selectionListener = new GraphSelectionModelListener() {
+            public void selectionChanged(GraphSelectionModelEvent event) {
+                repaint();
+                if (controller.getGraphSelectionModel().getSelectedObject() != prevSelObj) {
+                    prevSelObj = controller.getGraphSelectionModel().getSelectedObject();
+                    scrollObjectToVisible(prevSelObj);
+                }
+            }
+        });
+        controller.getGraphGenerator().addGraphGeneratorListener(graphGenListener = new GraphGeneratorListener() {
+            /**
+             * Called when the <code>Graph</code> has been modified.
+             *
+             * @param evt The <code>GraphGeneratorEvent</code> containing the
+             *            event information.
+             */
+            public void graphChanged(GraphGeneratorEvent evt) {
+                updateGraph = true;
+
+                // Laying out a graph can be time consuming, so only
+                // layout the graph if we need to - i.e. if the graph
+                // has changed and we are showing the graph.
+
+                if (isShowing() == true && updateGraph == true) {
+                    revalidateGraph();
+                }
+            }
+        });
+        this.addHierarchyListener(new HierarchyListener() {
+            /**
+             * Called when the hierarchy has been changed. To discern the actual
+             * type of change, call <code>HierarchyEvent.getChangeFlags()</code>.
+             *
+             * @see java.awt.event.HierarchyEvent#getChangeFlags()
+             */
+            public void hierarchyChanged(HierarchyEvent e) {
+                // We are now showing the graph.  Check to see if the
+                // graph has changed, if so, request the latest layout.
+                if (updateGraph == true) {
+                    revalidateGraph();
+                }
+            }
+        });
+    }
 
 
-	/**
-	 * Removes a previously added <code>NodeClickedListener</code>.
-	 *
-	 * @param lsnr The listener to be removed.
-	 */
-	public void removeNodeClickedListener(NodeClickedListener lsnr) {
-		nodeClickedListeners.remove(lsnr);
-	}
+    /**
+     * Adds a <code>NodeClickedListener</code> which is informed
+     * when a node is clicked (pressed and released).
+     *
+     * @param lsnr The listener to be added.
+     */
+    public void addNodeClickedListener(NodeClickedListener lsnr) {
+        nodeClickedListeners.add(lsnr);
+    }
 
 
-	/**
-	 * Causes a <code>NodeClickedEvent</code> to be fired.
-	 *
-	 * @param node The <code>Node</code> associated with the event.
-	 * @param evt  The <code>MouseEvent</code> associated with the event.
-	 */
-	protected void fireNodeClickedEvent(Node node,
-	                                    MouseEvent evt) {
-		NodeClickedEvent nce = new NodeClickedEvent(node, evt);
-		for(int i = 0; i < nodeClickedListeners.size(); i++) {
-			nodeClickedListeners.get(i).nodeClicked(nce);
-		}
-	}
+    /**
+     * Removes a previously added <code>NodeClickedListener</code>.
+     *
+     * @param lsnr The listener to be removed.
+     */
+    public void removeNodeClickedListener(NodeClickedListener lsnr) {
+        nodeClickedListeners.remove(lsnr);
+    }
 
 
-	/**
-	 * Utility method to cache <code>Nodes</code>
-	 * and <code>Edges</code>.
-	 */
-	protected void setGraph() {
-		graph = controller.getGraphGenerator().getGraph();
-		repaint();
-	}
+    /**
+     * Causes a <code>NodeClickedEvent</code> to be fired.
+     *
+     * @param node The <code>Node</code> associated with the event.
+     * @param evt  The <code>MouseEvent</code> associated with the event.
+     */
+    protected void fireNodeClickedEvent(Node node,
+                                        MouseEvent evt) {
+        NodeClickedEvent nce = new NodeClickedEvent(node, evt);
+        for (int i = 0; i < nodeClickedListeners.size(); i++) {
+            nodeClickedListeners.get(i).nodeClicked(nce);
+        }
+    }
 
 
-	/**
-	 * Gets the <code>Graph</code> that the view should
-	 * currently display.
-	 *
-	 * @return The current <code>Graph</code>
-	 */
-	protected Graph getGraph() {
-		return graph;
-	}
+    /**
+     * Utility method to cache <code>Nodes</code>
+     * and <code>Edges</code>.
+     */
+    protected void setGraph() {
+        graph = controller.getGraphGenerator().getGraph();
+        repaint();
+    }
 
 
-	/**
-	 * Gets an <code>Iterator</code> that can be used
-	 * to traverse the <code>Node</code>s in the <code>Graph</code>
-	 */
-	protected Iterator getNodes() {
-		return graph.getNodeIterator();
-	}
+    /**
+     * Gets the <code>Graph</code> that the view should
+     * currently display.
+     *
+     * @return The current <code>Graph</code>
+     */
+    protected Graph getGraph() {
+        return graph;
+    }
 
 
-	/**
-	 * Gets an <code>Iterator</code> that can be used
-	 * to traverse the <code>Edge</code>s in the <code>Graph</code>
-	 */
-	protected Iterator getEdges() {
-		return graph.getEdgeIterator();
-	}
+    /**
+     * Gets an <code>Iterator</code> that can be used
+     * to traverse the <code>Node</code>s in the <code>Graph</code>
+     */
+    protected Iterator getNodes() {
+        return graph.getNodeIterator();
+    }
 
 
-	/**
-	 * If the <code>Graph</code> contains a <code>Node</code> that
-	 * represents the specified object, then the view is scrolled
-	 * if necessary to ensure that the <code>Node</code> is visible.
-	 *
-	 * @param obj
-	 */
-	public void scrollObjectToVisible(Object obj) {
-		Node node = controller.getGraphGenerator().getNodeForObject(obj);
-		if(node != null) {
-			Rectangle rect = node.getShape().getBounds();
-
-			// Inflate a bit
-			rect.grow(20, 20);
-			scrollRectToVisible(rect);
-		}
-	}
+    /**
+     * Gets an <code>Iterator</code> that can be used
+     * to traverse the <code>Edge</code>s in the <code>Graph</code>
+     */
+    protected Iterator getEdges() {
+        return graph.getEdgeIterator();
+    }
 
 
-	/**
-	 * Sets the renderer that is used to paint <code>Nodes</code>
-	 * in the <code>GraphView</code>.
-	 *
-	 * @param renderer The <code>NodeRenderer</code> to use.
-	 */
-	public abstract void setNodeRenderer(NodeRenderer renderer);
+    /**
+     * If the <code>Graph</code> contains a <code>Node</code> that
+     * represents the specified object, then the view is scrolled
+     * if necessary to ensure that the <code>Node</code> is visible.
+     *
+     * @param obj
+     */
+    public void scrollObjectToVisible(Object obj) {
+        Node node = controller.getGraphGenerator().getNodeForObject(obj);
+        if (node != null) {
+            Rectangle rect = node.getShape().getBounds();
+
+            // Inflate a bit
+            rect.grow(20, 20);
+            scrollRectToVisible(rect);
+        }
+    }
 
 
-	/**
-	 * Sets the renderer that is used to paoint <code>Edges</code>
-	 * in the <code>GraphView</code>.
-	 *
-	 * @param renderer The <code>EdgeRenderer</code> to be used.
-	 */
-	public abstract void setEdgeRenderer(EdgeRenderer renderer);
+    /**
+     * Sets the renderer that is used to paint <code>Nodes</code>
+     * in the <code>GraphView</code>.
+     *
+     * @param renderer The <code>NodeRenderer</code> to use.
+     */
+    public abstract void setNodeRenderer(NodeRenderer renderer);
 
 
-	/**
-	 * Sets the <code>PopupProvider</code>, which supplies content
-	 * to display a toolTip style popup when the mouse hovers over
-	 * a <code>Node</code> in the view.
-	 *
-	 * @param popupProv
-	 */
-	public abstract void setPopupProvider(PopupProvider popupProv);
+    /**
+     * Sets the renderer that is used to paoint <code>Edges</code>
+     * in the <code>GraphView</code>.
+     *
+     * @param renderer The <code>EdgeRenderer</code> to be used.
+     */
+    public abstract void setEdgeRenderer(EdgeRenderer renderer);
 
 
-	/**
-	 * Can be called to draw the GraphView onto the specified Graphics context.
-	 *
-	 * @param g2             The <code>Graphics2D</code> on to which the <code>Graph</code>
-	 *                       should be drawn.
-	 * @param scale          If <code>false</code> the scale operation should not be applied to
-	 *                       the <code>Graphics2D</code> object.
-	 * @param paintSelection If <code>false</code> the selection should not be painted onto
-	 *                       the view.
-	 * @param antialias      If <code>true</code> the view should be antialiased.
-	 */
-	public abstract void draw(Graphics2D g2,
-	                          boolean scale,
-	                          boolean paintSelection,
-	                          boolean antialias,
-	                          boolean drawDetail);
-
-	/**
-	 * Can be called to force the graph held by the view
-	 * to update.
-	 */
-	public void revalidateGraph() {
-		setGraph();
-		controller.getGraphLayoutEngine().layoutGraph(graph);
-		revalidate();
-		repaint();
-		updateGraph = false;
-	}
+    /**
+     * Sets the <code>PopupProvider</code>, which supplies content
+     * to display a toolTip style popup when the mouse hovers over
+     * a <code>Node</code> in the view.
+     *
+     * @param popupProv
+     */
+    public abstract void setPopupProvider(PopupProvider popupProv);
 
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-	//
-	// Implementation of PropertyChangeListener
-	//
-	////////////////////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * Can be called to draw the GraphView onto the specified Graphics context.
+     *
+     * @param g2             The <code>Graphics2D</code> on to which the <code>Graph</code>
+     *                       should be drawn.
+     * @param scale          If <code>false</code> the scale operation should not be applied to
+     *                       the <code>Graphics2D</code> object.
+     * @param paintSelection If <code>false</code> the selection should not be painted onto
+     *                       the view.
+     * @param antialias      If <code>true</code> the view should be antialiased.
+     */
+    public abstract void draw(Graphics2D g2,
+                              boolean scale,
+                              boolean paintSelection,
+                              boolean antialias,
+                              boolean drawDetail);
 
-	/**
-	 * This method gets called when a bound property is changed.
-	 *
-	 * @param evt A PropertyChangeEvent object describing the event source
-	 *            and the property that has changed.
-	 */
-	public void propertyChange(PropertyChangeEvent evt) {
-		if(evt.getPropertyName().equals(Controller.GRAPH_GENERATOR_PROPERTY)) {
-			// TODO: Do something here!!
-		}
-	}
+    /**
+     * Can be called to force the graph held by the view
+     * to update.
+     */
+    public void revalidateGraph() {
+        setGraph();
+        controller.getGraphLayoutEngine().layoutGraph(graph);
+        revalidate();
+        repaint();
+        updateGraph = false;
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Implementation of PropertyChangeListener
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * This method gets called when a bound property is changed.
+     *
+     * @param evt A PropertyChangeEvent object describing the event source
+     *            and the property that has changed.
+     */
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals(Controller.GRAPH_GENERATOR_PROPERTY)) {
+            // TODO: Do something here!!
+        }
+    }
 
 }

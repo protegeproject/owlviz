@@ -4,7 +4,6 @@ import org.coode.owlviz.util.graph.graph.Edge;
 import org.coode.owlviz.util.graph.graph.Graph;
 import org.coode.owlviz.util.graph.graph.Node;
 import org.coode.owlviz.util.graph.renderer.NodeLabelRenderer;
-import org.coode.owlviz.util.graph.renderer.impl.DefaultNodeLabelRenderer;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -30,6 +29,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class DotParameterSetter {
 
+    private static int graphHeight = 0;
+
+    private final NodeLabelRenderer labelRen;
+
     private Graph graph;
 
     private Map<String, Node> nodeMap;
@@ -39,10 +42,6 @@ public class DotParameterSetter {
     private Edge[] edges;
 
     private Node[] nodes;
-
-    private final NodeLabelRenderer labelRen;
-
-    private static int graphHeight = 0;
 
 
     public DotParameterSetter(NodeLabelRenderer labelRen) {

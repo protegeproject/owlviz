@@ -34,7 +34,7 @@ package org.coode.owlviz.ui.options;
 public class ModeOptionsPage extends OptionsPage {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 791995908103193142L;
 
@@ -66,10 +66,10 @@ public class ModeOptionsPage extends OptionsPage {
 
 
     public void applyOptions() {
-        if (options.isTrackerMode() != panel.isTrackerMode()){
+        if (options.isTrackerMode() != panel.isTrackerMode()) {
             options.setTrackerMode(panel.isTrackerMode());
         }
-        if (options.getTrackerRadius() != panel.getTrackerRadius()){
+        if (options.getTrackerRadius() != panel.getTrackerRadius()) {
             options.setTrackerRadius(panel.getTrackerRadius());
         }
     }

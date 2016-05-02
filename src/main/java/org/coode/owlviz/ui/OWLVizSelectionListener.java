@@ -11,5 +11,5 @@ package org.coode.owlviz.ui;
  */
 public interface OWLVizSelectionListener {
 
-	public void selectionChanged(OWLVizSelectionModel model);
+    public void selectionChanged(OWLVizSelectionModel model);
 }

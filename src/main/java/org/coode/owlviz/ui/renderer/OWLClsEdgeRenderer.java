@@ -3,15 +3,14 @@ package org.coode.owlviz.ui.renderer;
 import org.coode.owlviz.util.graph.controller.Controller;
 import org.coode.owlviz.util.graph.graph.Edge;
 import org.coode.owlviz.util.graph.renderer.impl.DefaultEdgeRenderer;
-
-//import edu.stanford.smi.protegex.owl.model.OWLIndividual;
-//import edu.stanford.smi.protegex.owl.model.OWLNamedClass;
-//import edu.stanford.smi.protegex.owl.model.RDFSNamedClass;
-
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLIndividual;
 
 import java.awt.*;
+
+//import edu.stanford.smi.protegex.owl.model.OWLIndividual;
+//import edu.stanford.smi.protegex.owl.model.OWLNamedClass;
+//import edu.stanford.smi.protegex.owl.model.RDFSNamedClass;
 
 /**
  * User: matthewhorridge<br>
@@ -25,10 +24,10 @@ import java.awt.*;
 public class OWLClsEdgeRenderer extends DefaultEdgeRenderer {
 
     BasicStroke stroke = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 1.0f, new float[]{4.0f, 2.0f},
-                                         1.0f);
+            1.0f);
 
     BasicStroke instanceOfStroke = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 1.0f,
-                                                   new float[]{10.0f, 2.0f}, 1.0f);
+            new float[]{10.0f, 2.0f}, 1.0f);
 
 
     public OWLClsEdgeRenderer(Controller controller) {
@@ -40,11 +39,11 @@ public class OWLClsEdgeRenderer extends DefaultEdgeRenderer {
                                    boolean forPrinting) {
         Object parObj = edge.getTailNode().getUserObject();
         Object childObj = edge.getHeadNode().getUserObject();
-        if(parObj instanceof OWLClass && childObj instanceof OWLIndividual) {
+        if (parObj instanceof OWLClass && childObj instanceof OWLIndividual) {
             return instanceOfStroke;
         }
         else {
-            if(parObj instanceof OWLClass == false || childObj instanceof OWLClass == false) {
+            if (parObj instanceof OWLClass == false || childObj instanceof OWLClass == false) {
                 return stroke;
             }
             else {

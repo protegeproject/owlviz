@@ -1,13 +1,12 @@
 package org.coode.owlviz.command;
 
-import org.protege.editor.owl.model.OWLModelManager;
-import org.protege.editor.owl.ui.view.OWLSelectionViewAction;
-
 import org.coode.owlviz.ui.ClassRadiusDialog;
 import org.coode.owlviz.ui.OWLVizIcons;
 import org.coode.owlviz.ui.OWLVizViewI;
 import org.coode.owlviz.util.graph.ui.GraphComponent;
 import org.coode.owlviz.util.okcanceldialog.OKCancelDialog;
+import org.protege.editor.owl.model.OWLModelManager;
+import org.protege.editor.owl.ui.view.OWLSelectionViewAction;
 import org.semanticweb.owlapi.model.OWLClass;
 
 import javax.swing.*;
@@ -27,11 +26,14 @@ import java.util.Iterator;
 public class ShowClassCommand extends OWLSelectionViewAction {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1179591525072515755L;
+
     private OWLVizViewI view;
+
     private OWLModelManager kb;
+
     private Frame owner;
 
 
@@ -59,18 +61,19 @@ public class ShowClassCommand extends OWLSelectionViewAction {
     public void actionPerformed(ActionEvent e) {
         ClassRadiusDialog dlg = new ClassRadiusDialog(this.owner, true);
         int retVal = dlg.showDialog();
-        if(retVal == OKCancelDialog.OPTION_APPROVE) {
+        if (retVal == OKCancelDialog.OPTION_APPROVE) {
             Object selObj = view.getSelectionModel().getSelectedClass();
-            if(selObj != null) {
-                if(selObj instanceof OWLClass) {
+            if (selObj != null) {
+                if (selObj instanceof OWLClass) {
                     int radius = dlg.getClassRadius();
                     int supersSubsOptions = dlg.getSupersSubsOption();
-                    for(Iterator it = view.getGraphComponents().iterator(); it.hasNext(); ) {
+                    for (Iterator it = view.getGraphComponents().iterator(); it.hasNext(); ) {
                         GraphComponent curGraphComponent = (GraphComponent) it.next();
-                        if(supersSubsOptions == ClassRadiusDialog.SUPERS_AND_SUBS) {
-                            curGraphComponent.getVisualisedObjectManager().showObject(selObj, radius, OWLClass.class);;
+                        if (supersSubsOptions == ClassRadiusDialog.SUPERS_AND_SUBS) {
+                            curGraphComponent.getVisualisedObjectManager().showObject(selObj, radius, OWLClass.class);
+                            ;
                         }
-                        else if(supersSubsOptions == ClassRadiusDialog.SUPERS_ONLY) {
+                        else if (supersSubsOptions == ClassRadiusDialog.SUPERS_ONLY) {
                             curGraphComponent.getVisualisedObjectManager().showParents(selObj, radius, OWLClass.class);
                         }
                         else {

@@ -15,51 +15,53 @@ import java.awt.*;
  */
 public class ClassRadiusDialog extends OKCancelDialog {
 
-	/**
-     * 
+    public static final int SUPERS_AND_SUBS = 1;
+
+    public static final int SUPERS_ONLY = 2;
+
+    public static final int SUBS_ONLY = 3;
+
+    /**
+     *
      */
     private static final long serialVersionUID = 3308134791047919665L;
 
     ClassRadiusDialogPage radiusPage;
 
-	public static final int SUPERS_AND_SUBS = 1;
-	public static final int SUPERS_ONLY = 2;
-	public static final int SUBS_ONLY = 3;
+
+    public ClassRadiusDialog(Frame owner,
+                             boolean showSuperSubOptions) {
+        super(owner, "Radius", "OK", "Cancel");
+        setContent(radiusPage = new ClassRadiusDialogPage(showSuperSubOptions));
+    }
 
 
-	public ClassRadiusDialog(Frame owner,
-	                         boolean showSuperSubOptions) {
-		super(owner, "Radius", "OK", "Cancel");
-		setContent(radiusPage = new ClassRadiusDialogPage(showSuperSubOptions));
-	}
+    /**
+     * This method is called when the OK (or approve button) is
+     * pressed, but before the dialog is closed. Override this
+     * ,method if the dialog data needs to be validated.
+     *
+     * @return Returns <code>true</code> if the dialog data is valid
+     * and the dialog can close, or <code>false</code> is the data is
+     * invalid and the dialog should not close.
+     */
+    public boolean validateData() {
+        return true;
+    }
 
 
-	/**
-	 * This method is called when the OK (or approve button) is
-	 * pressed, but before the dialog is closed. Override this
-	 * ,method if the dialog data needs to be validated.
-	 *
-	 * @return Returns <code>true</code> if the dialog data is valid
-	 *         and the dialog can close, or <code>false</code> is the data is
-	 *         invalid and the dialog should not close.
-	 */
-	public boolean validateData() {
-		return true;
-	}
+    /**
+     * Retrives the class radius entered by the user.
+     *
+     * @return The class radius.
+     */
+    public int getClassRadius() {
+        return radiusPage.getClassRadius();
+    }
 
 
-	/**
-	 * Retrives the class radius entered by the user.
-	 *
-	 * @return The class radius.
-	 */
-	public int getClassRadius() {
-		return radiusPage.getClassRadius();
-	}
-
-
-	public int getSupersSubsOption() {
-		return radiusPage.getSupersSubsOption();
-	}
+    public int getSupersSubsOption() {
+        return radiusPage.getSupersSubsOption();
+    }
 }
 

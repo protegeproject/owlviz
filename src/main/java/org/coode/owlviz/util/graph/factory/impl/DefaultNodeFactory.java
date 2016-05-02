@@ -11,31 +11,29 @@ import java.util.Random;
  * The Univeristy Of Manchester<br>
  * Medical Informatics Group<br>
  * Date: Jan 14, 2004<br><br>
- * 
+ * <p/>
  * matthew.horridge@cs.man.ac.uk<br>
  * www.cs.man.ac.uk/~horridgm<br><br>
- *
  */
-public class DefaultNodeFactory implements NodeFactory
-{
-	private Random rand;
+public class DefaultNodeFactory implements NodeFactory {
 
-	public DefaultNodeFactory()
-	{
-		rand = new Random(System.currentTimeMillis());
-	}
+    private Random rand;
 
-	/**
-	 * Creates a node
-	 * @param userObject Specifies the user object that the <code>Node</code>
-	 * is associated with.  May be <code>null</code
-	 * @return The newly created node.
-	 */
-	public Node createNode(Object userObject)
-	{
-		return new EllipticalNode(userObject);
+    public DefaultNodeFactory() {
+        rand = new Random(System.currentTimeMillis());
+    }
 
-		// TEST
+    /**
+     * Creates a node
+     *
+     * @param userObject Specifies the user object that the <code>Node</code>
+     *                   is associated with.  May be <code>null</code
+     * @return The newly created node.
+     */
+    public Node createNode(Object userObject) {
+        return new EllipticalNode(userObject);
+
+        // TEST
 
 /*		double gaus = rand.nextGaussian();
 
@@ -65,5 +63,5 @@ public class DefaultNodeFactory implements NodeFactory
 		}
 */
 
-	}
+    }
 }

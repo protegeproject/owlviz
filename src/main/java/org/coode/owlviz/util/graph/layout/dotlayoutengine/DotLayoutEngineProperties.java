@@ -24,22 +24,23 @@ public class DotLayoutEngineProperties {
 
     public static final String SIBLING_SPACING_KEY = "SiblingSpacing";
 
-    private static DotLayoutEngineProperties instance;
-
     public static final String DEFAULT_MAC_PATH = "/usr/local/bin/dot";
-    
+
     public static final String DEFAULT_WINDOWS_PATH = "C:\\Program Files (x86)\\Graphviz2.30\\bin\\dot.exe";
-    
+
     public static final String DEFAULT_LINUX_PATH = "/usr/bin/dot";
 
+    public static final double DEFAULT_RANK_SPACING = 0.5;
 
     private static final double DEFAULT_SIBLING_SPACING = 0.2;
-    public static final double DEFAULT_RANK_SPACING = 0.5;
+
+    private static DotLayoutEngineProperties instance;
 
     private static String FILE_NAME = "DotScratch";
 
 
     private double rankSpacing;
+
     private double siblingSpacing;
 
     private String processPath;
@@ -53,11 +54,11 @@ public class DotLayoutEngineProperties {
         // Setup the default path for the platform
         String platform = System.getProperty("os.name");
 
-        if(platform.indexOf("OS X") != -1) {
+        if (platform.indexOf("OS X") != -1) {
             // On Mac platform
             return DEFAULT_MAC_PATH;
         }
-        else if(platform.indexOf("Windows") != -1) {
+        else if (platform.indexOf("Windows") != -1) {
             // On Windows
             return DEFAULT_WINDOWS_PATH;
         }
@@ -69,7 +70,7 @@ public class DotLayoutEngineProperties {
 
 
     public static synchronized DotLayoutEngineProperties getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new DotLayoutEngineProperties();
         }
 
@@ -99,9 +100,9 @@ public class DotLayoutEngineProperties {
 
 
     public void setDotProcessPath(String path) {
-        if(System.getProperty("os.name").indexOf("OS X") != -1) {
+        if (System.getProperty("os.name").indexOf("OS X") != -1) {
             // On Mac
-            if(path.endsWith(".app")) {
+            if (path.endsWith(".app")) {
                 // Graphviz Pixel Glow bundle - go inside bundle
                 // Append Contents/MacOs/dot
                 path += "/Contents/MacOS/dot";

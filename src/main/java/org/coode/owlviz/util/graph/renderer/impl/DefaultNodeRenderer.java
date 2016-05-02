@@ -8,95 +8,89 @@ import org.coode.owlviz.util.graph.renderer.NodeRenderer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Polygon;
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.Stroke;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
-
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 /**
  * User: matthewhorridge<br>
  * The Univeristy Of Manchester<br>
  * Medical Informatics Group<br>
  * Date: Jan 14, 2004<br><br>
- * 
+ * <p/>
  * matthew.horridge@cs.visualisedObjectManager.ac.uk<br>
  * www.cs.visualisedObjectManager.ac.uk/~horridgm<br><br>
- *
  */
-public class DefaultNodeRenderer implements NodeRenderer
-{
-    private static Logger log = LoggerFactory.getLogger(DefaultNodeRenderer.class);
+public class DefaultNodeRenderer implements NodeRenderer {
+
+    private static final int ARROW_SIZE = 5;
 //	private NodeLabelRenderer labelRenderer;
 
-	private static Color fillColor;
-	private static Color lineColor;
-	private VisualisedObjectManager visualisedObjectManager;
-	private Polygon leftArrow = new Polygon();
-	private Polygon rightArrow = new Polygon();
-	private FontMetrics fontMetrics;
-	private static final int ARROW_SIZE = 5;
-	private static final int HORIZONTAL_PADDING = ARROW_SIZE * 2 + 10;
-	private static final int VERTICAL_PADDING = 15;
-	private Font labelFont;
-	private Controller controller;
-	private int layoutDirection = GraphLayoutEngine.LAYOUT_LEFT_TO_RIGHT;
+    private static final int HORIZONTAL_PADDING = ARROW_SIZE * 2 + 10;
+
+    private static final int VERTICAL_PADDING = 15;
+
+    private static Logger log = LoggerFactory.getLogger(DefaultNodeRenderer.class);
+
+    private static Color fillColor;
+
+    private static Color lineColor;
+
     private static Stroke lineStroke = new BasicStroke(2.0f);
 
-	public DefaultNodeRenderer(Controller controller)
-	{
-		this.controller = controller;
+    private VisualisedObjectManager visualisedObjectManager;
 
-		if(controller.getVisualisedObjectManager() == null)
-		{
-			throw new NullPointerException("VisualisedObjectManager (in controller) must not be null");
-		}
+    private Polygon leftArrow = new Polygon();
 
-		visualisedObjectManager = controller.getVisualisedObjectManager();
+    private Polygon rightArrow = new Polygon();
 
-		JPanel pan = new JPanel();
+    private FontMetrics fontMetrics;
 
-		Font font = pan.getFont();
+    private Font labelFont;
 
-		labelFont = font.deriveFont(10.0f);
+    private Controller controller;
+
+    private int layoutDirection = GraphLayoutEngine.LAYOUT_LEFT_TO_RIGHT;
+
+    public DefaultNodeRenderer(Controller controller) {
+        this.controller = controller;
+
+        if (controller.getVisualisedObjectManager() == null) {
+            throw new NullPointerException("VisualisedObjectManager (in controller) must not be null");
+        }
+
+        visualisedObjectManager = controller.getVisualisedObjectManager();
+
+        JPanel pan = new JPanel();
+
+        Font font = pan.getFont();
+
+        labelFont = font.deriveFont(10.0f);
 
 
-		if(labelFont == null)
-		{
-			log.error("Font is NULL!");
-		}
+        if (labelFont == null) {
+            log.error("Font is NULL!");
+        }
 
-		fontMetrics = pan.getFontMetrics(labelFont);
+        fontMetrics = pan.getFontMetrics(labelFont);
 
-		if(fontMetrics == null)
-		{
-			log.error("Font metrics is NULL!");
-		}
+        if (fontMetrics == null) {
+            log.error("Font metrics is NULL!");
+        }
 
-		if(visualisedObjectManager == null)
-		{
-			throw new NullPointerException("DefaultNode renderer constructed before" +
-			                               "VisualisedObjectManager");
-		}
+        if (visualisedObjectManager == null) {
+            throw new NullPointerException("DefaultNode renderer constructed before" +
+                    "VisualisedObjectManager");
+        }
 
 //		this.labelRenderer = labelRenderer;
 
-		fillColor = Color.YELLOW;
+        fillColor = Color.YELLOW;
 
-		lineColor = Color.BLACK;
+        lineColor = Color.BLACK;
 
-		setupArrows();
-	}
+        setupArrows();
+    }
 
     protected Color getFillColor(Node node) {
         return fillColor;
@@ -111,156 +105,138 @@ public class DefaultNodeRenderer implements NodeRenderer
     }
 
     /**
-	 * Generic shape renderer.  Typically, the shape of the <code>Node</code>
-	 * will be a <code>Rectangle</code> or an <code>Ellipse</code>.
-	 * @param node The <code>Node</code> being rendered.
-	 * @param g2 The Graphics2D object on to which the <code>Node</code> should be rendered.
+     * Generic shape renderer.  Typically, the shape of the <code>Node</code>
+     * will be a <code>Rectangle</code> or an <code>Ellipse</code>.
+     *
+     * @param node        The <code>Node</code> being rendered.
+     * @param g2          The Graphics2D object on to which the <code>Node</code> should be rendered.
      * @param forPrinting A flag to indicate if the graphics are being drawn to produce an
-     * image for printing, or to draw onto the screen.
-	 */
-	public void renderNode(Graphics2D g2, Node node, boolean forPrinting, boolean drawDetail)
-	{
-		Shape sh = node.getShape();
+     *                    image for printing, or to draw onto the screen.
+     */
+    public void renderNode(Graphics2D g2, Node node, boolean forPrinting, boolean drawDetail) {
+        Shape sh = node.getShape();
 
-		// Only render if we are within the clip bounds
-		if(sh.intersects(g2.getClipBounds()))
-		{
-			// Fill the node
+        // Only render if we are within the clip bounds
+        if (sh.intersects(g2.getClipBounds())) {
+            // Fill the node
 
 
-			g2.setColor(getFillColor(node));
+            g2.setColor(getFillColor(node));
 
-			g2.fill(sh);
+            g2.fill(sh);
 
-			g2.setColor(getLineColor(node));
+            g2.setColor(getLineColor(node));
 
             g2.setStroke(getLineStroke());
             g2.draw(sh);
 
 
-
-
             Object obj = node.getUserObject();
 
-			String label;
+            String label;
 
-			Point pos = node.getPosition();
+            Point pos = node.getPosition();
 
-			if(drawDetail == true) {
-				label = controller.getNodeLabelRenderer().getLabel(node);
-
-
-
-				// Draw expansion arrows
-
-				drawArrows(g2, sh, node.getUserObject());
-
-				// Draw text
-
-				Font f = g2.getFont();
-
-				g2.setFont(labelFont);
-
-				Rectangle2D labelBounds2D = g2.getFontMetrics().getStringBounds(label, g2);
-
-				Rectangle labelBounds = labelBounds2D.getBounds();
-
-				g2.drawString(label, pos.x - labelBounds.width / 2, pos.y + labelBounds.height / 3);
-
-				g2.setFont(f);
-			}
-		}
-	}
-
-	public Dimension getPreferredSize(Node node, Dimension size)
-	{
-		String label = controller.getNodeLabelRenderer().getLabel(node);
+            if (drawDetail == true) {
+                label = controller.getNodeLabelRenderer().getLabel(node);
 
 
+                // Draw expansion arrows
 
-		int width = SwingUtilities.computeStringWidth(fontMetrics, label);
+                drawArrows(g2, sh, node.getUserObject());
 
-		int height = fontMetrics.getHeight();
+                // Draw text
 
-		if(size != null)
-		{
-			size.width = width + HORIZONTAL_PADDING;
+                Font f = g2.getFont();
 
-			size.height = height + VERTICAL_PADDING;
+                g2.setFont(labelFont);
 
-			return size;
-		}
-		else
-		{
-			return new Dimension(width, height);
-		}
-	}
+                Rectangle2D labelBounds2D = g2.getFontMetrics().getStringBounds(label, g2);
 
-	protected void drawArrows(Graphics2D g2, Shape nodeShape, Object userObject)
-    {
-        if(controller.getGraphLayoutEngine().getLayoutDirection() != layoutDirection)
-        {
+                Rectangle labelBounds = labelBounds2D.getBounds();
+
+                g2.drawString(label, pos.x - labelBounds.width / 2, pos.y + labelBounds.height / 3);
+
+                g2.setFont(f);
+            }
+        }
+    }
+
+    public Dimension getPreferredSize(Node node, Dimension size) {
+        String label = controller.getNodeLabelRenderer().getLabel(node);
+
+
+        int width = SwingUtilities.computeStringWidth(fontMetrics, label);
+
+        int height = fontMetrics.getHeight();
+
+        if (size != null) {
+            size.width = width + HORIZONTAL_PADDING;
+
+            size.height = height + VERTICAL_PADDING;
+
+            return size;
+        }
+        else {
+            return new Dimension(width, height);
+        }
+    }
+
+    protected void drawArrows(Graphics2D g2, Shape nodeShape, Object userObject) {
+        if (controller.getGraphLayoutEngine().getLayoutDirection() != layoutDirection) {
             layoutDirection = controller.getGraphLayoutEngine().getLayoutDirection();
 
             setupArrows();
         }
 
-        if(layoutDirection == GraphLayoutEngine.LAYOUT_LEFT_TO_RIGHT)
-        {
+        if (layoutDirection == GraphLayoutEngine.LAYOUT_LEFT_TO_RIGHT) {
 
-            if(visualisedObjectManager.getChildrenHiddenCount(userObject) > 0)
-			{
-				Rectangle rect = nodeShape.getBounds();
+            if (visualisedObjectManager.getChildrenHiddenCount(userObject) > 0) {
+                Rectangle rect = nodeShape.getBounds();
 
-				g2.translate(rect.x + rect.width, rect.y + rect.height / 2);
+                g2.translate(rect.x + rect.width, rect.y + rect.height / 2);
 
-				g2.fill(rightArrow);
+                g2.fill(rightArrow);
 
-				g2.translate(-rect.x - rect.width, -rect.y - rect.height / 2);
-			}
+                g2.translate(-rect.x - rect.width, -rect.y - rect.height / 2);
+            }
 
-			if(visualisedObjectManager.getParentsHiddenCount(userObject) > 0)
-			{
-				Rectangle rect = nodeShape.getBounds();
+            if (visualisedObjectManager.getParentsHiddenCount(userObject) > 0) {
+                Rectangle rect = nodeShape.getBounds();
 
-				g2.translate(rect.x, rect.y + rect.height / 2);
+                g2.translate(rect.x, rect.y + rect.height / 2);
 
-				g2.fill(leftArrow);
+                g2.fill(leftArrow);
 
-				g2.translate(-rect.x, -rect.y - rect.height / 2);
-			}
+                g2.translate(-rect.x, -rect.y - rect.height / 2);
+            }
         }
-        else
-        {
-            if(visualisedObjectManager.getChildrenHiddenCount(userObject) > 0)
-			{
-				Rectangle rect = nodeShape.getBounds();
+        else {
+            if (visualisedObjectManager.getChildrenHiddenCount(userObject) > 0) {
+                Rectangle rect = nodeShape.getBounds();
 
-				g2.translate(rect.x + rect.width / 2, rect.y + rect.height);
+                g2.translate(rect.x + rect.width / 2, rect.y + rect.height);
 
-				g2.fill(rightArrow);
+                g2.fill(rightArrow);
 
-				g2.translate(-rect.x  - rect.width / 2, -rect.y - rect.height);
-			}
+                g2.translate(-rect.x - rect.width / 2, -rect.y - rect.height);
+            }
 
-			if(visualisedObjectManager.getParentsHiddenCount(userObject) > 0)
-			{
-				Rectangle rect = nodeShape.getBounds();
+            if (visualisedObjectManager.getParentsHiddenCount(userObject) > 0) {
+                Rectangle rect = nodeShape.getBounds();
 
-				g2.translate(rect.x + rect.width / 2, rect.y);
+                g2.translate(rect.x + rect.width / 2, rect.y);
 
-				g2.fill(leftArrow);
+                g2.fill(leftArrow);
 
-				g2.translate(-rect.x - rect.width / 2, -rect.y);
-			}
+                g2.translate(-rect.x - rect.width / 2, -rect.y);
+            }
         }
 
     }
 
-	protected void setupArrows()
-    {
-        if(controller.getGraphLayoutEngine().getLayoutDirection() == GraphLayoutEngine.LAYOUT_LEFT_TO_RIGHT)
-        {
+    protected void setupArrows() {
+        if (controller.getGraphLayoutEngine().getLayoutDirection() == GraphLayoutEngine.LAYOUT_LEFT_TO_RIGHT) {
             leftArrow.reset();
 
             leftArrow.addPoint(ARROW_SIZE, -ARROW_SIZE);
@@ -273,8 +249,7 @@ public class DefaultNodeRenderer implements NodeRenderer
             rightArrow.addPoint(0, 0);
             rightArrow.addPoint(-ARROW_SIZE, ARROW_SIZE);
         }
-        else
-        {
+        else {
             leftArrow.reset();
 
             // Up Arrow

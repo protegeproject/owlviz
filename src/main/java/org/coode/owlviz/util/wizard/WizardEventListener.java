@@ -5,20 +5,19 @@ package org.coode.owlviz.util.wizard;
  * The Univeristy Of Manchester<br>
  * Medical Informatics Group<br>
  * Date: Jan 6, 2004<br><br>
- * 
+ * <p/>
  * matthew.horridge@cs.man.ac.uk<br>
  * www.cs.man.ac.uk/~horridgm<br><br>
- *
  */
-public interface WizardEventListener
-{
-	public void nextPressed(WizardEvent e);
+public interface WizardEventListener {
 
-	public void prevPressed(WizardEvent e);
+    public void nextPressed(WizardEvent e);
 
-	public void pageChanged(WizardEvent e);
+    public void prevPressed(WizardEvent e);
 
-	public void finishPressed(WizardEvent e);
+    public void pageChanged(WizardEvent e);
 
-	public void cancelPressed(WizardEvent e);
+    public void finishPressed(WizardEvent e);
+
+    public void cancelPressed(WizardEvent e);
 }

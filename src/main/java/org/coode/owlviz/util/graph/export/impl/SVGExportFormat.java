@@ -2,7 +2,7 @@ package org.coode.owlviz.util.graph.export.impl;
 
 import org.coode.owlviz.util.graph.controller.Controller;
 
-import java.awt.Dimension;
+import java.awt.*;
 import java.io.OutputStream;
 
 
@@ -15,10 +15,12 @@ import java.io.OutputStream;
  * matthew.horridge@cs.man.ac.uk<br>
  * www.cs.man.ac.uk/~horridgm<br><br>
  */
-public class SVGExportFormat extends AbstractVectorFormat
-{
+public class SVGExportFormat extends AbstractVectorFormat {
+
     private static final String FORMAT_NAME = "SVG";
+
     private static final String FORMAT_FILE_EXTENSION = "svg";
+
     private static final String FORMAT_DESCRIPTION = "Scalable Vector Graphics (SVG)";
 
     /**
@@ -28,8 +30,7 @@ public class SVGExportFormat extends AbstractVectorFormat
      *
      * @return The name of the export format (e.g. Scalable Vector Graphics)
      */
-    public String getFormatName()
-    {
+    public String getFormatName() {
         return FORMAT_NAME;
     }
 
@@ -38,8 +39,7 @@ public class SVGExportFormat extends AbstractVectorFormat
      *
      * @return The export type file extensions (e.g. svg)
      */
-    public String getFormatFileExtension()
-    {
+    public String getFormatFileExtension() {
         return FORMAT_FILE_EXTENSION;
     }
 
@@ -50,20 +50,19 @@ public class SVGExportFormat extends AbstractVectorFormat
      *
      * @return A description of the export type.
      */
-    public String getFormatDescription()
-    {
+    public String getFormatDescription() {
         return FORMAT_DESCRIPTION;
     }
 
     /**
      * Exports the graphics to the specified file.
+     *
      * @param controller The controller, which allows access to the
-     * <code>GraphView</code> etc.
-     * @param os The <code>OutputStream</code> that the exported format should
-     * be written to.
+     *                   <code>GraphView</code> etc.
+     * @param os         The <code>OutputStream</code> that the exported format should
+     *                   be written to.
      */
-    public void export(Controller controller, OutputStream os)
-    {
+    public void export(Controller controller, OutputStream os) {
         Dimension size = controller.getGraphGenerator().getGraph().getShape().getBounds().getSize();
 
         int width = size.width;

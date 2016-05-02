@@ -34,23 +34,23 @@ public class OWLVizSelectionModel {
 
     public void setSelectedClass(OWLClass selectedClass) {
         boolean changed = false;
-        if(selectedClass != null) {
-            if(this.selectedClass == null) {
+        if (selectedClass != null) {
+            if (this.selectedClass == null) {
                 changed = true;
             }
             else {
-                if(selectedClass.equals(this.selectedClass) == false) {
+                if (selectedClass.equals(this.selectedClass) == false) {
                     changed = true;
                 }
             }
         }
         else {
-            if(this.selectedClass != null) {
+            if (this.selectedClass != null) {
                 changed = true;
             }
         }
         this.selectedClass = selectedClass;
-        if(changed) {
+        if (changed) {
             fireSelectionChanged();
         }
     }
@@ -64,7 +64,7 @@ public class OWLVizSelectionModel {
     }
 
     private void fireSelectionChanged() {
-        for(Iterator<OWLVizSelectionListener> it = listeners.iterator(); it.hasNext(); ) {
+        for (Iterator<OWLVizSelectionListener> it = listeners.iterator(); it.hasNext(); ) {
             OWLVizSelectionListener lsnr = it.next();
             lsnr.selectionChanged(this);
         }

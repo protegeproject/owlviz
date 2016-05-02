@@ -1,14 +1,6 @@
 package org.coode.owlviz.ui;
 
-import org.protege.editor.owl.OWLEditorKit;
-import org.protege.editor.owl.model.OWLModelManager;
-
-import org.coode.owlviz.command.HideAllClassesCommand;
-import org.coode.owlviz.command.HideClassCommand;
-import org.coode.owlviz.command.HideSubclassesCommand;
-import org.coode.owlviz.command.ShowClassCommand;
-import org.coode.owlviz.command.ShowSubclassesCommand;
-import org.coode.owlviz.command.ShowSuperclassesCommand;
+import org.coode.owlviz.command.*;
 import org.coode.owlviz.ui.popup.OWLObjectPopupProvider;
 import org.coode.owlviz.ui.renderer.OWLClsEdgeRenderer;
 import org.coode.owlviz.ui.renderer.OWLClsNodeLabelRenderer;
@@ -19,17 +11,15 @@ import org.coode.owlviz.util.graph.event.NodeClickedEvent;
 import org.coode.owlviz.util.graph.event.NodeClickedListener;
 import org.coode.owlviz.util.graph.model.GraphModel;
 import org.coode.owlviz.util.graph.ui.GraphComponent;
+import org.protege.editor.owl.OWLEditorKit;
+import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLEntity;
 
-import java.awt.BorderLayout;
-import java.awt.Frame;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.SwingUtilities;
 
 /**
  * User: matthewhorridge<br>
@@ -73,8 +63,8 @@ public class OWLVizGraphPanel extends JPanel {
                 getOWLModelManager()));
         graphComponent.setNodeRenderer(new OWLClsNodeRenderer(graphComponent
                 .getController(), graphComponent.getVisualisedObjectManager(),
-                                  new OWLClsNodeLabelRenderer(getOWLModelManager()),
-                                  getOWLModelManager()));
+                new OWLClsNodeLabelRenderer(getOWLModelManager()),
+                getOWLModelManager()));
         graphComponent.setEdgeRenderer(new OWLClsEdgeRenderer(graphComponent
                 .getController()));
         JPanel panel = new JPanel(new BorderLayout());
@@ -92,7 +82,7 @@ public class OWLVizGraphPanel extends JPanel {
         // splitter.add(thumbnailSplitter, JSplitPane.LEFT);
         panel.add(graphComponent);
         OWLObjectPopupProvider popupProvider = new OWLObjectPopupProvider(name,
-                                                                          owlEditorKit);
+                owlEditorKit);
         graphComponent.setPopupProvider(popupProvider);
         createPopupMenu();
         setupListeners();
@@ -104,7 +94,7 @@ public class OWLVizGraphPanel extends JPanel {
     protected void createPopupMenu() {
         popupMenu = new JPopupMenu();
         popupMenu.add(new ShowClassCommand(view, getOWLModelManager(),
-                                           (Frame) SwingUtilities.getRoot(this)));
+                (Frame) SwingUtilities.getRoot(this)));
         popupMenu.add(new ShowSubclassesCommand(view));
         popupMenu.add(new ShowSuperclassesCommand(view));
         popupMenu.add(new HideClassCommand(view));
@@ -158,11 +148,11 @@ public class OWLVizGraphPanel extends JPanel {
         owlVizSelectionListener = new OWLVizSelectionListener() {
             public void selectionChanged(OWLVizSelectionModel model) {
                 if (model.getSelectedClass() != null) {
-                    if (isTracker()){
+                    if (isTracker()) {
                         getGraphComponent().getVisualisedObjectManager().hideAll();
                         getGraphComponent().getVisualisedObjectManager().showObject(model.getSelectedClass(),
-                                                                                    getTrackerRadius(),
-                                                                                    OWLClass.class);
+                                getTrackerRadius(),
+                                OWLClass.class);
                     }
                     getGraphComponent().getGraphSelectionModel().setSelectedObject(model.getSelectedClass());
                 }
@@ -192,7 +182,7 @@ public class OWLVizGraphPanel extends JPanel {
 
             private void showPopupMenu(MouseEvent e) {
                 popupMenu.show(getGraphComponent().getGraphView(),
-                               e.getPoint().x, e.getPoint().y);
+                        e.getPoint().x, e.getPoint().y);
             }
         });
     }
@@ -200,8 +190,8 @@ public class OWLVizGraphPanel extends JPanel {
 
     private boolean isTracker() {
         // annoying hack to get round OWLPropViz compatibility
-        if (view instanceof ConfigurableOWLVizView){
-            return ((ConfigurableOWLVizView)view).getOptions().isTrackerMode();
+        if (view instanceof ConfigurableOWLVizView) {
+            return ((ConfigurableOWLVizView) view).getOptions().isTrackerMode();
         }
         return OWLVizPreferences.getInstance().isTrackingModeDefault();
     }
@@ -209,8 +199,8 @@ public class OWLVizGraphPanel extends JPanel {
 
     private int getTrackerRadius() {
         // annoying hack to get round OWLPropViz compatibility
-        if (view instanceof ConfigurableOWLVizView){
-            return ((ConfigurableOWLVizView)view).getOptions().getTrackerRadius();
+        if (view instanceof ConfigurableOWLVizView) {
+            return ((ConfigurableOWLVizView) view).getOptions().getTrackerRadius();
         }
         return OWLVizPreferences.getInstance().getDefaultTrackerRadius();
     }

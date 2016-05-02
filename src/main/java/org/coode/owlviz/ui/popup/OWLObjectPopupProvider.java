@@ -1,8 +1,7 @@
 package org.coode.owlviz.ui.popup;
 
-import org.protege.editor.owl.OWLEditorKit;
-
 import org.coode.owlviz.util.graph.ui.PopupProvider;
+import org.protege.editor.owl.OWLEditorKit;
 import org.semanticweb.owlapi.model.OWLObject;
 
 import javax.swing.*;
@@ -30,7 +29,7 @@ public class OWLObjectPopupProvider implements PopupProvider {
 
 
     public JComponent getPopup(Object obj) {
-        if(obj instanceof OWLObject) {
+        if (obj instanceof OWLObject) {
             PopupManager popupManager = PopupManager.getInstance(popupManagerName);
             return popupManager.getCurrentPopupPage().getPageContent((OWLObject) obj);
         }

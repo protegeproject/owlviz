@@ -18,16 +18,18 @@ import java.awt.event.ActionEvent;
 public class ShowAnonymousClassesCommand extends AbstractAction {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 2202602738226322543L;
+
     private Controller assertedController;
+
     private Controller inferredController;
 
 
     public ShowAnonymousClassesCommand(Controller assertedController,
                                        Controller inferredController) {
-      //  super("Show Restrictions", OWLIcons.getAllRestrictionIcon());
+        //  super("Show Restrictions", OWLIcons.getAllRestrictionIcon());
         this.assertedController = assertedController;
         this.inferredController = inferredController;
     }
@@ -35,7 +37,7 @@ public class ShowAnonymousClassesCommand extends AbstractAction {
 
     public void actionPerformed(ActionEvent e) {
         Object selObj = assertedController.getGraphSelectionModel().getSelectedObject();
-        if(selObj != null) {
+        if (selObj != null) {
             assertedController.getVisualisedObjectManager().showParents(selObj, 1, OWLClassExpression.class);
             inferredController.getVisualisedObjectManager().showParents(selObj, 1, OWLClassExpression.class);
         }

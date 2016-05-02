@@ -12,11 +12,7 @@ import org.coode.owlviz.util.graph.renderer.NodeLabelRenderer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -29,14 +25,13 @@ import java.util.Iterator;
  * matthew.horridge@cs.man.ac.uk<br>
  * www.cs.man.ac.uk/~horridgm<br><br>
  */
-public class DotOutputGraphRenderer implements GraphOutputRenderer
-{
+public class DotOutputGraphRenderer implements GraphOutputRenderer {
+
     public static final String LAYOUT_DIRECTION = "rankdir";
 
     public static final String RANK_SPACING = "ranksep";
 
     public static final String SIBLING_SPACING = "nodesep";
-
 
 
     private static Logger log = LoggerFactory.getLogger(DotOutputGraphRenderer.class);
@@ -51,8 +46,7 @@ public class DotOutputGraphRenderer implements GraphOutputRenderer
 
     private HashMap attributeMap;
 
-    public DotOutputGraphRenderer(NodeLabelRenderer labelRen, EdgeLabelRenderer edgeLabelRen)
-    {
+    public DotOutputGraphRenderer(NodeLabelRenderer labelRen, EdgeLabelRenderer edgeLabelRen) {
         this.labelRen = labelRen;
 
         this.edgeLabelRen = edgeLabelRen;
@@ -75,25 +69,23 @@ public class DotOutputGraphRenderer implements GraphOutputRenderer
     /**
      * Adds a map to convert a class of node to a dot
      * shape name. (e.g. by default, Rectangle.class maps to "box")
-     * @param nodeClass The class of the node to map to a dot shape name
+     *
+     * @param nodeClass    The class of the node to map to a dot shape name
      * @param dotShapeName The name of the dot shape.
      */
-    public static void registerShapeMapping(Class nodeClass, String dotShapeName)
-    {
+    public static void registerShapeMapping(Class nodeClass, String dotShapeName) {
         shapeMap.put(nodeClass, dotShapeName);
     }
 
 
-    public void setRendererOption(String attribute, String value)
-    {
+    public void setRendererOption(String attribute, String value) {
         attributeMap.remove(attribute);
 
         attributeMap.put(attribute, value);
     }
 
 
-    public synchronized void renderGraph(Graph graph, OutputStream os)
-    {
+    public synchronized void renderGraph(Graph graph, OutputStream os) {
         try {
             // dot likes UTF-8
             OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
@@ -105,34 +97,29 @@ public class DotOutputGraphRenderer implements GraphOutputRenderer
             // Write Nodes
             Node[] nodes = graph.getNodes();
 
-            for(int i = 0; i < nodes.length; i++)
-            {
+            for (int i = 0; i < nodes.length; i++) {
                 renderNode(nodes[i]);
             }
 
             // Write edges
             Edge[] edges = graph.getEdges();
 
-            for(int i = 0; i < edges.length; i++)
-            {
+            for (int i = 0; i < edges.length; i++) {
                 renderEdge(edges[i]);
             }
 
             closeGraph();
 
             writer.flush();
-        }
-        catch (UnsupportedEncodingException e) {
+        } catch (UnsupportedEncodingException e) {
             log.error(e.getMessage());
-        }
-        catch(IOException e)    {
+        } catch (IOException e) {
             log.error(e.getMessage());
         }
     }
 
 
-    protected void renderNode(Node node) throws IOException
-    {
+    protected void renderNode(Node node) throws IOException {
         writer.write('"');
 
         writer.write(labelRen.getLabel(node));
@@ -141,8 +128,7 @@ public class DotOutputGraphRenderer implements GraphOutputRenderer
 
         String shape = (String) shapeMap.get(node.getClass());
 
-        if(shape != null)
-        {
+        if (shape != null) {
             writer.write(" [shape=");
 
             writer.write(shape);
@@ -164,8 +150,7 @@ public class DotOutputGraphRenderer implements GraphOutputRenderer
     }
 
 
-    protected void renderEdge(Edge edge) throws IOException
-    {
+    protected void renderEdge(Edge edge) throws IOException {
         writer.write('"');
 
         writer.write(labelRen.getLabel(edge.getTailNode()));
@@ -184,20 +169,16 @@ public class DotOutputGraphRenderer implements GraphOutputRenderer
 
         int edgeDirection = edge.getDirection();
 
-        if(edgeDirection == GraphModel.DIRECTION_NONE)
-        {
+        if (edgeDirection == GraphModel.DIRECTION_NONE) {
             direction = "none";
         }
-        else if(edgeDirection == GraphModel.DIRECTION_FORWARD)
-        {
+        else if (edgeDirection == GraphModel.DIRECTION_FORWARD) {
             direction = "forward";
         }
-        else if(edgeDirection == GraphModel.DIRECTION_BACK)
-        {
+        else if (edgeDirection == GraphModel.DIRECTION_BACK) {
             direction = "back";
         }
-        else if(edgeDirection == GraphModel.DIRECTION_BOTH)
-        {
+        else if (edgeDirection == GraphModel.DIRECTION_BOTH) {
             direction = "both";
         }
 
@@ -207,8 +188,7 @@ public class DotOutputGraphRenderer implements GraphOutputRenderer
 
         String label = edgeLabelRen.getEdgeLabel(edge);
 
-        if(label != null)
-        {
+        if (label != null) {
             writer.write(", fontsize=\"10\", floatlabel=true, label=\"" + label + "\"");
         }
 
@@ -218,8 +198,7 @@ public class DotOutputGraphRenderer implements GraphOutputRenderer
     }
 
 
-    protected void writeHeader(Graph graph) throws IOException
-    {
+    protected void writeHeader(Graph graph) throws IOException {
         writer.write("digraph g");
 
         writer.newLine();
@@ -230,7 +209,7 @@ public class DotOutputGraphRenderer implements GraphOutputRenderer
 
         Iterator it = attributeMap.keySet().iterator();
 
-        if (it.hasNext()){
+        if (it.hasNext()) {
             writer.newLine();
 
             writer.write("graph [");
@@ -238,8 +217,7 @@ public class DotOutputGraphRenderer implements GraphOutputRenderer
 
             Object value;
 
-            while(it.hasNext())
-            {
+            while (it.hasNext()) {
                 key = it.next();
 
                 writer.write(key.toString());
@@ -261,8 +239,7 @@ public class DotOutputGraphRenderer implements GraphOutputRenderer
     }
 
 
-    protected void closeGraph() throws IOException
-    {
+    protected void closeGraph() throws IOException {
         writer.write("}");
 
         writer.newLine();

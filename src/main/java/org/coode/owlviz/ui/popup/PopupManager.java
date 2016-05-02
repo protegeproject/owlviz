@@ -15,53 +15,51 @@ import java.util.Iterator;
  */
 public class PopupManager {
 
-	private HashSet popupPages;
+    private static HashMap managerMap = new HashMap();
 
-	private OWLObjectPopupPage currentPopupPage;
+    private HashSet popupPages;
 
-	private static HashMap managerMap = new HashMap();
-
-
-	protected PopupManager() {
-		popupPages = new HashSet();
-	}
+    private OWLObjectPopupPage currentPopupPage;
 
 
-	public static synchronized PopupManager getInstance(String name) {
-		PopupManager popupManager = (PopupManager) managerMap.get(name);
-		if(popupManager == null) {
-			popupManager = new PopupManager();
-			managerMap.put(name, popupManager);
-		}
-		return popupManager;
-	}
+    protected PopupManager() {
+        popupPages = new HashSet();
+    }
 
 
-	public void addPopupPage(OWLObjectPopupPage popupPage) {
-		popupPages.add(popupPage);
-	}
+    public static synchronized PopupManager getInstance(String name) {
+        PopupManager popupManager = (PopupManager) managerMap.get(name);
+        if (popupManager == null) {
+            popupManager = new PopupManager();
+            managerMap.put(name, popupManager);
+        }
+        return popupManager;
+    }
 
 
-	public OWLObjectPopupPage[] getPopupPages() {
-		Iterator it = popupPages.iterator();
-		OWLObjectPopupPage[] array = new OWLObjectPopupPage[popupPages.size()];
-		int counter = 0;
-		while(it.hasNext()) {
-			OWLObjectPopupPage curPage = (OWLObjectPopupPage) it.next();
-			array[counter] = curPage;
-			counter++;
-		}
-		return array;
-	}
+    public void addPopupPage(OWLObjectPopupPage popupPage) {
+        popupPages.add(popupPage);
+    }
 
 
-	public void setCurrentPopupPage(OWLObjectPopupPage popupPage) {
-		currentPopupPage = popupPage;
-	}
+    public OWLObjectPopupPage[] getPopupPages() {
+        Iterator it = popupPages.iterator();
+        OWLObjectPopupPage[] array = new OWLObjectPopupPage[popupPages.size()];
+        int counter = 0;
+        while (it.hasNext()) {
+            OWLObjectPopupPage curPage = (OWLObjectPopupPage) it.next();
+            array[counter] = curPage;
+            counter++;
+        }
+        return array;
+    }
 
+    public OWLObjectPopupPage getCurrentPopupPage() {
+        return currentPopupPage;
+    }
 
-	public OWLObjectPopupPage getCurrentPopupPage() {
-		return currentPopupPage;
-	}
+    public void setCurrentPopupPage(OWLObjectPopupPage popupPage) {
+        currentPopupPage = popupPage;
+    }
 }
 

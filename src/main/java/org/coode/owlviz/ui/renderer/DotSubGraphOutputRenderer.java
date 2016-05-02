@@ -1,12 +1,5 @@
 package org.coode.owlviz.ui.renderer;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-
-import org.protege.editor.owl.model.OWLModelManager;
-
 import org.coode.owlviz.util.graph.graph.Edge;
 import org.coode.owlviz.util.graph.graph.Graph;
 import org.coode.owlviz.util.graph.graph.Node;
@@ -15,6 +8,12 @@ import org.coode.owlviz.util.graph.renderer.EdgeLabelRenderer;
 import org.coode.owlviz.util.graph.renderer.NodeLabelRenderer;
 import org.coode.owlviz.util.graph.renderer.impl.DefaultEdgeLabelRenderer;
 import org.coode.owlviz.util.graph.renderer.impl.DefaultNodeLabelRenderer;
+import org.protege.editor.owl.model.OWLModelManager;
+
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 
 /**
  * User: matthewhorridge<br>
@@ -33,8 +32,9 @@ import org.coode.owlviz.util.graph.renderer.impl.DefaultNodeLabelRenderer;
  */
 public class DotSubGraphOutputRenderer extends DotOutputGraphRenderer {
 
-    private OWLModelManager model;
     private static boolean groupByNameSpace = false;
+
+    private OWLModelManager model;
 
 
     public DotSubGraphOutputRenderer(OWLModelManager model,
@@ -50,16 +50,13 @@ public class DotSubGraphOutputRenderer extends DotOutputGraphRenderer {
         this.model = model;
     }
 
-
-    public static void setGroupByNameSpace(boolean b) {
-        groupByNameSpace = b;
-    }
-
-
     public static boolean getGroupByNameSpace() {
         return groupByNameSpace;
     }
 
+    public static void setGroupByNameSpace(boolean b) {
+        groupByNameSpace = b;
+    }
 
     public synchronized void renderGraph(Graph graph,
                                          OutputStream os) {
@@ -75,7 +72,7 @@ public class DotSubGraphOutputRenderer extends DotOutputGraphRenderer {
 
 
             Node[] nodes = graph.getNodes();
-            if(groupByNameSpace == true) {
+            if (groupByNameSpace == true) {
 //                String curPrefix;
 //                String curInstPrefix;
 //                int subgraphCounter = 0;
@@ -132,7 +129,7 @@ public class DotSubGraphOutputRenderer extends DotOutputGraphRenderer {
             else {
                 // Write nodes without sub graph
 
-                for(int i = 0; i < nodes.length; i++) {
+                for (int i = 0; i < nodes.length; i++) {
                     renderNode(nodes[i]);
                 }
             }
@@ -140,13 +137,12 @@ public class DotSubGraphOutputRenderer extends DotOutputGraphRenderer {
             // Write edges
 
             Edge[] edges = graph.getEdges();
-            for(int i = 0; i < edges.length; i++) {
+            for (int i = 0; i < edges.length; i++) {
                 renderEdge(edges[i]);
             }
             closeGraph();
             writer.flush();
-        }
-        catch(IOException ioEx) {
+        } catch (IOException ioEx) {
             ioEx.printStackTrace();
         }
     }

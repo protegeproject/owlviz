@@ -35,17 +35,16 @@ import org.protege.editor.core.prefs.PreferencesManager;
  */
 public class OWLVizPreferences {
 
-    private static OWLVizPreferences instance;
-
     private static final String KEY = "uk.ac.man.cs.mig.coode.owlviz";
 
     private static final String TRACKING = "TRACKING";
 
     private static final String RADIUS = "RADIUS";
 
+    private static OWLVizPreferences instance;
 
     public static synchronized OWLVizPreferences getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new OWLVizPreferences();
         }
         return instance;
@@ -70,8 +69,8 @@ public class OWLVizPreferences {
         return getPrefs().getInt(RADIUS, 2);
     }
 
-    
-    public void setDefaultTrackerRadius(int radius){
+
+    public void setDefaultTrackerRadius(int radius) {
         getPrefs().putInt(RADIUS, radius);
     }
 }

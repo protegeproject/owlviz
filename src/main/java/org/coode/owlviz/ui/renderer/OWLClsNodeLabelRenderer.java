@@ -1,9 +1,8 @@
 package org.coode.owlviz.ui.renderer;
 
-import org.protege.editor.owl.model.OWLModelManager;
-
 import org.coode.owlviz.util.graph.graph.Node;
 import org.coode.owlviz.util.graph.renderer.NodeLabelRenderer;
+import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.OWLEntity;
 
 /**
@@ -31,7 +30,7 @@ public class OWLClsNodeLabelRenderer implements NodeLabelRenderer {
      */
     public String getLabel(Node node) {
         Object obj = node.getUserObject();
-        if(obj instanceof OWLEntity) {
+        if (obj instanceof OWLEntity) {
             return owlModelManager.getRendering((OWLEntity) obj);
         }
         return "";

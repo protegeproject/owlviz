@@ -9,14 +9,15 @@ package org.coode.owlviz.util.graph.export.impl;
  * matthew.horridge@cs.man.ac.uk<br>
  * www.cs.man.ac.uk/~horridgm<br><br>
  */
-public class JPEGExportFormat extends AbstractRasterFormat
-{
+public class JPEGExportFormat extends AbstractRasterFormat {
+
     private static final String FORMAT_NAME = "JPEG";
+
     private static final String FORMAT_FILE_EXTENSION = "jpg";
+
     private static final String FORMAT_DESCRIPTION = "Joint Photographic Experts Group (JPEG) format";
 
-    public JPEGExportFormat()
-    {
+    public JPEGExportFormat() {
         super("JPEG");
     }
 
@@ -27,8 +28,7 @@ public class JPEGExportFormat extends AbstractRasterFormat
      *
      * @return The name of the export format (e.g. Scalable Vector Graphics)
      */
-    public String getFormatName()
-    {
+    public String getFormatName() {
         return FORMAT_NAME;
     }
 
@@ -37,8 +37,7 @@ public class JPEGExportFormat extends AbstractRasterFormat
      *
      * @return The export type file extensions (e.g. svg)
      */
-    public String getFormatFileExtension()
-    {
+    public String getFormatFileExtension() {
         return FORMAT_FILE_EXTENSION;
     }
 
@@ -49,8 +48,7 @@ public class JPEGExportFormat extends AbstractRasterFormat
      *
      * @return A description of the export type.
      */
-    public String getFormatDescription()
-    {
+    public String getFormatDescription() {
         return FORMAT_DESCRIPTION;
     }
 }

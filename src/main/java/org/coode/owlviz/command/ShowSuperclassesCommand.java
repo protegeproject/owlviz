@@ -1,10 +1,9 @@
 package org.coode.owlviz.command;
 
-import org.protege.editor.owl.ui.view.OWLSelectionViewAction;
-
 import org.coode.owlviz.ui.OWLVizIcons;
 import org.coode.owlviz.ui.OWLVizViewI;
 import org.coode.owlviz.util.graph.ui.GraphComponent;
+import org.protege.editor.owl.ui.view.OWLSelectionViewAction;
 import org.semanticweb.owlapi.model.OWLClass;
 
 import javax.swing.*;
@@ -23,9 +22,10 @@ import java.util.Iterator;
 public class ShowSuperclassesCommand extends OWLSelectionViewAction {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -8090610690117210329L;
+
     private OWLVizViewI view;
 
     public ShowSuperclassesCommand(OWLVizViewI view) {
@@ -47,8 +47,8 @@ public class ShowSuperclassesCommand extends OWLSelectionViewAction {
      */
     public void actionPerformed(ActionEvent e) {
         Object selObj = view.getSelectionModel().getSelectedClass();
-        if(selObj != null) {
-            for(Iterator it = view.getGraphComponents().iterator(); it.hasNext();) {
+        if (selObj != null) {
+            for (Iterator it = view.getGraphComponents().iterator(); it.hasNext(); ) {
                 GraphComponent graphComponent = (GraphComponent) it.next();
                 graphComponent.getVisualisedObjectManager().showParents(selObj, OWLClass.class);
             }

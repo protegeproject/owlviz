@@ -9,7 +9,7 @@ import org.coode.owlviz.ui.options.OWLVizViewOptions;
  * The University Of Manchester<br>
  * Bio Health Informatics Group<br>
  * Date: Dec 10, 2008<br><br>
- *
+ * <p/>
  * Hack required to maintain OWLPropViz compatibility
  */
 public interface ConfigurableOWLVizView {

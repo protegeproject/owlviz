@@ -1,15 +1,13 @@
 package org.coode.owlviz.command;
 
-import java.awt.event.ActionEvent;
-import java.util.Iterator;
-
-import javax.swing.AbstractAction;
-
+import org.coode.owlviz.ui.OWLVizViewI;
+import org.coode.owlviz.util.graph.ui.GraphComponent;
 import org.protege.editor.core.ui.util.Icons;
 import org.protege.editor.core.ui.view.DisposableAction;
 
-import org.coode.owlviz.ui.OWLVizViewI;
-import org.coode.owlviz.util.graph.ui.GraphComponent;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.util.Iterator;
 
 
 /**
@@ -24,9 +22,10 @@ import org.coode.owlviz.util.graph.ui.GraphComponent;
 public class ZoomInCommand extends DisposableAction {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -1416342286893975880L;
+
     private OWLVizViewI view;
 
     public ZoomInCommand(OWLVizViewI view) {
@@ -42,7 +41,7 @@ public class ZoomInCommand extends DisposableAction {
      * Invoked when an action occurs.
      */
     public void actionPerformed(ActionEvent e) {
-        for(Iterator it = view.getAllGraphComponents().iterator(); it.hasNext(); ) {
+        for (Iterator it = view.getAllGraphComponents().iterator(); it.hasNext(); ) {
             GraphComponent graphComponent = (GraphComponent) it.next();
             int zoomLevel = graphComponent.getGraphView().getZoomLevel();
             zoomLevel += 10;

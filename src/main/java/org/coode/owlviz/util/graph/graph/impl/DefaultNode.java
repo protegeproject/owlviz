@@ -11,133 +11,129 @@ import java.awt.*;
  * The Univeristy Of Manchester<br>
  * Medical Informatics Group<br>
  * Date: Jan 14, 2004<br><br>
- * 
+ * <p/>
  * matthew.horridge@cs.man.ac.uk<br>
  * www.cs.man.ac.uk/~horridgm<br><br>
- *
  */
-public class DefaultNode implements Node
-{
+public class DefaultNode implements Node {
 
-	private static final Logger logger = LoggerFactory.getLogger(DefaultNode.class);
+    private static final Logger logger = LoggerFactory.getLogger(DefaultNode.class);
 
-	private Object userObject;
-	private Rectangle rect;
-	private Point pos;
+    private Object userObject;
 
-	/**
-	 * Constructs a <code>Node</code> that represents the specified object.
-	 * @param userObject The object that the <code>Node</code> represents.
-	 */
-	public DefaultNode(Object userObject)
-	{
-		this.userObject = userObject;
+    private Rectangle rect;
 
-		rect = new Rectangle();
+    private Point pos;
 
-		pos = new Point();
-	}
+    /**
+     * Constructs a <code>Node</code> that represents the specified object.
+     *
+     * @param userObject The object that the <code>Node</code> represents.
+     */
+    public DefaultNode(Object userObject) {
+        this.userObject = userObject;
 
-	/**
-	 * Gets the userObject, previously set with <code>setUserObject(Object o)</code>
-	 * @return The userObject, or <code>null</code> if no object has been set.
-	 */
-	public Object getUserObject()
-	{
-		return userObject;
-	}
+        rect = new Rectangle();
 
-	/**
-	 * Sets the (x,y) position of the <code>Node</code>.
-	 * @param x The horizontal location.
-	 * @param y The vertical location.
-	 */
-	public void setPosition(int x, int y)
-	{
-		int w = getSize().width;
-		int h = getSize().height;
+        pos = new Point();
+    }
 
+    /**
+     * Gets the userObject, previously set with <code>setUserObject(Object o)</code>
+     *
+     * @return The userObject, or <code>null</code> if no object has been set.
+     */
+    public Object getUserObject() {
+        return userObject;
+    }
 
-		pos.x = x;
-
-		pos.y = y;
-
-		logger.trace("Set position of node to ({},{})", x, y);
-
-		rect.setLocation(x - w / 2, y - h / 2);
-	}
-
-	/**
-	 * Gets the position of the <code>Node</code>.
-	 * @return A <code>Point</code> containing the x,y position of the <code>Node</code>.
-	 */
-	public Point getPosition()
-	{
-		return pos;
-	}
-
-	/**
-	 * Sets the <code>Node's</code> size.
-	 * @param width The width of the <code>Node</code>.
-	 * @param height The height of the <code>Node</code>.
-	 */
-	public void setSize(int width, int height)
-	{
-		int x = getPosition().x;
-		int y = getPosition().y;
-
-		rect.setLocation(x - width / 2, y - height / 2);
-
-		rect.setSize(width, height);
-	}
-
-	/**
-	 * Gets the size of the <code>Node</code>.
-	 * @return A <code>Dimension</code> containing the width and height
-	 * of the <code>Node</code>.
-	 */
-	public Dimension getSize()
-	{
-		return rect.getSize();
-	}
-
-	/**
-	 * Returns the <code>Shape</code> of the <code>Node</code>.
-	 * @return The <code>Shape</code> of the <code>Node</code>.
-	 */
-	public Shape getShape()
-	{
-		return rect;
-	}
+    /**
+     * Sets the (x,y) position of the <code>Node</code>.
+     *
+     * @param x The horizontal location.
+     * @param y The vertical location.
+     */
+    public void setPosition(int x, int y) {
+        int w = getSize().width;
+        int h = getSize().height;
 
 
-	/**
-	 * Implementation of <code>hashCode</code> based on the object
-	 * that the <code>Node</code> represents.
-	 */
-	public int hashCode()
-	{
-		return System.identityHashCode(userObject);
-	}
+        pos.x = x;
 
-	/**
-	 * Implementation of <code>equals</code> two <code>Nodes</code>
-	 * are considered equal if the represent the same object.
-	 */
-	public boolean equals(Object obj)
-	{
-		if(obj == this)
-		{
-			return true;
-		}
+        pos.y = y;
 
-		if(getClass() != obj.getClass())
-		{
-			return false;
-		}
+        logger.trace("Set position of node to ({},{})", x, y);
 
-		Node node = (Node)obj;
+        rect.setLocation(x - w / 2, y - h / 2);
+    }
 
-		return userObject == node.getUserObject();
-	}
+    /**
+     * Gets the position of the <code>Node</code>.
+     *
+     * @return A <code>Point</code> containing the x,y position of the <code>Node</code>.
+     */
+    public Point getPosition() {
+        return pos;
+    }
+
+    /**
+     * Sets the <code>Node's</code> size.
+     *
+     * @param width  The width of the <code>Node</code>.
+     * @param height The height of the <code>Node</code>.
+     */
+    public void setSize(int width, int height) {
+        int x = getPosition().x;
+        int y = getPosition().y;
+
+        rect.setLocation(x - width / 2, y - height / 2);
+
+        rect.setSize(width, height);
+    }
+
+    /**
+     * Gets the size of the <code>Node</code>.
+     *
+     * @return A <code>Dimension</code> containing the width and height
+     * of the <code>Node</code>.
+     */
+    public Dimension getSize() {
+        return rect.getSize();
+    }
+
+    /**
+     * Returns the <code>Shape</code> of the <code>Node</code>.
+     *
+     * @return The <code>Shape</code> of the <code>Node</code>.
+     */
+    public Shape getShape() {
+        return rect;
+    }
+
+
+    /**
+     * Implementation of <code>hashCode</code> based on the object
+     * that the <code>Node</code> represents.
+     */
+    public int hashCode() {
+        return System.identityHashCode(userObject);
+    }
+
+    /**
+     * Implementation of <code>equals</code> two <code>Nodes</code>
+     * are considered equal if the represent the same object.
+     */
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+
+        Node node = (Node) obj;
+
+        return userObject == node.getUserObject();
+    }
 }
