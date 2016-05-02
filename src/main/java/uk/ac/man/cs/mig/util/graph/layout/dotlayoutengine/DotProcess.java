@@ -2,12 +2,9 @@ package uk.ac.man.cs.mig.util.graph.layout.dotlayoutengine;
 
 import java.io.IOException;
 
-import javax.swing.JOptionPane;
-
-import org.apache.log4j.Logger;
 import org.protege.editor.core.ProtegeApplication;
-import org.protege.editor.core.ui.error.ErrorLog;
-import org.protege.editor.core.ui.error.ErrorLogPanel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * User: matthewhorridge<br>
@@ -21,7 +18,8 @@ import org.protege.editor.core.ui.error.ErrorLogPanel;
  * A wrapper for a native dot process.
  */
 public class DotProcess {
-    private static Logger log = Logger.getLogger(DotProcess.class);
+
+    private static final Logger log = LoggerFactory.getLogger(DotProcess.class);
 
     private Process process;
 
@@ -29,7 +27,7 @@ public class DotProcess {
     /**
      * Contructs a <code>DotProcess</code>, and starts
      * the native dot process. Using the default process
-     * path for the particular platfrom being used.
+     * path for the particular platform being used.
      */
     public DotProcess() {
 
@@ -55,32 +53,19 @@ public class DotProcess {
         DotLayoutEngineProperties properties = DotLayoutEngineProperties.getInstance();
 
         try {
-            // This code doesn't work on some Windows 7 64-bit machines.
-            //process = r.exec(properties.getDotProcessPath() + " " + fileName + " -q -o " + fileName);
-
+            log.debug("[OWLViz] Executing dot at {}", properties.getDotProcessPath());
             String[] processPath = new String[]{properties.getDotProcessPath(), fileName, "-q", "-o", fileName};
             process = r.exec(processPath);
-
-            try {
-                process.waitFor();
-
-                return true;
-            } catch (InterruptedException irEx) {
-                irEx.printStackTrace();
-
-                return false;
-            }
+            process.waitFor();
+            return true;
         } catch (IOException ioEx) {
-            String errMsg = "An error related to DOT has occurred. " + "This error was probably because OWLViz could not" + " find the DOT application.  Please ensure that the" + " path to the DOT application is set properly";
-
-            String dlgErrMsg = "<html><body>A DOT error has occurred.<br>" +
-                    "This is probably because OWLViz could not find the DOT application.<br>" +
-                    "OWLViz requires that Graphviz (http://www.graphviz.org/) is installed<br>" +
-                    " and the path to the DOT application is set properly (in options).</body></html>";
-
-            log.error(errMsg);
-            // We originally displayed a dialog here, but this was really irritating.
-            ProtegeApplication.getErrorLog().logError(new DotProcessException(errMsg, ioEx));
+            String errMsg = "An error related to DOT has occurred. " + "This error was probably because OWLViz could not"
+                    + " find the DOT application.  Please ensure that the"
+                    + " path to the DOT application is set properly";
+            log.error(errMsg, ioEx);
+            return false;
+        } catch (InterruptedException irEx) {
+            log.error("[OWLViz] Error whilst waiting for DOT to finish", irEx);
             return false;
         }
     }
@@ -93,7 +78,6 @@ public class DotProcess {
     protected void killProcess() {
         if (process != null) {
             process.destroy();
-
             process = null;
         }
     }

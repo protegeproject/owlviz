@@ -78,6 +78,11 @@
             <artifactId>org.protege.editor.owl</artifactId>
             <version>5.0.0-beta-15</version>
         </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.12</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -127,7 +132,7 @@
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
-                <version>2.3.7</version>
+                <version>3.0.0</version>
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
@@ -145,15 +150,6 @@
                         </Import-Package>
                         <Include-Resource>plugin.xml, {maven-resources}</Include-Resource>
                     </instructions>
-                    <executions>
-                        <execution>
-                            <id>bundle-manifest</id>
-                            <phase>install</phase>
-                            <goals>
-                                <goal>manifest</goal>
-                            </goals>
-                        </execution>
-                    </executions>
                 </configuration>
             </plugin>
             <plugin>
