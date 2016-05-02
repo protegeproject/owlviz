@@ -1,8 +1,8 @@
 package uk.ac.man.cs.mig.coode.owlviz.ui;
 
 import org.protege.editor.core.ui.util.ComponentFactory;
+import org.protege.editor.owl.model.OWLEditorKitOntologyShortFormProvider;
 import org.protege.editor.owl.model.event.EventType;
-import org.protege.editor.owl.model.event.OWLModelManagerChangeEvent;
 import org.protege.editor.owl.model.event.OWLModelManagerListener;
 import org.protege.editor.owl.ui.renderer.OWLSystemColors;
 import org.protege.editor.owl.ui.view.AbstractOWLViewComponent;
@@ -14,17 +14,13 @@ import uk.ac.man.cs.mig.coode.owlviz.model.OWLOntologyImportsGraphModel;
 import uk.ac.man.cs.mig.util.graph.controller.Controller;
 import uk.ac.man.cs.mig.util.graph.controller.impl.DefaultController;
 import uk.ac.man.cs.mig.util.graph.event.NodeClickedEvent;
-import uk.ac.man.cs.mig.util.graph.event.NodeClickedListener;
 import uk.ac.man.cs.mig.util.graph.graph.Node;
-import uk.ac.man.cs.mig.util.graph.renderer.NodeLabelRenderer;
 import uk.ac.man.cs.mig.util.graph.renderer.impl.DefaultNodeRenderer;
 import uk.ac.man.cs.mig.util.graph.ui.GraphView;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.HierarchyEvent;
-import java.awt.event.HierarchyListener;
 
 
 /**
@@ -37,11 +33,6 @@ import java.awt.event.HierarchyListener;
  * www.cs.man.ac.uk/~horridgm<br><br>
  */
 public class OWLVizImportsViewComponent extends AbstractOWLViewComponent {
-
-    /**
-     * 
-     */
-    private static final long serialVersionUID = -5980617789951116427L;
 
     private Controller controller;
 
@@ -60,27 +51,19 @@ public class OWLVizImportsViewComponent extends AbstractOWLViewComponent {
         add(ComponentFactory.createScrollPane(controller.getGraphView()), BorderLayout.CENTER);
         controller.getVisualisedObjectManager().showObjects(getOWLModelManager().getOntologies().toArray());
         dirty = true;
-        addHierarchyListener(new HierarchyListener() {
-            public void hierarchyChanged(HierarchyEvent e) {
-                if(isShowing() && dirty) {
-                    // Layout
-                    rebuild();
-
-                }
+        addHierarchyListener(e -> {
+            if(isShowing() && dirty) {
+                // Layout
+                rebuild();
             }
         });
     }
 
     private void setupRenderers() {
-        controller.setNodeLabelRenderer(new NodeLabelRenderer() {
-            public String getLabel(Node node) {
-                OWLOntology ont = (OWLOntology) node.getUserObject();
-                // @@TODO what about anonymous ontologies?
-                String label = ont.getOntologyID().getDefaultDocumentIRI().toString();
-                label = label.substring(label.lastIndexOf("/") + 1);
-                return label;
-
-            }
+        controller.setNodeLabelRenderer(node -> {
+            OWLOntology ont = (OWLOntology) node.getUserObject();
+            OWLEditorKitOntologyShortFormProvider sfp = new OWLEditorKitOntologyShortFormProvider(getOWLEditorKit());
+            return sfp.getShortForm(ont);
         });
         controller.setNodeRenderer(new DefaultNodeRenderer(controller) {
 
@@ -108,16 +91,14 @@ public class OWLVizImportsViewComponent extends AbstractOWLViewComponent {
 
     private void setupListeners() {
         GraphView graphView = controller.getGraphView();
-        graphView.addNodeClickedListener(new NodeClickedListener() {
-            public void nodeClicked(NodeClickedEvent evt) {
-                if (SwingUtilities.isRightMouseButton(evt.getMouseEvent())) {
-                    // Show right click menu
-                    showPopupMenu(evt);
-                }
-                else if (evt.getMouseEvent().getClickCount() == 2){
-                    OWLOntology ont = (OWLOntology) evt.getNode().getUserObject();
-                    getOWLModelManager().setActiveOntology(ont);
-                }
+        graphView.addNodeClickedListener(evt -> {
+            if (SwingUtilities.isRightMouseButton(evt.getMouseEvent())) {
+                // Show right click menu
+                showPopupMenu(evt);
+            }
+            else if (evt.getMouseEvent().getClickCount() == 2){
+                OWLOntology ont = (OWLOntology) evt.getNode().getUserObject();
+                getOWLModelManager().setActiveOntology(ont);
             }
         });
 
@@ -129,11 +110,9 @@ public class OWLVizImportsViewComponent extends AbstractOWLViewComponent {
 
 
         getOWLModelManager().addOntologyChangeListener(changeListener);
-        getOWLModelManager().addListener(owlModelManagerListener = new OWLModelManagerListener() {
-            public void handleChange(OWLModelManagerChangeEvent event) {
-                if(event.isType(EventType.ACTIVE_ONTOLOGY_CHANGED) || event.isType(EventType.ONTOLOGY_RELOADED)) {
-                    rebuild();
-                }
+        getOWLModelManager().addListener(owlModelManagerListener = event -> {
+            if(event.isType(EventType.ACTIVE_ONTOLOGY_CHANGED) || event.isType(EventType.ONTOLOGY_RELOADED)) {
+                rebuild();
             }
         });
     }
@@ -155,27 +134,11 @@ public class OWLVizImportsViewComponent extends AbstractOWLViewComponent {
     private void showPopupMenu(final NodeClickedEvent evt) {
         JPopupMenu popupMenu = new JPopupMenu();
         popupMenu.add(new AbstractAction("Set as active ontology") {
-            /**
-             * 
-             */
-            private static final long serialVersionUID = -4667228625396255625L;
-
             public void actionPerformed(ActionEvent e) {
                 OWLOntology ont = (OWLOntology) evt.getNode().getUserObject();
                 getOWLModelManager().setActiveOntology(ont);
             }
         });
-//        popupMenu.add(new AbstractAction("Redundant imports") {
-//            public void actionPerformed(ActionEvent e) {
-//                OWLOntology ont = (OWLOntology) evt.getNode().getUserObject();
-//                RemoveRedundantImports rem = new RemoveRedundantImports(Collections.singleton(ont));
-//                try {
-//                    rem.getChanges();
-//                } catch (OWLException e1) {
-//                    e1.printStackTrace();
-//                }
-//            }
-//        });
         popupMenu.show(controller.getGraphView(), evt.getMouseEvent().getX(), evt.getMouseEvent().getY());
     }
 
