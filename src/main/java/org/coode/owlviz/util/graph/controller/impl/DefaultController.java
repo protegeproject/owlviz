@@ -17,6 +17,7 @@ import org.coode.owlviz.util.graph.factory.impl.DefaultNodeFactory;
 import org.coode.owlviz.util.graph.layout.GraphLayoutEngine;
 import org.coode.owlviz.util.graph.layout.dotlayoutengine.DotGraphLayoutEngine;
 import org.coode.owlviz.util.graph.model.GraphModel;
+import org.coode.owlviz.util.graph.outputrenderer.impl.DotOutputGraphRenderer;
 import org.coode.owlviz.util.graph.renderer.EdgeLabelRenderer;
 import org.coode.owlviz.util.graph.renderer.EdgeRenderer;
 import org.coode.owlviz.util.graph.renderer.NodeLabelRenderer;
@@ -45,20 +46,29 @@ import java.util.Iterator;
 public class DefaultController implements Controller {
 
 	private GraphModel graphModel;
+
 	private VisualisedObjectManager visualisedObjectManager;
+
 	private GraphSelectionModel graphSelectionModel;
+
 	private GraphGenerator graphGenerator;
-	private GraphLayoutEngine graphLayoutEngine;
+
 	private GraphView graphView;
 
 	private EdgeFactory edgeFactory;
+
 	private NodeFactory nodeFactory;
+
 	private GraphFactory graphFactory;
 
 	private NodeRenderer nodeRenderer;
+
 	private NodeLabelRenderer nodeLabelRenderer;
+
 	private EdgeRenderer edgeRenderer;
+
 	private EdgeLabelRenderer edgeLabelRenderer;
+
 
 	// Property Change listeners and Property names
 	private ArrayList<PropertyChangeListener> listeners;
@@ -80,8 +90,6 @@ public class DefaultController implements Controller {
 		nodeFactory = new DefaultNodeFactory();
 
 		edgeFactory = new DefaultEdgeFactory(this);
-
-		this.graphLayoutEngine = new DotGraphLayoutEngine();
 
 		nodeLabelRenderer = new DefaultNodeLabelRenderer();
 
@@ -145,30 +153,13 @@ public class DefaultController implements Controller {
 	 * @return The GraphLayoutEngine
 	 */
 	public GraphLayoutEngine getGraphLayoutEngine() {
-		return graphLayoutEngine;
+		return new DotGraphLayoutEngine(
+				new DotOutputGraphRenderer(
+						getNodeLabelRenderer(),
+						getEdgeLabelRenderer()),
+				getNodeLabelRenderer()
+		);
 	}
-
-
-	/**
-	 * Sets the <code>GraphLayoutEngine</code>, which is used
-	 * to size and position <code>Nodes</code> and <code>Edges</code>
-	 *
-	 * @param layoutEngine The new <code>GraphLayoutEngine</code>
-	 */
-	public void setGraphLayoutEngine(GraphLayoutEngine layoutEngine) {
-		if(layoutEngine == null) {
-			throw new NullPointerException("GraphLayoutEngine must not be null");
-		}
-
-		Object oldValue = this.graphLayoutEngine;
-
-		this.graphLayoutEngine = layoutEngine;
-
-		// TODO: Layout graph
-
-		firePropertyChangeEvent(Controller.GRAPH_LAYOUT_ENGINE_PROPERTY, oldValue, this.graphLayoutEngine);
-	}
-
 
 	/**
 	 * Returns the selection model that is responsible for managing user

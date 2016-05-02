@@ -67,13 +67,13 @@ public interface Controller
 	 * @return The GraphLayoutEngine
 	 */
 	public GraphLayoutEngine getGraphLayoutEngine();
-
-	/**
-	 * Sets the <code>GraphLayoutEngine</code>, which is used
-	 * to size and position <code>Nodes</code> and <code>Edges</code>
-	 * @param layoutEngine The new <code>GraphLayoutEngine</code>
-	 */
-	public void setGraphLayoutEngine(GraphLayoutEngine layoutEngine);
+//
+//	/**
+//	 * Sets the <code>GraphLayoutEngine</code>, which is used
+//	 * to size and position <code>Nodes</code> and <code>Edges</code>
+//	 * @param layoutEngine The new <code>GraphLayoutEngine</code>
+//	 */
+//	public void setGraphLayoutEngine(GraphLayoutEngine layoutEngine);
 
 	/**
 	 * Sets the factory used to produce <code>Graphs</code>
@@ -198,21 +198,9 @@ public interface Controller
 	public GraphGenerator getGraphGenerator();
 
 	/**
-	 * Sets the <code>GraphGenerator</code>, which is used to create
-	 * a <code>Graph</code> that is based on the contents held by
-	 * the <code>VisualisedObjectManager</code>
-	 */
-	public void setGraphGenerator(GraphGenerator generator);
-
-	/**
 	 * Retrieves the <code>GraphView</code> currently attached to the <code>Controller</code>
 	 */
 	public GraphView getGraphView();
-
-	/**
-	 * Sets the view that is used paint the <code>Graph</code> on.
-	 */
-	public void setGraphView(GraphView view);
 
 	/**
 	 * Adds a property change listener, which is informed when properties

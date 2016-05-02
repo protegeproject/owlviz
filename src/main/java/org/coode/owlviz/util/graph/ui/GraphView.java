@@ -43,13 +43,13 @@ import javax.swing.JPanel;
  */
 public abstract class GraphView extends JPanel implements Zoomable, PropertyChangeListener {
 
-	/**
-     * 
-     */
-    private static final long serialVersionUID = 2481341666664953350L;
+
     protected Controller controller;
+
 	protected MouseListener graphViewListener;
+
 	protected GraphSelectionModelListener selectionListener;
+
 	protected GraphGeneratorListener graphGenListener;
 
 	protected ArrayList<NodeClickedListener> nodeClickedListeners;
@@ -309,8 +309,9 @@ public abstract class GraphView extends JPanel implements Zoomable, PropertyChan
 	 */
 	public void revalidateGraph() {
 		setGraph();
-		GraphView.this.controller.getGraphLayoutEngine().layoutGraph(graph);
+		controller.getGraphLayoutEngine().layoutGraph(graph);
 		revalidate();
+		repaint();
 		updateGraph = false;
 	}
 

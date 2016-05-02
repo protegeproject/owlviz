@@ -1,17 +1,10 @@
 package org.coode.owlviz.util.graph.layout.dotlayoutengine;
 
-import org.protege.editor.core.ui.error.ErrorLogPanel;
 
-<<<<<<< HEAD:src/main/java/uk/ac/man/cs/mig/util/graph/layout/dotlayoutengine/DotProcess.java
-import org.protege.editor.core.ProtegeApplication;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-=======
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
->>>>>>> origin/master:src/main/java/org/coode/owlviz/util/graph/layout/dotlayoutengine/DotProcess.java
 
 /**
  * User: matthewhorridge<br>
@@ -65,7 +58,7 @@ public class DotProcess {
             process.waitFor();
             return true;
         } catch (IOException ioEx) {
-            String errMsg = "An error related to DOT has occurred. " + "This error was probably because OWLViz could not"
+           String errMsg = "An error related to DOT has occurred. " + "This error was probably because OWLViz could not"
                     + " find the DOT application.  Please ensure that the"
                     + " path to the DOT application is set properly";
             log.error(errMsg, ioEx);

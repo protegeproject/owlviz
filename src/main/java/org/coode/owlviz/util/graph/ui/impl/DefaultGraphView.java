@@ -27,30 +27,24 @@ import java.util.Iterator;
  */
 public class DefaultGraphView extends GraphView {
 
-//	private NodeRenderer nodeRen;
-//	private EdgeRenderer edgeRen;
-
-	/**
-     * 
-     */
-    private static final long serialVersionUID = 5353379644823080882L;
-
-    private Stroke selStroke;
-
-	private int zoomLevel = 100; // Zoom level (in percent)
-	private Color selectionColor = new Color(140, 140, 255);
-	private Color backgroundColor = Color.WHITE;
-
-	private PopupProvider popuProv;
-	private Object toolTipObject = null;
-
 	public static final int MAXIMUM_ZOOM = 500;
+
 	public static final int MINIMUM_ZOOM = 10;
 
 	public static final int TOOL_TIP_DISMISS_DELAY = 10000;
 
 
+	private Stroke selStroke;
 
+	private int zoomLevel = 100; // Zoom level (in percent)
+
+	private Color selectionColor = new Color(140, 140, 255);
+
+	private Color backgroundColor = Color.WHITE;
+
+	private PopupProvider popuProv;
+
+	private Object toolTipObject = null;
 
 	public DefaultGraphView(Controller controller,
 	                        NodeRenderer nodeRenderer,
@@ -107,11 +101,11 @@ public class DefaultGraphView extends GraphView {
 		g2.fill(clip);
 
 		if(getGraph() != null) {
-			if(scale == true && zoomLevel != 100) {
+			if(scale && zoomLevel != 100) {
 				g2.scale(zoomLevel / 100.0, zoomLevel / 100.0);
 			}
 
-			if(antialias == true) {
+			if(antialias) {
 				g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			}
 

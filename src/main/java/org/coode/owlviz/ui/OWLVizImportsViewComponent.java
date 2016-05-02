@@ -47,10 +47,10 @@ public class OWLVizImportsViewComponent extends AbstractOWLViewComponent {
 
     protected void initialiseOWLView() throws Exception {
         setLayout(new BorderLayout());
-        controller = new DefaultController(new OWLOntologyImportsGraphModel(getOWLModelManager()));
+        controller = new DefaultController(
+                new OWLOntologyImportsGraphModel(getOWLModelManager()));
         setupRenderers();
         setupListeners();
-        setLayout(new BorderLayout());
         add(ComponentFactory.createScrollPane(controller.getGraphView()), BorderLayout.CENTER);
         controller.getVisualisedObjectManager().showObjects(getOWLModelManager().getOntologies().toArray());
         dirty = true;

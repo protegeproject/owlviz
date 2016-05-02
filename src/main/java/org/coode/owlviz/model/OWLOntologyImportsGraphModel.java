@@ -27,17 +27,12 @@ import java.util.Set;
  */
 public class OWLOntologyImportsGraphModel extends AbstractGraphModel {
 
-    private static final Logger logger = LoggerFactory.getLogger(OWLOntologyImportsGraphModel.class);
-
-
-
-    private Map<OWLOntology, Set<OWLOntology>> importMap;
+    private final Map<OWLOntology, Set<OWLOntology>> importMap = new HashMap<>();
 
     private OWLModelManager owlModelManager;
 
     public OWLOntologyImportsGraphModel(OWLModelManager owlModelManager) {
         this.owlModelManager = owlModelManager;
-        importMap = new HashMap<OWLOntology, Set<OWLOntology>>();
         rebuild();
     }
 

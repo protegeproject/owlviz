@@ -1,6 +1,8 @@
 package org.coode.owlviz.util.graph.graph.impl;
 
 import org.coode.owlviz.util.graph.graph.Node;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 
@@ -16,6 +18,9 @@ import java.awt.*;
  */
 public class DefaultNode implements Node
 {
+
+	private static final Logger logger = LoggerFactory.getLogger(DefaultNode.class);
+
 	private Object userObject;
 	private Rectangle rect;
 	private Point pos;
@@ -52,9 +57,12 @@ public class DefaultNode implements Node
 		int w = getSize().width;
 		int h = getSize().height;
 
+
 		pos.x = x;
 
 		pos.y = y;
+
+		logger.trace("Set position of node to ({},{})", x, y);
 
 		rect.setLocation(x - w / 2, y - h / 2);
 	}

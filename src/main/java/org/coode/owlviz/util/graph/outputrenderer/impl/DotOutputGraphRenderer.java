@@ -31,17 +31,25 @@ import java.util.Iterator;
  */
 public class DotOutputGraphRenderer implements GraphOutputRenderer
 {
-    private static Logger log = LoggerFactory.getLogger(DotOutputGraphRenderer.class);
-    private static HashMap shapeMap;
-    protected BufferedWriter writer;
-    private NodeLabelRenderer labelRen;
-    private EdgeLabelRenderer edgeLabelRen;
-    private HashMap attributeMap;
-
     public static final String LAYOUT_DIRECTION = "rankdir";
+
     public static final String RANK_SPACING = "ranksep";
+
     public static final String SIBLING_SPACING = "nodesep";
 
+
+
+    private static Logger log = LoggerFactory.getLogger(DotOutputGraphRenderer.class);
+
+    private static HashMap shapeMap;
+
+    protected BufferedWriter writer;
+
+    private NodeLabelRenderer labelRen;
+
+    private EdgeLabelRenderer edgeLabelRen;
+
+    private HashMap attributeMap;
 
     public DotOutputGraphRenderer(NodeLabelRenderer labelRen, EdgeLabelRenderer edgeLabelRen)
     {

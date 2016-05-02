@@ -128,7 +128,6 @@
                         <Bundle-SymbolicName>org.coode.owlviz;singleton:=true</Bundle-SymbolicName>
                         <Bundle-Vendor>The Protege Development Team</Bundle-Vendor>
                         <Import-Package>
-                            org.apache.log4j.*;version="[1.2,2)",
                             org.protege.editor.core.*;version="5.0.0", <!-- equivalent to [5.0.0,infinity) -->
                             org.protege.editor.owl.*;version="5.0.0",
                             org.protege.editor.owl.ui;version="5.0.0",

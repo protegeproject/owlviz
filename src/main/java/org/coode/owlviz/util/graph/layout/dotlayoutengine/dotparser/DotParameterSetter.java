@@ -9,7 +9,10 @@ import org.coode.owlviz.util.graph.renderer.impl.DefaultNodeLabelRenderer;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.StringTokenizer;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * User: matthewhorridge<br>
@@ -25,401 +28,355 @@ import java.util.StringTokenizer;
  * of a <code>Graph</code> and it's <code>Node</code>s and <code>Edge</code>s,
  * using attribute/value <code>String</code> pairs (that come from a dot file).
  */
-public class DotParameterSetter
-{
+public class DotParameterSetter {
 
-	private Graph graph;
-	private HashMap nodeMap;
-	private HashMap edgeMap;
+    private Graph graph;
 
-	private Edge[] edges;
-	private Node[] nodes;
-	private NodeLabelRenderer labelRen;
+    private Map<String, Node> nodeMap;
 
-	private static int graphHeight = 0;
+    private HashMap edgeMap;
 
+    private Edge[] edges;
 
+    private Node[] nodes;
 
+    private final NodeLabelRenderer labelRen;
 
-	public DotParameterSetter()
-	{
-		labelRen = new DefaultNodeLabelRenderer();
-	}
+    private static int graphHeight = 0;
 
 
+    public DotParameterSetter(NodeLabelRenderer labelRen) {
+        this.labelRen = checkNotNull(labelRen);
+    }
 
 
-	/**
-	 * Sets the <code>Graph</code> whose <code>Node</code>s and
-	 * <code>Edge</code>s the attributes will apply to.
-	 *
-	 * @param g The <code>Graph</code>
-	 */
-	public void setGraph(Graph g)
-	{
-		// Set the graph
-		graph = g;
+    /**
+     * Sets the <code>Graph</code> whose <code>Node</code>s and
+     * <code>Edge</code>s the attributes will apply to.
+     *
+     * @param g The <code>Graph</code>
+     */
+    public void setGraph(Graph g) {
+        // Set the graph
+        graph = g;
 
-		// Reset the graph height
-		graphHeight = 0;
+        // Reset the graph height
+        graphHeight = 0;
 
-		// Extract the Nodes
-		nodes = graph.getNodes();
+        // Extract the Nodes
+        nodes = graph.getNodes();
 
-		// Put the Nodes into the NodeMap.  This allows us
-		// to retrive a Node based on the Node label, which
-		// is generated
-		nodeMap = new HashMap(nodes.length);
+        // Put the Nodes into the NodeMap.  This allows us
+        // to retrive a Node based on the Node label, which
+        // is generated
+        nodeMap = new HashMap<>(nodes.length);
 
-		for(int i = 0; i < nodes.length; i++)
-		{
-			nodeMap.put(labelRen.getLabel(nodes[i]), nodes[i]);
-		}
+        for (int i = 0; i < nodes.length; i++) {
+            nodeMap.put(labelRen.getLabel(nodes[i]), nodes[i]);
+        }
 
-		edges = graph.getEdges();
+        edges = graph.getEdges();
 
-		edgeMap = new HashMap(edges.length);
+        edgeMap = new HashMap(edges.length);
+
+
+        String tail;
+        String head;
+
+        // Put the edge keys into the edge map
+        for (int i = 0; i < edges.length; i++) {
+            tail = labelRen.getLabel(edges[i].getTailNode());
 
+            head = labelRen.getLabel(edges[i].getHeadNode());
 
-		String tail;
-		String head;
+            edgeMap.put(new NodeEdgeKey(tail, head), edges[i]);
+        }
+    }
 
-		// Put the edge keys into the edge map
-		for(int i = 0; i < edges.length; i++)
-		{
-			tail = labelRen.getLabel(edges[i].getTailNode());
 
-			head = labelRen.getLabel(edges[i].getHeadNode());
+    /**
+     * Sets an attribute for the <code>Graph</code>.
+     *
+     * @param name  The name of the attribute, for example,
+     *              "bb" will set the <code>Graph</code> bounding box.
+     * @param value The value of the attribute, for example,
+     *              the value "10,20,300,400" might represent a bounding
+     *              box located at (10, 20), with a width of 300 and height
+     *              of 400.
+     */
+    public void setGraphAttribute(String name, String value) {
+        if (name.equals("bb")) {
+            Rectangle r = parseRect(value);
 
-			edgeMap.put(new NodeEdgeKey(tail, head), edges[i]);
-		}
-	}
+            if (r != null) {
+                graph.setShape(r);
 
+                graphHeight = r.height;
+            }
+        }
+    }
 
 
+    /**
+     * Sets the attribute for a specified <code>Node</code>.
+     *
+     * @param nodeID The name of the <code>Node</code>.
+     * @param name   The name of the attribute
+     * @param value  The value of the attribute
+     */
+    public void setNodeAttribute(String nodeID, String name, String value) {
+        if (name.equals("pos")) {
+            Node n = (Node) nodeMap.get(nodeID);
+            if (n != null) {
+                Point p = parsePoint(value);
+                if (p != null) {
+                    n.setPosition(p.x, graphHeight - p.y);
+                }
+            }
+        }
+    }
 
-	/**
-	 * Sets an attribute for the <code>Graph</code>.
-	 *
-	 * @param name  The name of the attribute, for example,
-	 *              "bb" will set the <code>Graph</code> bounding box.
-	 * @param value The value of the attribute, for example,
-	 *              the value "10,20,300,400" might represent a bounding
-	 *              box located at (10, 20), with a width of 300 and height
-	 *              of 400.
-	 */
-	public void setGraphAttribute(String name, String value)
-	{
-		if(name.equals("bb"))
-		{
-			Rectangle r = parseRect(value);
 
-			if(r != null)
-			{
-				graph.setShape(r);
+    /**
+     * Sets the attribute for a specified <code>Edge</code>.  The <code>Edge</code>
+     * is specified in terms of the <code>Node</code>s that it connects.
+     *
+     * @param tailNodeID The tail <code>Node</code> name.
+     * @param headNodeID The head <code>Node</code> name.
+     * @param name       The name of the attribute
+     * @param value      The value of the attribute
+     */
+    public void setEdgeAttribute(String tailNodeID, String headNodeID, String name, String value) {
+        NodeEdgeKey nek = new NodeEdgeKey(tailNodeID, headNodeID);
 
-				graphHeight = r.height;
-			}
-		}
-	}
+        Edge edge = (Edge) edgeMap.get(nek);
 
+        if (edge != null) {
+            if (name.equals("pos")) {
+                setEdgePath(edge, value);
+            }
+            else if (name.equals("lp")) {
+                Point lp = new Point();
 
+                lp = parsePoint(value);
 
+                edge.setLabelPosition(lp.x, graphHeight - lp.y);
+            }
+        }
 
-	/**
-	 * Sets the attribute for a specified <code>Node</code>.
-	 *
-	 * @param nodeID The name of the <code>Node</code>.
-	 * @param name   The name of the attribute
-	 * @param value  The value of the attribute
-	 */
-	public void setNodeAttribute(String nodeID, String name, String value)
-	{
-		if(name.equals("pos"))
-		{
-			Node n = (Node) nodeMap.get(nodeID);
-
-			if(n != null)
-			{
-				Point p = parsePoint(value);
-
-				if(p != null)
-				{
-					n.setPosition(p.x, graphHeight - p.y);
-				}
-			}
-		}
-	}
-
-
-
+    }
 
-	/**
-	 * Sets the attribute for a specified <code>Edge</code>.  The <code>Edge</code>
-	 * is specified in terms of the <code>Node</code>s that it connects.
-	 *
-	 * @param tailNodeID The tail <code>Node</code> name.
-	 * @param headNodeID The head <code>Node</code> name.
-	 * @param name       The name of the attribute
-	 * @param value      The value of the attribute
-	 */
-	public void setEdgeAttribute(String tailNodeID, String headNodeID, String name, String value)
-	{
-		NodeEdgeKey nek = new NodeEdgeKey(tailNodeID, headNodeID);
 
-		Edge edge = (Edge) edgeMap.get(nek);
+    /**
+     * Sets the positions of a path origin, and the ctrl points
+     * of the path.
+     *
+     * @param edge  The <code>Edge</code> that will have it's
+     *              points set.
+     * @param value The <code>String</code> containing the edge
+     *              start point and ctrl points.
+     */
+    public void setEdgePath(Edge edge, String value) {
+        // Points are separated by spaced
+        // Points be be preceded by the letter
+        // s or the letter e, indicating  the arrowhead point
+        // at the start or the arrowhead point at the end.
 
-		if(edge != null)
-		{
-			if(name.equals("pos"))
-			{
-				setEdgePath(edge, value);
-			}
-			else if(name.equals("lp"))
-			{
-				Point lp = new Point();
+        // Extract the edge points from the the string - a list of points separated by spaces
 
-				lp = parsePoint(value);
+        StringTokenizer tokenizer = new StringTokenizer(value);
 
-				edge.setLabelPosition(lp.x, graphHeight - lp.y);
-			}
-		}
+        String token;
 
-	}
+        // Create a list to hold the points in
+        ArrayList<Point> edgePoints = new ArrayList<Point>(10); // A size of around 10 should be enough
 
+        Point edgePoint;
 
+        Point startPoint = null;
 
+        Point endPoint = null;
 
-	/**
-	 * Sets the positions of a path origin, and the ctrl points
-	 * of the path.
-	 *
-	 * @param edge  The <code>Edge</code> that will have it's
-	 *              points set.
-	 * @param value The <code>String</code> containing the edge
-	 *              start point and ctrl points.
-	 */
-	public void setEdgePath(Edge edge, String value)
-	{
-		// Points are separated by spaced
-		// Points be be preceded by the letter
-		// s or the letter e, indicating  the arrowhead point
-		// at the start or the arrowhead point at the end.
+        while (tokenizer.hasMoreTokens()) {
+            token = tokenizer.nextToken();
 
-		// Extract the edge points from the the string - a list of points separated by spaces
+            if (token.charAt(0) == 's') {
+                startPoint = parsePoint(token.substring(2, token.length()));
 
-		StringTokenizer tokenizer = new StringTokenizer(value);
+                startPoint.y = graphHeight - startPoint.y;
+            }
+            else if (token.charAt(0) == 'e') {
+                endPoint = parsePoint(token.substring(2, token.length()));
 
-		String token;
+                endPoint.y = graphHeight - endPoint.y;
+            }
+            else {
+                edgePoint = parsePoint(token);
 
-		// Create a list to hold the points in
-		ArrayList<Point> edgePoints = new ArrayList<Point>(10); // A size of around 10 should be enough
+                edgePoint.y = graphHeight - edgePoint.y;
 
-		Point edgePoint;
+                edgePoints.add(edgePoint);
+            }
+        }
 
-		Point startPoint = null;
 
-		Point endPoint = null;
+        // Put the information into the edge
+        // Clear any information that is in the
+        // edge.
+        edge.resetPath();
 
-		while(tokenizer.hasMoreTokens())
-		{
-			token = tokenizer.nextToken();
+        // Set the start of the edge path
+        edgePoint = edgePoints.get(0);
 
-			if(token.charAt(0) == 's')
-			{
-				startPoint = parsePoint(token.substring(2, token.length()));
+        edge.setPathOrigin(edgePoint.x, edgePoint.y);
 
-				startPoint.y = graphHeight - startPoint.y;
-			}
-			else if(token.charAt(0) == 'e')
-			{
-				endPoint = parsePoint(token.substring(2, token.length()));
 
-				endPoint.y = graphHeight - endPoint.y;
-			}
-			else
-			{
-				edgePoint = parsePoint(token);
+        // Set the positions of the control points.
 
-				edgePoint.y = graphHeight - edgePoint.y;
+        int numberOfCtrlPoints = (edgePoints.size() - 1) / 3;
 
-				edgePoints.add(edgePoint);
-			}
-		}
+        // Control points for bezier curve
+        Point cp1, cp2, cp3;
 
+        int ctrlPointIndex;
+        // Remember, the first point in the list is
+        // the arrowhead tip.  The second point is
+        // the first point on the edge path.
+        for (int i = 0; i < numberOfCtrlPoints; i++) {
+            ctrlPointIndex = i * 3 + 1;
 
-		// Put the information into the edge
-		// Clear any information that is in the
-		// edge.
-		edge.resetPath();
+            cp1 = edgePoints.get(ctrlPointIndex);
 
-		// Set the start of the edge path
-		edgePoint = edgePoints.get(0);
+            cp2 = edgePoints.get(ctrlPointIndex + 1);
 
-		edge.setPathOrigin(edgePoint.x, edgePoint.y);
+            cp3 = edgePoints.get(ctrlPointIndex + 2);
 
+            edge.pathTo(cp1.x, cp1.y, cp2.x, cp2.y, cp3.x, cp3.y);
+        }
 
-		// Set the positions of the control points.
+        Point arrowheadBase;
 
-		int numberOfCtrlPoints = (edgePoints.size() - 1) / 3;
+        if (startPoint != null) {
+            // Arrowhead base should be first point in the list
+            arrowheadBase = edgePoints.get(0);
 
-		// Control points for bezier curve
-		Point cp1, cp2, cp3;
+            // Set the arrowhead, which goes from tip to base points
+            edge.setArrowTail(arrowheadBase.x, arrowheadBase.y, startPoint.x, startPoint.y);
 
-		int ctrlPointIndex;
-		// Remember, the first point in the list is
-		// the arrowhead tip.  The second point is
-		// the first point on the edge path.
-		for(int i = 0; i < numberOfCtrlPoints; i++)
-		{
-			ctrlPointIndex = i * 3 + 1;
+        }
 
-			cp1 =  edgePoints.get(ctrlPointIndex);
+        if (endPoint != null) {
+            // Arrowhead base should be the last point in the list
+            arrowheadBase = edgePoints.get(edgePoints.size() - 1);
 
-			cp2 =  edgePoints.get(ctrlPointIndex + 1);
+            // Set the arrowhead, which goes from tip to base points
+            edge.setArrowTail(arrowheadBase.x, arrowheadBase.y, endPoint.x, endPoint.y);
+        }
 
-			cp3 =  edgePoints.get(ctrlPointIndex + 2);
 
-			edge.pathTo(cp1.x, cp1.y, cp2.x, cp2.y, cp3.x, cp3.y);
-		}
+    }
 
-		Point arrowheadBase;
 
-		if(startPoint != null)
-		{
-			// Arrowhead base should be first point in the list
-			arrowheadBase =  edgePoints.get(0);
+    /**
+     * Parses a point in the form of "x,y".
+     *
+     * @param data The <code>String</code> containing the point (in
+     *             format "x,y").
+     * @return A point that is located at (x, y)
+     */
+    public Point parsePoint(String data) {
+        Point p = null;
 
-			// Set the arrowhead, which goes from tip to base points
-			edge.setArrowTail(arrowheadBase.x, arrowheadBase.y, startPoint.x, startPoint.y);
+        int commaPos = data.indexOf(",");
 
-		}
+        if (commaPos != -1) {
+            int x = (int) Float.parseFloat(data.substring(0, commaPos));
+            int y = (int) Float.parseFloat(data.substring(commaPos + 1, data.length()));
 
-		if(endPoint != null)
-		{
-			// Arrowhead base should be the last point in the list
-			arrowheadBase = edgePoints.get(edgePoints.size() - 1);
+            p = new Point(x, y);
+        }
 
-			// Set the arrowhead, which goes from tip to base points
-			edge.setArrowTail(arrowheadBase.x, arrowheadBase.y, endPoint.x, endPoint.y);
-		}
+        return p;
+    }
 
+    /**
+     * Parses a <code>String</code> that describes a <code>Rectangle</code>
+     *
+     * @param data A <code>String</code> in the format "x,y,w,h"
+     * @return A rectangle that is located at (x, y), has a width w, and a height h.
+     */
+    public Rectangle parseRect(String data) {
+        Rectangle rect = null;
 
+        int start = 0;
+        int commaPos = 0;
 
-	}
+        commaPos = data.indexOf(',', start);
 
+        rect = new Rectangle();
 
+        rect.x = (int) Double.parseDouble(data.substring(start, commaPos));
 
+        start = commaPos + 1;
 
-	/**
-	 * Parses a point in the form of "x,y".
-	 *
-	 * @param data The <code>String</code> containing the point (in
-	 *             format "x,y").
-	 * @return A point that is located at (x, y)
-	 */
-	public Point parsePoint(String data)
-	{
-		Point p = null;
+        commaPos = data.indexOf(',', start);
 
-		int commaPos = data.indexOf(",");
+        rect.y = (int) Double.parseDouble(data.substring(start, commaPos));
 
-		if(commaPos != -1)
-		{
-			int x = (int) Float.parseFloat(data.substring(0, commaPos));
-			int y = (int) Float.parseFloat(data.substring(commaPos + 1, data.length()));
+        start = commaPos + 1;
 
-			p = new Point(x, y);
-		}
+        commaPos = data.indexOf(',', start);
 
-		return p;
-	}
+        rect.width = (int) Double.parseDouble(data.substring(start, commaPos));
 
-	/**
-	 * Parses a <code>String</code> that describes a <code>Rectangle</code>
-	 *
-	 * @param data A <code>String</code> in the format "x,y,w,h"
-	 * @return A rectangle that is located at (x, y), has a width w, and a height h.
-	 */
-	public Rectangle parseRect(String data)
-	{
-		Rectangle rect = null;
+        start = commaPos + 1;
 
-		int start = 0;
-		int commaPos = 0;
+        rect.height = (int) Double.parseDouble(data.substring(start, data.length()));
 
-		commaPos = data.indexOf(',', start);
+        return rect;
+    }
 
-		rect = new Rectangle();
+    /**
+     * An inner class that is used to key the names of two
+     * <code>Nodes</code> (tail node and head node)
+     * to an edge.
+     */
+    private class NodeEdgeKey {
 
-		rect.x = (int) Double.parseDouble(data.substring(start, commaPos));
-		
-		start = commaPos + 1;
+        private String tail;
 
-		commaPos = data.indexOf(',', start);
+        private String head;
 
-		rect.y = (int) Double.parseDouble(data.substring(start, commaPos));
+        public NodeEdgeKey(String tail, String head) {
+            this.tail = tail;
 
-		start = commaPos + 1;
+            this.head = head;
+        }
 
-		commaPos = data.indexOf(',', start);
+        public int hashCode() {
+            int hashCode = tail.hashCode() * 37 + head.hashCode() * 17;
 
-		rect.width = (int) Double.parseDouble(data.substring(start, commaPos));
+            return hashCode;
+        }
 
-		start = commaPos + 1;
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
 
-		rect.height = (int) Double.parseDouble(data.substring(start, data.length()));
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
 
-		return rect;
-	}
+            DotParameterSetter.NodeEdgeKey nek = (DotParameterSetter.NodeEdgeKey) obj;
 
-	/**
-	 * An inner class that is used to key the names of two
-	 * <code>Nodes</code> (tail node and head node)
-	 * to an edge.
-	 */
-	private class NodeEdgeKey
-	{
+            return nek.head.equals(this.head) && nek.tail.equals(this.tail);
+        }
 
-		private String tail;
-		private String head;
-
-		public NodeEdgeKey(String tail, String head)
-		{
-			this.tail = tail;
-
-			this.head = head;
-		}
-
-		public int hashCode()
-		{
-			int hashCode = tail.hashCode() * 37 + head.hashCode() * 17;
-
-			return hashCode;
-		}
-
-		public boolean equals(Object obj)
-		{
-			if(obj == this)
-			{
-				return true;
-			}
-
-			if(getClass() != obj.getClass())
-			{
-				return false;
-			}
-
-			DotParameterSetter.NodeEdgeKey nek = (DotParameterSetter.NodeEdgeKey) obj;
-
-			return nek.head.equals(this.head) && nek.tail.equals(this.tail);
-		}
-
-		public String toString()
-		{
-			return "NodeEdgeKey(" + tail + " -> " + head + "   hashCode: " + this.hashCode() + ")";
-		}
-	}
+        public String toString() {
+            return "NodeEdgeKey(" + tail + " -> " + head + "   hashCode: " + this.hashCode() + ")";
+        }
+    }
 
 
 }
