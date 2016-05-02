@@ -14,24 +14,24 @@
     
     <extension point="org.protege.editor.core.application.ViewComponent" id="OWLVizView">
         <label value="OWLViz"/>
-        <class value="uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizView"/>
+        <class value="org.coode.owlviz.ui.OWLVizView"/>
         <headerColor value="@org.protege.classcolor"/>
         <category value="@org.protege.classcategory"/>
     </extension>
 
 
     <extension point="org.protege.editor.core.application.ViewComponent" id="OWLVizViewImports">
-        <label       value="OWLViz Imports Graph"/>
-        <class       value="uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizImportsViewComponent"/>
+        <label value="OWLViz Imports Graph"/>
+        <class value="org.coode.owlviz.ui.OWLVizImportsViewComponent"/>
         <headerColor value="@org.protege.ontologycolor"/>
-        <category    value="@org.protege.ontologycategory"/>
+        <category value="@org.protege.ontologycategory"/>
     </extension>
 
 
     <extension id="owlviz.prefs"
                point="org.protege.editor.core.application.preferencespanel">
         <label value="OWLViz"/>
-        <class value="uk.ac.man.cs.mig.coode.owlviz.ui.options.OWLVizPreferencesPane"/>
+        <class value="org.coode.owlviz.ui.options.OWLVizPreferencesPane"/>
     </extension>
 
 </plugin>
