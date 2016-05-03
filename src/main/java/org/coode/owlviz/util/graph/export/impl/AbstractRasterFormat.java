@@ -72,7 +72,7 @@ public abstract class AbstractRasterFormat implements ExportFormat {
                     Graphics2D g2 = (Graphics2D) bufferedImage.getGraphics();
 
                     // Clip the image at the proper bounds
-                    g2.setClip(0, 0, width, height);
+                    g2.setClip(0, 0, (int)(width * scale / 100.0), (int)(height * scale / 100.0));
                     if (scale != 100.0) {
                         g2.scale(scale / 100.0, scale / 100.0);
                     }
