@@ -19,11 +19,6 @@ public class OptionsDialog extends OKCancelDialog {
 
     public static final String DEFAULT_PAGE = "General Options";
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = -443612428041649367L;
-
     private ArrayList<OptionsPage> optionPages;
 
     private JTabbedPane tabPane;
@@ -72,15 +67,15 @@ public class OptionsDialog extends OKCancelDialog {
 
 
     public void applyOptions() {
-        for (int i = 0; i < optionPages.size(); i++) {
-            optionPages.get(i).applyOptions();
+        for (OptionsPage optionPage : optionPages) {
+            optionPage.applyOptions();
         }
     }
 
 
     public void updateInterface() {
-        for (int i = 0; i < optionPages.size(); i++) {
-            optionPages.get(i).updateInterface();
+        for (OptionsPage optionPage : optionPages) {
+            optionPage.updateInterface();
         }
     }
 }

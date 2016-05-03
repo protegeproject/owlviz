@@ -1,6 +1,7 @@
 package org.coode.owlviz.ui.options;
 
 import org.coode.owlviz.ui.OWLVizPreferences;
+import org.protege.editor.core.ui.preferences.PreferencesLayoutPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -37,7 +38,7 @@ import java.awt.event.ActionListener;
  * Bio Health Informatics Group<br>
  * Date: Dec 10, 2008<br><br>
  */
-public class ModeOptionsPanel extends JPanel {
+public class ModeOptions {
 
 
 
@@ -47,15 +48,9 @@ public class ModeOptionsPanel extends JPanel {
 
     private JSpinner trackerRadiusSpinner;
 
-    ActionListener l = new ActionListener() {
-        public void actionPerformed(ActionEvent event) {
-            trackerRadiusSpinner.setEnabled(trackerMode.isSelected());
-        }
-    };
+    ActionListener l = event -> trackerRadiusSpinner.setEnabled(trackerMode.isSelected());
 
-
-    public ModeOptionsPanel() {
-        setLayout(new BorderLayout());
+    public ModeOptions(PreferencesLayoutPanel layoutPanel) {
 
         final int radius = OWLVizPreferences.getInstance().getDefaultTrackerRadius();
         final boolean isTrackerMode = OWLVizPreferences.getInstance().isTrackingModeDefault();
@@ -64,26 +59,20 @@ public class ModeOptionsPanel extends JPanel {
         trackerRadiusSpinner = new JSpinner(new SpinnerNumberModel(radius, 1, 100, 1));
         trackerRadiusSpinner.setEnabled(isTrackerMode);
 
-        trackerMode = new JRadioButton("track selection", isTrackerMode);
-        configureMode = new JRadioButton("create graph manually", !isTrackerMode);
+        trackerMode = new JRadioButton("Track selection with radius", isTrackerMode);
+        configureMode = new JRadioButton("Create graph manually", !isTrackerMode);
         configureMode.setAlignmentX(0.0f);
 
         ButtonGroup bg = new ButtonGroup();
         bg.add(trackerMode);
         bg.add(configureMode);
 
-        JComponent trackerPanel = new Box(BoxLayout.LINE_AXIS);
-        trackerPanel.add(trackerMode);
-        trackerPanel.add(Box.createHorizontalStrut(20));
-        trackerPanel.add(new JLabel("radius"));
-        trackerPanel.add(trackerRadiusSpinner);
-        trackerPanel.setAlignmentX(0.0f);
+        layoutPanel.addGroup("Tracking");
 
-        Box box = new Box(BoxLayout.PAGE_AXIS);
-        box.add(trackerPanel);
-        box.add(configureMode);
-
-        add(box, BorderLayout.NORTH);
+        layoutPanel.addGroupComponent(trackerMode);
+        layoutPanel.addIndentedGroupComponent(trackerRadiusSpinner);
+        layoutPanel.addVerticalPadding();
+        layoutPanel.addGroupComponent(configureMode);
 
         trackerMode.addActionListener(l);
         configureMode.addActionListener(l);

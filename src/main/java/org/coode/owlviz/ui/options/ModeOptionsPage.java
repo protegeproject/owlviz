@@ -23,6 +23,10 @@ package org.coode.owlviz.ui.options;
 * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+import org.protege.editor.core.ui.preferences.PreferencesLayoutPanel;
+
+import java.awt.*;
+
 /**
  * Author: drummond<br>
  * http://www.cs.man.ac.uk/~drummond/<br><br>
@@ -33,24 +37,21 @@ package org.coode.owlviz.ui.options;
  */
 public class ModeOptionsPage extends OptionsPage {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 791995908103193142L;
-
     private OWLVizViewOptions options;
 
-    private ModeOptionsPanel panel;
+    private ModeOptions panel;
 
 
     public ModeOptionsPage(OWLVizViewOptions options) {
         this.options = options;
+        setLayout(new BorderLayout());
+        PreferencesLayoutPanel layoutPanel = new PreferencesLayoutPanel();
 
-        panel = new ModeOptionsPanel();
+        panel = new ModeOptions(layoutPanel);
         panel.setTrackerMode(options.isTrackerMode());
         panel.setTrackerRadius(options.getTrackerRadius());
 
-        add(panel);
+        add(layoutPanel);
     }
 
 

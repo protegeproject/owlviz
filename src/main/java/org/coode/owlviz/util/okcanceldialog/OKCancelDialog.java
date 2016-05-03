@@ -23,11 +23,6 @@ public class OKCancelDialog extends JDialog {
 
     public final static int OPTION_CANCEL = 2;
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = -3155387891462538221L;
-
     JPanel holderPanel;
 
     JButton approveButton;

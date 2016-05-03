@@ -2,6 +2,10 @@ package org.coode.owlviz.ui.options;
 
 import org.coode.owlviz.util.graph.controller.Controller;
 import org.coode.owlviz.util.graph.layout.dotlayoutengine.DotGraphLayoutEngine;
+import org.coode.owlviz.util.graph.layout.dotlayoutengine.DotLayoutEngineProperties;
+import org.protege.editor.core.ui.preferences.PreferencesLayoutPanel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,6 +22,7 @@ import java.awt.*;
 public class LayoutDirectionOptionsPage extends OptionsPage {
 
 
+    private static final Logger logger = LoggerFactory.getLogger(LayoutDirectionOptionsPage.class);
 
     private Controller assertedController;
 
@@ -33,21 +38,22 @@ public class LayoutDirectionOptionsPage extends OptionsPage {
         this.assertedController = assertedController;
         this.inferredController = inferredController;
         setLayout(new BorderLayout(14, 14));
-        add(createUI());
+        add(createUI(), BorderLayout.NORTH);
+        updateInterface();
     }
 
 
     protected JComponent createUI() {
-        leftToRightButton = new JRadioButton("Left to Right", true);
-        topToBottomButton = new JRadioButton("Top To Bottom", false);
-        ButtonGroup buttonGroup = new ButtonGroup();
-        buttonGroup.add(leftToRightButton);
-        buttonGroup.add(topToBottomButton);
-        Box box = new Box(BoxLayout.Y_AXIS);
-        box.add(leftToRightButton);
-        box.add(topToBottomButton);
-        box.setBorder(BorderFactory.createTitledBorder("Layout Direction"));
-        return box;
+        PreferencesLayoutPanel layoutPanel = new PreferencesLayoutPanel();
+        leftToRightButton = new JRadioButton("Left to Right");
+        topToBottomButton = new JRadioButton("Top To Bottom");
+        ButtonGroup bg = new ButtonGroup();
+        bg.add(leftToRightButton);
+        bg.add(topToBottomButton);
+        layoutPanel.addGroup("Layout direction");
+        layoutPanel.addGroupComponent(leftToRightButton);
+        layoutPanel.addGroupComponent(topToBottomButton);
+        return layoutPanel;
     }
 
 
@@ -60,9 +66,11 @@ public class LayoutDirectionOptionsPage extends OptionsPage {
         int layoutDirection;
         if (leftToRightButton.isSelected()) {
             layoutDirection = DotGraphLayoutEngine.LAYOUT_LEFT_TO_RIGHT;
+            logger.debug("[OWLViz] Layout Direction set LEFT to RIGHT");
         }
         else {
             layoutDirection = DotGraphLayoutEngine.LAYOUT_TOP_TO_BOTTOM;
+            logger.debug("[OWLViz] Layout Direction set TOP to BOTTOM");
         }
         this.assertedController.getGraphLayoutEngine().setLayoutDirection(layoutDirection);
         this.inferredController.getGraphLayoutEngine().setLayoutDirection(layoutDirection);

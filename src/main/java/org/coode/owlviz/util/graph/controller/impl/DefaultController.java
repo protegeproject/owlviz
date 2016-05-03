@@ -69,6 +69,8 @@ public class DefaultController implements Controller {
 
     private EdgeLabelRenderer edgeLabelRenderer;
 
+    private GraphLayoutEngine layoutEngine = null;
+
 
     // Property Change listeners and Property names
     private ArrayList<PropertyChangeListener> listeners;
@@ -153,6 +155,13 @@ public class DefaultController implements Controller {
      * @return The GraphLayoutEngine
      */
     public GraphLayoutEngine getGraphLayoutEngine() {
+        if(layoutEngine == null) {
+            layoutEngine = createDotGraphLayoutEngine();
+        }
+        return layoutEngine;
+    }
+
+    private DotGraphLayoutEngine createDotGraphLayoutEngine() {
         return new DotGraphLayoutEngine(
                 new DotOutputGraphRenderer(
                         getNodeLabelRenderer(),
@@ -407,6 +416,7 @@ public class DefaultController implements Controller {
 
         Object oldValue = this.nodeRenderer;
         this.nodeRenderer = renderer;
+        this.layoutEngine = null;
         graphView.setNodeRenderer(nodeRenderer);
         firePropertyChangeEvent(Controller.NODE_RENDERER_PROPERTY, oldValue, nodeRenderer);
     }
@@ -428,7 +438,7 @@ public class DefaultController implements Controller {
         if (renderer == null) {
             throw new NullPointerException("NodeLabelRenderer must not be null");
         }
-
+        this.layoutEngine = null;
         Object oldValue = this.nodeLabelRenderer;
         this.nodeLabelRenderer = renderer;
         firePropertyChangeEvent(Controller.NODE_LABEL_RENDERER_PROPERTY, oldValue, nodeLabelRenderer);
@@ -457,7 +467,7 @@ public class DefaultController implements Controller {
         Object oldValue = this.edgeLabelRenderer;
 
         this.edgeLabelRenderer = edgeLabelRenderer;
-
+        this.layoutEngine = null;
         firePropertyChangeEvent(Controller.EDGE_LABEL_RENDERER_PROPERTY, oldValue, this.edgeLabelRenderer);
     }
 
@@ -483,7 +493,7 @@ public class DefaultController implements Controller {
         this.edgeRenderer = renderer;
 
         graphView.setEdgeRenderer(edgeRenderer);
-
+        this.layoutEngine = null;
         firePropertyChangeEvent(Controller.EDGE_RENDERER_PROPERTY, oldValue, edgeRenderer);
     }
 

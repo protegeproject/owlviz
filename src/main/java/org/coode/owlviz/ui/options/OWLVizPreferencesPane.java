@@ -1,16 +1,15 @@
 package org.coode.owlviz.ui.options;
 
+import com.google.common.collect.Sets;
 import org.coode.owlviz.ui.OWLVizPreferences;
 import org.coode.owlviz.util.graph.layout.dotlayoutengine.DotLayoutEngineProperties;
+import org.protege.editor.core.ui.preferences.PreferencesLayoutPanel;
 import org.protege.editor.core.ui.util.UIUtil;
 import org.protege.editor.owl.ui.preferences.OWLPreferencesPanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Set;
 /*
 * Copyright (C) 2007, University of Manchester
@@ -45,242 +44,83 @@ import java.util.Set;
  */
 public class OWLVizPreferencesPane extends OWLPreferencesPanel {
 
-    public static final String DEFAULT_PAGE = "General Options";
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = -943293597478204971L;
+    private final JTextField pathField = new JTextField(50);
 
-    private java.util.List<OWLPreferencesPanel> optionPages = new ArrayList<OWLPreferencesPanel>();
+    private JSpinner rankSpacing;
 
-    private JTabbedPane tabPane;
+    private JSpinner siblingSpacing;
+
+    private ModeOptions modeOptions;
+
+
 
     public void applyChanges() {
-        for (OWLPreferencesPanel optionPage : optionPages) {
-            optionPage.applyChanges();
-        }
+        DotLayoutEngineProperties.getInstance().setDotProcessPath(pathField.getText());
+
+        Double dRankSpacing = (Double) rankSpacing.getValue();
+        Double dSiblingSpacing = (Double) siblingSpacing.getValue();
+        DotLayoutEngineProperties dotLayoutEngineProperties = DotLayoutEngineProperties.getInstance();
+        dotLayoutEngineProperties.setRankSpacing(dRankSpacing);
+        dotLayoutEngineProperties.setSiblingSpacing(dSiblingSpacing);
+
+        OWLVizPreferences.getInstance().setTrackingModeDefault(modeOptions.isTrackerMode());
+        OWLVizPreferences.getInstance().setDefaultTrackerRadius(modeOptions.getTrackerRadius());
     }
 
 
     public void initialise() throws Exception {
         setLayout(new BorderLayout());
+        PreferencesLayoutPanel layoutPanel = new PreferencesLayoutPanel();
+        add(layoutPanel, BorderLayout.NORTH);
 
-        tabPane = new JTabbedPane();
+        pathField.setText(DotLayoutEngineProperties.getInstance().getDotProcessPath());
 
-        addOptions(new DotProcessPathPanel(), "General Options");
-        addOptions(new LayoutSpacingPanel(), "General Options");
-        addOptions(new ModeOptionsAdapter(), "General Options");
-
-        add(tabPane, BorderLayout.NORTH);
-    }
-
-
-    public void dispose() throws Exception {
-        for (OWLPreferencesPanel optionPage : optionPages) {
-            optionPage.dispose();
-        }
-    }
-
-
-    private void addOptions(OWLPreferencesPanel page, String tabName) throws Exception {
-        // If the page does not exist, add it, and add the component
-        // to the page.
-
-        Component c = getTab(tabName);
-        if (c == null) {
-            // Create a new Page
-            Box box = new Box(BoxLayout.Y_AXIS);
-            box.add(page);
-            box.setBorder(BorderFactory.createEmptyBorder(12, 12, 12, 12));
-            tabPane.add(tabName, box);
-            optionPages.add(page);
-        }
-        else {
-            Box box = (Box) c;
-            box.add(Box.createVerticalStrut(7));
-            box.add(page);
-            optionPages.add(page);
-        }
-
-        page.initialise();
-    }
-
-
-    protected Component getTab(String name) {
-        for (int i = 0; i < tabPane.getTabCount(); i++) {
-            if (tabPane.getTitleAt(i).equals(name)) {
-                return tabPane.getComponentAt(i);
-            }
-        }
-        return null;
-    }
-
-    class ModeOptionsAdapter extends OWLPreferencesPanel {
-
-        /**
-         *
-         */
-        private static final long serialVersionUID = -4017151973463168326L;
-
-        public ModeOptionsPanel panel;
-
-        public void applyChanges() {
-            OWLVizPreferences.getInstance().setTrackingModeDefault(panel.isTrackerMode());
-            OWLVizPreferences.getInstance().setDefaultTrackerRadius(panel.getTrackerRadius());
-        }
-
-
-        public void initialise() throws Exception {
-            setLayout(new BorderLayout());
-            panel = new ModeOptionsPanel();
-            panel.setTrackerMode(OWLVizPreferences.getInstance().isTrackingModeDefault());
-            panel.setTrackerRadius(OWLVizPreferences.getInstance().getDefaultTrackerRadius());
-
-            add(panel, BorderLayout.NORTH);
-        }
-
-
-        public void dispose() throws Exception {
-            // do nothing
-        }
-    }
-
-    class DotProcessPathPanel extends OWLPreferencesPanel {
-
-        /**
-         *
-         */
-        private static final long serialVersionUID = -6685359718444062677L;
-
-        private JTextField pathField;
-
-        public void initialise() throws Exception {
-            setLayout(new BorderLayout(12, 12));
-            setBorder(BorderFactory.createTitledBorder("Dot Application Path"));
-            add(createUI(), BorderLayout.NORTH);
-        }
-
-        public void dispose() throws Exception {
-            // do nothing
-        }
-
-
-        protected JComponent createUI() {
-            Box panel = new Box(BoxLayout.LINE_AXIS);
-
-            pathField = new JTextField(15);
-            pathField.setText(DotLayoutEngineProperties.getInstance().getDotProcessPath());
-
-            JButton browseButton = new JButton(new AbstractAction("Browse") {
-
-
-                /**
-                 * Invoked when an action occurs.
-                 */
-                public void actionPerformed(ActionEvent e) {
-                    browseForPath();
-                }
-            });
-
-            panel.add(new JLabel("Path:"));
-            panel.add(pathField);
-            panel.add(browseButton);
-
-            return panel;
-        }
-
-
-        protected void browseForPath() {
-            Set<String> exts = new HashSet<String>();
-            exts.add("dot");
-            exts.add("app");
-            exts.add("exe");
-            exts.add("bin");
+        JButton browseButton = new JButton("Browse...");
+        browseButton.addActionListener(event -> {
+            Set<String> exts = Sets.newHashSet("dot", "app", "exe", "bin");
             File file = UIUtil.openFile(new JFrame(), "Dot Application", "Please select the dot application", exts);
             if (file != null) {
                 pathField.setText(file.getPath());
             }
-        }
+        });
 
 
-        public void applyChanges() {
-            DotLayoutEngineProperties.getInstance().setDotProcessPath(pathField.getText());
-        }
+
+        layoutPanel.addGroup("Path to DOT");
+        layoutPanel.addGroupComponent(pathField);
+        layoutPanel.addGroupComponent(browseButton);
+
+        layoutPanel.addSeparator();
+
+
+
+        layoutPanel.addGroup("Rank spacing");
+        rankSpacing = new JSpinner(new SpinnerNumberModel(1.0, 0.05, 10.0, 0.05));
+        layoutPanel.addGroupComponent(rankSpacing);
+        layoutPanel.addVerticalPadding();
+        layoutPanel.addGroup("Sibling spacing");
+        siblingSpacing = new JSpinner(new SpinnerNumberModel(0.2, 0.01, 10.0, 0.01));
+        layoutPanel.addGroupComponent(siblingSpacing);
+
+        layoutPanel.addSeparator();
+
+        DotLayoutEngineProperties dotLayoutEngineProperties = DotLayoutEngineProperties.getInstance();
+        Double dRankSpacing = dotLayoutEngineProperties.getRankSpacing();
+        Double dSiblingSpacing = dotLayoutEngineProperties.getSiblingSpacing();
+        rankSpacing.setValue(dRankSpacing);
+        siblingSpacing.setValue(dSiblingSpacing);
+
+        modeOptions = new ModeOptions(layoutPanel);
+        modeOptions.setTrackerMode(OWLVizPreferences.getInstance().isTrackingModeDefault());
+        modeOptions.setTrackerRadius(OWLVizPreferences.getInstance().getDefaultTrackerRadius());
+
     }
 
-    class LayoutSpacingPanel extends OWLPreferencesPanel {
 
-
-
-        JSpinner rankSpacing;
-
-        JSpinner siblingSpacing;
-
-
-        public void initialise() {
-            setLayout(new BorderLayout(12, 12));
-            add(createUI());
-
-            DotLayoutEngineProperties dotLayoutEngineProperties = DotLayoutEngineProperties.getInstance();
-            Double dRankSpacing = new Double(dotLayoutEngineProperties.getRankSpacing());
-            Double dSiblingSpacing = new Double(dotLayoutEngineProperties.getSiblingSpacing());
-            rankSpacing.setValue(dRankSpacing);
-            siblingSpacing.setValue(dSiblingSpacing);
-        }
-
-
-        protected JComponent createUI() {
-            JPanel holder = new JPanel(new BorderLayout(12, 12));
-            JPanel component = new JPanel();
-            GridBagLayout layout = new GridBagLayout();
-            component.setLayout(layout);
-            JLabel rankSpacingLabel = new JLabel("Rank spacing: ");
-            JLabel siblingSpacingLabel = new JLabel("Sibling spacing: ");
-            rankSpacing = new JSpinner(new SpinnerNumberModel(1.0, 0.05, 10.0, 0.05));
-            siblingSpacing = new JSpinner(new SpinnerNumberModel(0.2, 0.01, 10.0, 0.01));
-            GridBagConstraints gbc = new GridBagConstraints();
-            gbc.fill = GridBagConstraints.NONE;
-            gbc.anchor = GridBagConstraints.NORTHWEST;
-            gbc.insets = new Insets(6, 6, 6, 6);
-            gbc.weightx = 0;
-            gbc.weighty = 0;
-            addComponent(component, rankSpacingLabel, gbc, 0, 0, 1, 1);
-            addComponent(component, rankSpacing, gbc, 1, 0, 1, 1);
-            addComponent(component, siblingSpacingLabel, gbc, 0, 1, 1, 1);
-            addComponent(component, siblingSpacing, gbc, 1, 1, 1, 1);
-            holder.setBorder(BorderFactory.createTitledBorder("Spacing"));
-            holder.add(component, BorderLayout.WEST);
-            return holder;
-        }
-
-
-        protected void addComponent(JComponent container,
-                                    JComponent c,
-                                    GridBagConstraints gbc,
-                                    int x,
-                                    int y,
-                                    int width,
-                                    int height) {
-            gbc.gridx = x;
-            gbc.gridy = y;
-            gbc.gridwidth = width;
-            gbc.gridheight = height;
-            container.add(c, gbc);
-        }
-
-
-        public void applyChanges() {
-            Double dRankSpacing = (Double) rankSpacing.getValue();
-            Double dSiblingSpacing = (Double) siblingSpacing.getValue();
-            DotLayoutEngineProperties dotLayoutEngineProperties = DotLayoutEngineProperties.getInstance();
-            dotLayoutEngineProperties.setRankSpacing(dRankSpacing.doubleValue());
-            dotLayoutEngineProperties.setSiblingSpacing(dSiblingSpacing.doubleValue());
-        }
-
-
-        public void dispose() throws Exception {
-            // do nothing
-        }
+    public void dispose() throws Exception {
     }
+
+
+
 }
