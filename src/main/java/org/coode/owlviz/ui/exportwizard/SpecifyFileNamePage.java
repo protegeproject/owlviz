@@ -2,6 +2,7 @@ package org.coode.owlviz.ui.exportwizard;
 
 import org.coode.owlviz.util.wizard.Wizard;
 import org.coode.owlviz.util.wizard.WizardPage;
+import org.protege.editor.core.ui.util.UIUtil;
 
 import javax.swing.*;
 import javax.swing.event.CaretEvent;
@@ -10,6 +11,7 @@ import javax.swing.filechooser.FileFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.util.Collections;
 
 /**
  * User: matthewhorridge<br>
@@ -26,15 +28,9 @@ public class SpecifyFileNamePage extends WizardPage {
 
     private JTextField pathNameField;
 
-    private JFileChooser chooser;
-
-    private FileFilter prevFileFilter;
-
-
     public SpecifyFileNamePage() {
         super("SpecifyFileNamePage");
         add(createUI());
-        chooser = new JFileChooser();
     }
 
 
@@ -114,46 +110,11 @@ public class SpecifyFileNamePage extends WizardPage {
             fileExtension = "";
             formatDescription = "";
         }
-        if (prevFileFilter != null) {
-            chooser.removeChoosableFileFilter(prevFileFilter);
-        }
-        chooser.setFileFilter(prevFileFilter = new FileFilter() {
-            /**
-             * Whether the given file is accepted by this filter.
-             */
-            public boolean accept(File f) {
-                if (f.isDirectory()) {
-                    return true;
-                }
-                else if (f.getName().endsWith("." + fileExtension)) {
-                    return true;
-                }
-                else {
-                    return false;
-                }
-            }
+        File file = UIUtil.saveFile(getWizard(), "Export as", "Export the OWLViz hierarchy", Collections.singleton(fileExtension));
 
-
-            /**
-             * The description of this filter. For example: "JPG and GIF Images"
-             *
-             * @see javax.swing.filechooser.FileView#getName
-             */
-            public String getDescription() {
-                return formatDescription;
-            }
-        });
-        if (chooser.showSaveDialog(getWizard()) == JFileChooser.APPROVE_OPTION) {
-            File file = chooser.getSelectedFile();
-            if (file.exists() == true) {
-                int ret = JOptionPane.showConfirmDialog((Component) getWizard(), "Warning: The selected file already exists.  Do " + "you wish to overwrite it?", "File Exists", JOptionPane.YES_NO_OPTION,
-                        JOptionPane.WARNING_MESSAGE);
-                if (ret == JOptionPane.NO_OPTION) {
-                    return;
-                }
-            }
-            String pathName = chooser.getSelectedFile().getPath();
-            if (pathName.endsWith("." + fileExtension) == false) {
+        if (file != null) {
+            String pathName = file.getPath();
+            if (!pathName.endsWith("." + fileExtension)) {
                 // Append extension
                 pathName = pathName + "." + fileExtension;
             }
