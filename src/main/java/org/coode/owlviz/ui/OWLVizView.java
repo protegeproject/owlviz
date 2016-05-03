@@ -144,7 +144,7 @@ public class OWLVizView extends AbstractOWLClassViewComponent implements DropTar
         // ////////////////////////////////////////////////////////////////////
         assertedGraphModel = new OWLClassGraphAssertedModel(
                 getOWLModelManager());
-        OWLVizGraphPanel assertedPanel = new OWLVizGraphPanel("Asserted model",
+        OWLVizGraphPanel assertedPanel = new OWLVizGraphPanel("Asserted hierarchy",
                 this, getOWLEditorKit(), assertedGraphModel);
         assertedGraphComponent = assertedPanel.getGraphComponent();
         setupListeners(assertedGraphComponent);
@@ -158,7 +158,7 @@ public class OWLVizView extends AbstractOWLClassViewComponent implements DropTar
         // ////////////////////////////////////////////////////////////////////
         inferredGraphModel = new OWLClassGraphInferredModel(
                 getOWLModelManager());
-        OWLVizGraphPanel inferredPanel = new OWLVizGraphPanel("Inferred model",
+        OWLVizGraphPanel inferredPanel = new OWLVizGraphPanel("Inferred hierarchy",
                 this, getOWLEditorKit(), inferredGraphModel);
         inferredGraphComponent = inferredPanel.getGraphComponent();
         tabbedPane.add(inferredPanel.getName(), inferredPanel);
