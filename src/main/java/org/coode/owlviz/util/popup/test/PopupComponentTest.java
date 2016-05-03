@@ -24,10 +24,7 @@ import java.awt.event.MouseEvent;
  */
 public class PopupComponentTest extends JFrame {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 3963717704220489047L;
+
 
     private static Logger log = LoggerFactory.getLogger(PopupComponentTest.class);
 
@@ -127,10 +124,7 @@ public class PopupComponentTest extends JFrame {
         });
 
         menu.add(new AbstractAction("Set list component") {
-            /**
-             *
-             */
-            private static final long serialVersionUID = 1573045829861729839L;
+
 
             public void actionPerformed(ActionEvent e) {
                 popup.setContent(panl);

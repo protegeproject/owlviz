@@ -12,10 +12,7 @@ package org.coode.owlviz.util.graph.layout.dotlayoutengine;
  */
 public class DotProcessException extends RuntimeException {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 4306920794735455784L;
+
 
     public DotProcessException(String message, Throwable cause) {
         super(message, cause);

@@ -17,10 +17,7 @@ import java.util.Iterator;
  */
 public class PopupComponent extends JComponent {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 3620321891933114176L;
+
 
     private boolean POPUP_IS_MODAL = true; // By default, the popup is modal
 

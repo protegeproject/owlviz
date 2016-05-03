@@ -17,10 +17,7 @@ import java.awt.event.MouseEvent;
  */
 public class UIOptionsPage extends OptionsPage {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 4037503268140748846L;
+
 
     JCheckBox displayPopupCheckBox;
 

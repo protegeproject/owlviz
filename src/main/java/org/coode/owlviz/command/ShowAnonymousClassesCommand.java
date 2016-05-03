@@ -17,10 +17,7 @@ import java.awt.event.ActionEvent;
  */
 public class ShowAnonymousClassesCommand extends AbstractAction {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 2202602738226322543L;
+
 
     private Controller assertedController;
 

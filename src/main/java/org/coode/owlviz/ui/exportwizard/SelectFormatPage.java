@@ -23,10 +23,7 @@ import java.awt.event.ActionListener;
  */
 public class SelectFormatPage extends WizardPage {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 4849781834822854469L;
+
 
     ExportFormat selectedFormat;
 

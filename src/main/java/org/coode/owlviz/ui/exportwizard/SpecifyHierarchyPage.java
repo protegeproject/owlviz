@@ -56,10 +56,7 @@ public class SpecifyHierarchyPage extends WizardPage {
         });
         tabList = new JList(sortedGraphs.toArray());
         tabList.setCellRenderer(new DefaultListCellRenderer() {
-            /**
-             *
-             */
-            private static final long serialVersionUID = 7453039145852082071L;
+
 
             public Component getListCellRendererComponent(JList list, Object value, int index, boolean sel, boolean focused) {
                 return super.getListCellRendererComponent(list, ((GraphComponent) value).getName(), index, sel, focused);

@@ -21,10 +21,7 @@ public class ClassRadiusDialog extends OKCancelDialog {
 
     public static final int SUBS_ONLY = 3;
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 3308134791047919665L;
+
 
     ClassRadiusDialogPage radiusPage;
 

@@ -26,10 +26,7 @@ import java.io.*;
  */
 public class ExportCommand extends OWLSelectionViewAction {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 8752470748480407232L;
+
 
     private Wizard wizard;
 

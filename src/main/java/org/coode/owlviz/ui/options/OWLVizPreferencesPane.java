@@ -173,10 +173,7 @@ public class OWLVizPreferencesPane extends OWLPreferencesPanel {
             pathField.setText(DotLayoutEngineProperties.getInstance().getDotProcessPath());
 
             JButton browseButton = new JButton(new AbstractAction("Browse") {
-                /**
-                 *
-                 */
-                private static final long serialVersionUID = 6762941646097019849L;
+
 
                 /**
                  * Invoked when an action occurs.
@@ -214,10 +211,7 @@ public class OWLVizPreferencesPane extends OWLPreferencesPanel {
 
     class LayoutSpacingPanel extends OWLPreferencesPanel {
 
-        /**
-         *
-         */
-        private static final long serialVersionUID = 4096048810803376513L;
+
 
         JSpinner rankSpacing;
 

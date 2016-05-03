@@ -208,10 +208,7 @@ public class Wizard extends JDialog {
         buttonPanel.setLayout(new GridLayout(1, 0, 7, 7));
 
         nextButton = new JButton(new AbstractAction(nextText) {
-            /**
-             *
-             */
-            private static final long serialVersionUID = 7418675241255095162L;
+
 
             public void actionPerformed(ActionEvent e) {
                 nextButtonPressed();
@@ -230,10 +227,7 @@ public class Wizard extends JDialog {
         });
 
         cancelButton = new JButton(new AbstractAction(cancelText) {
-            /**
-             *
-             */
-            private static final long serialVersionUID = 3724379316615358996L;
+
 
             public void actionPerformed(ActionEvent e) {
                 cancelButtonPressed();

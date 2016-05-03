@@ -23,10 +23,7 @@ import java.util.Iterator;
  */
 public class ShowAllClassesCommand extends OWLSelectionViewAction {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 2462262315449283945L;
+
 
     private static final int WARNING_LEVEL = 200;
 

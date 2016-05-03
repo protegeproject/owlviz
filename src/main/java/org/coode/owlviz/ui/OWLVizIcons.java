@@ -58,6 +58,9 @@ public class OWLVizIcons {
 
     public static final String RELATIVE_PATH = "/";
 
+    // A hashmap to map icon names to ImageIcons
+    private static Map iconMap = new HashMap();
+
     /**
      * A static block, which loads the default icon.
      * If other icons cannot be loaded then this icon
@@ -68,8 +71,6 @@ public class OWLVizIcons {
         iconMap.put(UGLY_ICON, uglyIcon);
     }
 
-    // A hashmap to map icon names to ImageIcons
-    private static Map iconMap = new HashMap();
 
     /**
      * Gets the <code>ImageIcon</code> with the specified

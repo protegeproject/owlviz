@@ -21,10 +21,7 @@ import java.awt.event.ActionEvent;
  */
 public class HideClassesPastRadiusCommand extends OWLSelectionViewAction {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 8091430865811611828L;
+
 
     private Controller assertedController;
 

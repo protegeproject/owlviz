@@ -33,10 +33,7 @@ public class AddExistentialGraphCommand extends AbstractAction {
 //		}
 //	}
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 5614860113008399389L;
+
 
     public void actionPerformed(ActionEvent e) {
     }

@@ -39,10 +39,7 @@ import java.awt.event.ActionListener;
  */
 public class ModeOptionsPanel extends JPanel {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 7579720925137626641L;
+
 
     private JRadioButton trackerMode;
 

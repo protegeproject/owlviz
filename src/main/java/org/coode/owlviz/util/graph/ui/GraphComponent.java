@@ -34,10 +34,7 @@ import java.util.Iterator;
  */
 public class GraphComponent extends JComponent implements ThumbnailViewSource {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 5765860310008732145L;
+
 
     private static final int THUMBNAIL_EVENT_BOUNDS_CHANGED = 1;
 
