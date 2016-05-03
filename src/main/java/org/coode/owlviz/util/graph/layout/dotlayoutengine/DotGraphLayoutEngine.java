@@ -36,11 +36,7 @@ public class DotGraphLayoutEngine implements GraphLayoutEngine {
 
     public DotGraphLayoutEngine(DotOutputGraphRenderer graphRenderer, NodeLabelRenderer labelRenderer) {
         renderer = checkNotNull(graphRenderer);
-        this.labelRenderer = labelRenderer;
-    }
-
-    public void setGraphOutputRenderer(GraphOutputRenderer renderer) {
-        this.renderer = renderer;
+        this.labelRenderer = checkNotNull(labelRenderer);
     }
 
     /**
