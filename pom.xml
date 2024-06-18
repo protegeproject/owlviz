@@ -85,22 +85,22 @@
         <dependency>
             <groupId>edu.stanford.protege</groupId>
             <artifactId>protege-common</artifactId>
-            <version>5.0.0-RC1</version>
+            <version>5.6.4</version>
         </dependency>
         <dependency>
             <groupId>edu.stanford.protege</groupId>
             <artifactId>protege-editor-core</artifactId>
-            <version>5.0.0-RC1</version>
+            <version>5.6.4</version>
         </dependency>
         <dependency>
             <groupId>edu.stanford.protege</groupId>
             <artifactId>protege-editor-owl</artifactId>
-            <version>5.0.0-RC1</version>
+            <version>5.6.4</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.7.12</version>
+            <version>1.7.36</version>
         </dependency>
     </dependencies>
 
@@ -109,17 +109,16 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.3</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
+                <version>3.13.0</version>
+       			<configuration>
+				<release>11</release>
+			</configuration>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>5.1.9</version>
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
@@ -128,9 +127,9 @@
                         <Bundle-SymbolicName>org.coode.owlviz;singleton:=true</Bundle-SymbolicName>
                         <Bundle-Vendor>The Protege Development Team</Bundle-Vendor>
                         <Import-Package>
-                            org.protege.editor.core.*;version="5.0.0", <!-- equivalent to [5.0.0,infinity) -->
-                            org.protege.editor.owl.*;version="5.0.0",
-                            org.protege.editor.owl.ui;version="5.0.0",
+                            org.protege.editor.core.*;version="5.6.4", <!-- equivalent to [5.0.0,infinity) -->
+                            org.protege.editor.owl.*;version="5.6.4",
+                            org.protege.editor.owl.ui;version="5.6.4",
                             org.semanticweb.owlapi.*;version="[4.1.2,5.0.0)",
                             *
                         </Import-Package>
@@ -140,19 +139,19 @@
             </plugin>
             <plugin>
                 <artifactId>maven-eclipse-plugin</artifactId>
-                <version>2.9</version>
+                <version>2.10</version>
                 <configuration>
                     <pde>true</pde>
                 </configuration>
             </plugin>
             <plugin>
                 <artifactId>maven-release-plugin</artifactId>
-                <version>2.5</version>
+                <version>2.5.3</version>
                 <dependencies>
                     <dependency>
                         <groupId>org.apache.maven.scm</groupId>
                         <artifactId>maven-scm-provider-gitexe</artifactId>
-                        <version>1.9</version>
+                        <version>1.9.5</version>
                     </dependency>
                 </dependencies>
             </plugin>
@@ -171,7 +170,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
-                        <version>2.2.1</version>
+                        <version>2.4</version>
                         <executions>
                             <execution>
                                 <id>attach-sources</id>
@@ -184,7 +183,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>2.10.3</version>
+                        <version>2.10.4</version>
                         <executions>
                             <execution>
                                 <id>attach-javadocs</id>
@@ -201,7 +200,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.6</version>
+                        <version>3.2.4</version>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>
