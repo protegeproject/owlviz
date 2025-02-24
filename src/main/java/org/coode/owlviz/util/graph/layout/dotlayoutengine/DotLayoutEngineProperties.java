@@ -24,11 +24,11 @@ public class DotLayoutEngineProperties {
 
     public static final String SIBLING_SPACING_KEY = "SiblingSpacing";
 
-    public static final String DEFAULT_MAC_PATH = "/usr/local/bin/dot";
+    public static final String DEFAULT_MAC_PATH = "dot";
 
-    public static final String DEFAULT_WINDOWS_PATH = "C:\\Program Files (x86)\\Graphviz2.38\\bin\\dot.exe";
+    public static final String DEFAULT_WINDOWS_PATH = "C:\\Program Files\\Graphviz\\bin\\dot.exe";
 
-    public static final String DEFAULT_LINUX_PATH = "/usr/bin/dot";
+    public static final String DEFAULT_LINUX_PATH = "dot";
 
     public static final double DEFAULT_RANK_SPACING = 0.5;
 
