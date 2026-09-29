@@ -237,7 +237,7 @@ public class OWLClsNodeRenderer implements NodeRenderer {
     protected Color getFillColor(Object obj) {
         if (obj instanceof OWLClass) {
             OWLClass cls = (OWLClass) obj;
-            if ((EntitySearcher.isDefined(cls, owlModelManager.getActiveOntologies()))) {
+            if ((EntitySearcher.isDefined(cls, owlModelManager.getActiveOntologies().stream()))) {
                 return DEFINED_CLASS_FILL;
             }
             return PRIMITIVE_CLASS_FILL;

@@ -3,7 +3,6 @@ package org.coode.owlviz.model;
 import org.coode.owlviz.util.graph.model.GraphModel;
 import org.coode.owlviz.util.graph.model.impl.AbstractGraphModel;
 import org.semanticweb.owlapi.model.*;
-import org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter;
 
 import java.util.*;
 
@@ -472,7 +471,7 @@ public class OWLVizAxiomGraphModel extends AbstractGraphModel implements
         }
     }
 
-    private class EdgeNameGenerator extends OWLAxiomVisitorAdapter implements OWLClassExpressionVisitor {
+    private class EdgeNameGenerator implements OWLAxiomVisitor, OWLClassExpressionVisitor {
 
         private String edgeName;
 
@@ -483,172 +482,51 @@ public class OWLVizAxiomGraphModel extends AbstractGraphModel implements
             direction = DIRECTION_BACK;
         }
 
+        @Override
         public void visit(OWLSubClassOfAxiom axiom) {
             direction = GraphModel.DIRECTION_BACK;
             edgeName = "is-a";
         }
 
-        public void visit(OWLNegativeObjectPropertyAssertionAxiom axiom) {
-        }
-
-        public void visit(OWLAsymmetricObjectPropertyAxiom axiom) {
-        }
-
-        public void visit(OWLReflexiveObjectPropertyAxiom axiom) {
-        }
-
+        @Override
         public void visit(OWLDisjointClassesAxiom axiom) {
             direction = GraphModel.DIRECTION_BOTH;
             edgeName = "disjoint-with";
         }
 
-        public void visit(OWLDataPropertyDomainAxiom axiom) {
-        }
-
-        public void visit(OWLObjectPropertyDomainAxiom axiom) {
-        }
-
-        public void visit(OWLEquivalentObjectPropertiesAxiom axiom) {
-        }
-
-        public void visit(OWLNegativeDataPropertyAssertionAxiom axiom) {
-        }
-
-        public void visit(OWLDifferentIndividualsAxiom axiom) {
-        }
-
-        public void visit(OWLDisjointDataPropertiesAxiom axiom) {
-        }
-
-        public void visit(OWLDisjointObjectPropertiesAxiom axiom) {
-        }
-
-        public void visit(OWLObjectPropertyRangeAxiom axiom) {
-        }
-
-        public void visit(OWLObjectPropertyAssertionAxiom axiom) {
-        }
-
-        public void visit(OWLFunctionalObjectPropertyAxiom axiom) {
-        }
-
-        public void visit(OWLSubObjectPropertyOfAxiom axiom) {
-        }
-
-        public void visit(OWLDisjointUnionAxiom axiom) {
-        }
-
-        public void visit(OWLDeclarationAxiom axiom) {
-        }
-
-        public void visit(OWLSymmetricObjectPropertyAxiom axiom) {
-        }
-
-        public void visit(OWLDataPropertyRangeAxiom axiom) {
-        }
-
-        public void visit(OWLFunctionalDataPropertyAxiom axiom) {
-        }
-
-        public void visit(OWLEquivalentDataPropertiesAxiom axiom) {
-        }
-
+        @Override
         public void visit(OWLClassAssertionAxiom axiom) {
             direction = GraphModel.DIRECTION_BACK;
             edgeName = "instance-of";
         }
 
+        @Override
         public void visit(OWLEquivalentClassesAxiom axiom) {
             direction = GraphModel.DIRECTION_BOTH;
             edgeName = "equivalent-to";
         }
 
-        public void visit(OWLDataPropertyAssertionAxiom axiom) {
-        }
-
-        public void visit(OWLTransitiveObjectPropertyAxiom axiom) {
-        }
-
-        public void visit(OWLIrreflexiveObjectPropertyAxiom axiom) {
-        }
-
-        public void visit(OWLSubDataPropertyOfAxiom axiom) {
-        }
-
-        public void visit(OWLInverseFunctionalObjectPropertyAxiom axiom) {
-        }
-
-        public void visit(OWLSameIndividualAxiom axiom) {
-        }
-
-        public void visit(OWLSubPropertyChainOfAxiom axiom) {
-        }
-
-        public void visit(OWLInverseObjectPropertiesAxiom axiom) {
-        }
-
-        public void visit(SWRLRule rule) {
-        }
-
-        public void visit(OWLClass desc) {
-        }
-
+        @Override
         public void visit(OWLObjectIntersectionOf desc) {
             edgeName = "intesection";
             direction = GraphModel.DIRECTION_BACK;
         }
 
+        @Override
         public void visit(OWLObjectUnionOf desc) {
             edgeName = "union";
             direction = GraphModel.DIRECTION_BACK;
         }
 
+        @Override
         public void visit(OWLObjectComplementOf desc) {
             edgeName = "complementOf";
             direction = GraphModel.DIRECTION_FORWARD;
         }
 
+        @Override
         public void visit(OWLObjectSomeValuesFrom desc) {
             edgeName = desc.getProperty().toString();
-        }
-
-        public void visit(OWLObjectAllValuesFrom desc) {
-        }
-
-        public void visit(OWLObjectHasValue desc) {
-        }
-
-        public void visit(OWLObjectMinCardinality desc) {
-        }
-
-        public void visit(OWLObjectExactCardinality desc) {
-        }
-
-        public void visit(OWLObjectMaxCardinality desc) {
-        }
-
-        public void visit(OWLObjectHasSelf desc) {
-        }
-
-        public void visit(OWLObjectOneOf desc) {
-        }
-
-        public void visit(OWLDataSomeValuesFrom desc) {
-        }
-
-        public void visit(OWLDataAllValuesFrom desc) {
-        }
-
-        public void visit(OWLDataHasValue desc) {
-        }
-
-        public void visit(OWLDataMinCardinality desc) {
-        }
-
-        public void visit(OWLDataExactCardinality desc) {
-        }
-
-        public void visit(OWLDataMaxCardinality desc) {
         }
     }
 }
