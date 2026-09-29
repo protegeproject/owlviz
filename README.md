@@ -1,7 +1,13 @@
 OWLViz
 ======
 
-A Protégé plug-in that provides a graphical representation of the class hierarchy in an OWL ontology. Once the plug-in is installed (see instructions below) you can activate the OWLViz tab using the following menu: **Window -> Tabs -> OwlViz**.
+A Protégé plug-in that provides a graphical representation of the class hierarchy in an OWL ontology. Once the plug-in is installed (see instructions below) you can activate the OWLViz tab using the following menu: **Window -> Tabs -> OWLViz**.
+
+The `6.x` development line targets Protégé 6 and OWL API 5. Build and run the tests with Java 11 or later:
+
+```shell
+mvn --batch-mode clean verify
+```
 
 <img src="https://raw.githubusercontent.com/protegeproject/github-wiki-resources/master/owlviz/README/owlviz-screenshot.png" alt="OWLViz Screenshot" width="650px"/>
 

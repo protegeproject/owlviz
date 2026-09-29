@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 /**
  * User: matthewhorridge<br>
@@ -35,8 +35,8 @@ public class DotGraphLayoutEngine implements GraphLayoutEngine {
     private int layoutDirection = LAYOUT_LEFT_TO_RIGHT;
 
     public DotGraphLayoutEngine(DotOutputGraphRenderer graphRenderer, NodeLabelRenderer labelRenderer) {
-        renderer = checkNotNull(graphRenderer);
-        this.labelRenderer = checkNotNull(labelRenderer);
+        renderer = requireNonNull(graphRenderer);
+        this.labelRenderer = requireNonNull(labelRenderer);
     }
 
     /**

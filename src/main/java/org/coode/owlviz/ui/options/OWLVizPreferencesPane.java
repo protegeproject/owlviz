@@ -1,6 +1,5 @@
 package org.coode.owlviz.ui.options;
 
-import com.google.common.collect.Sets;
 import org.coode.owlviz.ui.OWLVizPreferences;
 import org.coode.owlviz.util.graph.layout.dotlayoutengine.DotLayoutEngineProperties;
 import org.protege.editor.core.ui.preferences.PreferencesLayoutPanel;
@@ -78,7 +77,7 @@ public class OWLVizPreferencesPane extends OWLPreferencesPanel {
 
         JButton browseButton = new JButton("Browse...");
         browseButton.addActionListener(event -> {
-            Set<String> exts = Sets.newHashSet("dot", "app", "exe", "bin");
+            Set<String> exts = Set.of("dot", "app", "exe", "bin");
             File file = UIUtil.openFile(new JFrame(), "Dot Application", "Please select the dot application", exts);
             if (file != null) {
                 pathField.setText(file.getPath());

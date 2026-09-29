@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 /**
  * User: matthewhorridge<br>
@@ -45,7 +45,7 @@ public class DotParameterSetter {
 
 
     public DotParameterSetter(NodeLabelRenderer labelRen) {
-        this.labelRen = checkNotNull(labelRen);
+        this.labelRen = requireNonNull(labelRen);
     }
 
 
@@ -379,4 +379,3 @@ public class DotParameterSetter {
 
 
 }
-
